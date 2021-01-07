@@ -1,13 +1,15 @@
-import 'dart:async';
 import 'package:cosmetics_shop/database/cart.dart';
 import 'package:cosmetics_shop/database/productsList.dart';
 import 'package:cosmetics_shop/database/constants.dart';
 import 'package:cosmetics_shop/screens/order_screen.dart';
 import 'package:cosmetics_shop/screens/product_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cosmetics_shop/database/favouriteItems.dart';
 import 'package:cosmetics_shop/templateLayer.dart';
+import 'dart:async';
+import 'dart:math';
 
 class CartScreen extends StatefulWidget {
   @override
@@ -15,9 +17,6 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
-  //const values
-  double deliveryCost = 15.5;
-
   //cart preview
   List<bool> fav = [];
   List<Product> cartProducts = [];
@@ -39,32 +38,40 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
     super.initState();
 
     productsGathering();
-    favouritesGathering();
 
-    //animation initializer
-    _arrowController = AnimationController(
-      duration: const Duration(
-        seconds: 2,
-      ),
-      vsync: this,
-    );
-    _arrowAnimation = CurvedAnimation(
-      parent: _arrowController,
-      curve: Curves.elasticOut,
-      reverseCurve: Curves.elasticIn,
-    );
+    //improving speed by not initializing var without using them
+    if (cartProducts.length != 0) {
+      favouritesGathering();
+
+      //animation initializer
+      _arrowController = AnimationController(
+        duration: const Duration(
+          seconds: 2,
+        ),
+        vsync: this,
+      );
+      _arrowAnimation = CurvedAnimation(
+        parent: _arrowController,
+        curve: Curves.elasticOut,
+        reverseCurve: Curves.elasticIn,
+      );
+    }
   }
 
-  void dispose() {
-    _arrowController.dispose();
-    super.dispose();
-  }
-
-  void addFavourites(int id) {
+  void addFavourites(int id, Size screenSize) {
     favourites.add(
       Favourite(
         productID: id,
       ),
+    );
+    Fluttertoast.showToast(
+      msg: addFavDialogTexts[Random().nextInt(addFavDialogTexts.length)],
+      backgroundColor: Colors.black54,
+      textColor: Colors.white,
+      fontSize: screenSize.width * 0.04,
+      gravity: ToastGravity.BOTTOM,
+      toastLength: Toast.LENGTH_SHORT,
+      timeInSecForIosWeb: 1,
     );
   }
 
@@ -224,7 +231,8 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                                       fav[index] = !fav[index];
                                       fav[index]
                                           ? addFavourites(
-                                              cartProducts[index].id)
+                                              cartProducts[index].id,
+                                              screenSize)
                                           : removeFavourites(
                                               cartProducts[index].id);
                                     });

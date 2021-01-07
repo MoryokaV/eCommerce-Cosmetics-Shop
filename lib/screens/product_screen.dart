@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:cosmetics_shop/database/productsList.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cosmetics_shop/database/favouriteItems.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:math';
 
 class ProductScreen extends StatefulWidget {
   final Product product;
@@ -71,11 +73,20 @@ class _ProductScreenState extends State<ProductScreen> {
     });
   }
 
-  void addFavourites() {
+  void addFavourites(Size screenSize) {
     favourites.add(
       Favourite(
         productID: widget.product.id,
       ),
+    );
+    Fluttertoast.showToast(
+      msg: addFavDialogTexts[Random().nextInt(addFavDialogTexts.length)],
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black54,
+      textColor: Colors.white,
+      fontSize: screenSize.width * 0.04,
     );
   }
 
@@ -85,13 +96,13 @@ class _ProductScreenState extends State<ProductScreen> {
     );
   }
 
-  void switchFavourite() {
+  void switchFavourite(Size screenSize) {
     setState(() {
       fav = !fav;
       favicon = fav == true
           ? Icon(FontAwesomeIcons.solidHeart)
           : Icon(FontAwesomeIcons.heart);
-      fav == true ? addFavourites() : removeFavourites();
+      fav == true ? addFavourites(screenSize) : removeFavourites();
     });
   }
 
@@ -223,7 +234,7 @@ class _ProductScreenState extends State<ProductScreen> {
                         child: IconButton(
                           icon: favicon,
                           color: Colors.red,
-                          onPressed: () => switchFavourite(),
+                          onPressed: () => switchFavourite(screenSize),
                         ),
                       ),
                       decoration: BoxDecoration(
