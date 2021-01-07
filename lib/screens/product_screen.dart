@@ -1,6 +1,7 @@
 import 'package:cosmetics_shop/database/constants.dart';
 import 'package:cosmetics_shop/screens/cart_screen.dart';
 import 'package:cosmetics_shop/database/cart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cosmetics_shop/database/productsList.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -27,12 +28,6 @@ class _ProductScreenState extends State<ProductScreen> {
       Cart(
         productID: id,
         productQuantity: quantity,
-      ),
-    );
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => CartScreen(),
       ),
     );
   }
@@ -352,7 +347,50 @@ class _ProductScreenState extends State<ProductScreen> {
                 ],
               ),
               child: FlatButton(
-                onPressed: () => addToCart(widget.product.id),
+                onPressed: () {
+                  addToCart(widget.product.id);
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (_) => CupertinoAlertDialog(
+                      title: Text(
+                        "Continue shopping?",
+                        style: TextStyle(
+                          fontFamily: "Arial",
+                        ),
+                      ),
+                      content: Text(
+                        "Successfully added to cart!",
+                        style: TextStyle(
+                          fontFamily: "Arial",
+                        ),
+                      ),
+                      actions: [
+                        CupertinoDialogAction(
+                          child: Text(
+                            "No",
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => CartScreen(),
+                              ),
+                            );
+                          },
+                        ),
+                        CupertinoDialogAction(
+                          child: Text(
+                            "Yes",
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                },
                 child: Center(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
