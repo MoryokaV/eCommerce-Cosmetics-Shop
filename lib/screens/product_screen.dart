@@ -24,6 +24,13 @@ class _ProductScreenState extends State<ProductScreen> {
   int quantity = 1;
 
   void addToCart(int id) {
+    for (int i = 0; i < cartItems.length; i++) {
+      if (cartItems[i].productID == id) {
+        cartItems[i].productQuantity++;
+        return;
+      }
+    }
+
     cartItems.add(
       Cart(
         productID: id,
@@ -164,7 +171,7 @@ class _ProductScreenState extends State<ProductScreen> {
                       bottom: defaultPadding,
                       top: defaultPadding * 5.25,
                     ),
-                    height: screenSize.height * 0.2,
+                    height: screenSize.height * 0.175,
                     width: screenSize.width * 0.15,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
