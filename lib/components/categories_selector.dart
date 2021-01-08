@@ -48,7 +48,9 @@ class _CategoriesListState extends State<CategoriesList> {
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => CategoryScreen(),
+                      builder: (_) => CategoryScreen(
+                        category: category,
+                      ),
                     ),
                   ),
                   child: Padding(

@@ -703,12 +703,7 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
           IconButton(
             icon: Icon(Icons.arrow_back_ios),
             color: primaryColor,
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => TemplateLayer(),
-              ),
-            ),
+            onPressed: () => Navigator.pop(context),
           ),
           SizedBox(
             width: screenSize.width * 0.02,

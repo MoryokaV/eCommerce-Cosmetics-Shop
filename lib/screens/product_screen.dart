@@ -1,12 +1,12 @@
-import 'package:cosmetics_shop/database/constants.dart';
-import 'package:cosmetics_shop/screens/cart_screen.dart';
-import 'package:cosmetics_shop/database/cart.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:cosmetics_shop/database/productsList.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cosmetics_shop/database/favouriteItems.dart';
+import 'package:cosmetics_shop/database/productsList.dart';
+import 'package:cosmetics_shop/screens/cart_screen.dart';
+import 'package:cosmetics_shop/database/constants.dart';
+import 'package:cosmetics_shop/database/cart.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'dart:math';
 
 class ProductScreen extends StatefulWidget {
@@ -37,10 +37,6 @@ class _ProductScreenState extends State<ProductScreen> {
         productQuantity: quantity,
       ),
     );
-  }
-
-  void goBack() {
-    Navigator.pop(context);
   }
 
   void addQuantity() {
@@ -147,7 +143,7 @@ class _ProductScreenState extends State<ProductScreen> {
                           icon: Icon(Icons.arrow_back_ios),
                           color: accentColor,
                           iconSize: 25,
-                          onPressed: () => goBack(),
+                          onPressed: () => Navigator.pop(context),
                         ),
                         IconButton(
                           icon: Icon(Icons.shopping_cart),
@@ -235,6 +231,8 @@ class _ProductScreenState extends State<ProductScreen> {
                       child: Center(
                         child: IconButton(
                           icon: favicon,
+                          iconSize:
+                              screenSize.width * screenSize.height * 0.0001,
                           color: Colors.red,
                           onPressed: () => switchFavourite(screenSize),
                         ),
@@ -359,7 +357,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   showDialog(
                     context: context,
                     barrierDismissible: false,
-                    builder: (_) => CupertinoAlertDialog(
+                    builder: (BuildContext dialogContxt) => CupertinoAlertDialog(
                       title: Text(
                         "View cart details?",
                         style: TextStyle(
@@ -376,16 +374,12 @@ class _ProductScreenState extends State<ProductScreen> {
                       ),
                       actions: [
                         CupertinoDialogAction(
-                            child: Text(
-                              "No",
-                            ),
+                            child: const Text("No"),
                             onPressed: () {
-                              Navigator.pop(context);
+                              Navigator.pop(dialogContxt);
                             }),
                         CupertinoDialogAction(
-                          child: Text(
-                            "Yes",
-                          ),
+                          child: const Text("Yes"),
                           onPressed: () {
                             Navigator.push(
                               context,

@@ -37,7 +37,7 @@ class _RecomendedItemsState extends State<RecomendedItems> {
                 ),
               ),
               Container(
-                height: screenSize.height * 0.05,
+                height: screenSize.height * 0.045,
                 margin: EdgeInsets.only(
                   left: defaultPadding,
                   top: 2,
@@ -49,7 +49,7 @@ class _RecomendedItemsState extends State<RecomendedItems> {
                     style: TextStyle(
                       color: Colors.white,
                       fontFamily: "Roboto-Thin",
-                      fontSize: screenSize.width * 0.0525,
+                      fontSize: screenSize.height * 0.0275,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
