@@ -1,5 +1,5 @@
+import 'package:cosmetics_shop/components/splash_screen.dart';
 import 'package:cosmetics_shop/database/constants.dart';
-import 'package:cosmetics_shop/templateLayer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: backgroundColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: TemplateLayer(),
+      home: SplashScreen(),
     );
   }
 }
