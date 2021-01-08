@@ -354,21 +354,30 @@ class _ProductScreenState extends State<ProductScreen> {
                     barrierDismissible: false,
                     builder: (_) => CupertinoAlertDialog(
                       title: Text(
-                        "Continue shopping?",
+                        "View cart details?",
                         style: TextStyle(
                           fontFamily: "Arial",
+                          fontSize: screenSize.width * 0.05,
                         ),
                       ),
                       content: Text(
-                        "Successfully added to cart!",
+                        "Successfully added to your bag!",
                         style: TextStyle(
                           fontFamily: "Arial",
+                          fontSize: screenSize.width * 0.04,
                         ),
                       ),
                       actions: [
                         CupertinoDialogAction(
+                            child: Text(
+                              "No",
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            }),
+                        CupertinoDialogAction(
                           child: Text(
-                            "No",
+                            "Yes",
                           ),
                           onPressed: () {
                             Navigator.push(
@@ -377,14 +386,6 @@ class _ProductScreenState extends State<ProductScreen> {
                                 builder: (_) => CartScreen(),
                               ),
                             );
-                          },
-                        ),
-                        CupertinoDialogAction(
-                          child: Text(
-                            "Yes",
-                          ),
-                          onPressed: () {
-                            Navigator.pop(context);
                           },
                         ),
                       ],

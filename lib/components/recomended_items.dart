@@ -49,7 +49,7 @@ class _RecomendedItemsState extends State<RecomendedItems> {
                     style: TextStyle(
                       color: Colors.white,
                       fontFamily: "Roboto-Thin",
-                      fontSize: screenSize.width * 0.05,
+                      fontSize: screenSize.width * 0.0525,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
