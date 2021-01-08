@@ -357,7 +357,8 @@ class _ProductScreenState extends State<ProductScreen> {
                   showDialog(
                     context: context,
                     barrierDismissible: false,
-                    builder: (BuildContext dialogContxt) => CupertinoAlertDialog(
+                    builder: (BuildContext dialogContext) =>
+                        CupertinoAlertDialog(
                       title: Text(
                         "View cart details?",
                         style: TextStyle(
@@ -376,11 +377,14 @@ class _ProductScreenState extends State<ProductScreen> {
                         CupertinoDialogAction(
                             child: const Text("No"),
                             onPressed: () {
-                              Navigator.pop(dialogContxt);
+                              Navigator.of(dialogContext, rootNavigator: true)
+                                  .pop();
                             }),
                         CupertinoDialogAction(
                           child: const Text("Yes"),
                           onPressed: () {
+                            Navigator.of(dialogContext, rootNavigator: true)
+                                .pop();
                             Navigator.push(
                               context,
                               MaterialPageRoute(

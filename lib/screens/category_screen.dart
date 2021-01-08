@@ -5,6 +5,7 @@ import 'package:cosmetics_shop/database/constants.dart';
 import 'package:cosmetics_shop/database/favouriteItems.dart';
 import 'package:cosmetics_shop/database/productsList.dart';
 import 'package:cosmetics_shop/screens/cart_screen.dart';
+import 'package:cosmetics_shop/screens/product_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cosmetics_shop/database/categoriesList.dart';
@@ -127,6 +128,16 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   itemCount: categoryProducts.length,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => ProductScreen(
+                              product: categoryProducts[index],
+                            ),
+                          ),
+                        );
+                      },
                       child: Container(
                         margin: EdgeInsets.only(
                           top: defaultPadding,
@@ -238,7 +249,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                       showDialog(
                                         context: context,
                                         barrierDismissible: false,
-                                        builder: (BuildContext dialogContext) => CupertinoAlertDialog(
+                                        builder: (BuildContext dialogContext) =>
+                                            CupertinoAlertDialog(
                                           title: Text(
                                             "View cart details?",
                                             style: TextStyle(
@@ -257,12 +269,17 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                             CupertinoDialogAction(
                                               child: const Text("No"),
                                               onPressed: () {
-                                                Navigator.pop(dialogContext);
+                                                Navigator.of(dialogContext,
+                                                        rootNavigator: true)
+                                                    .pop();
                                               },
                                             ),
                                             CupertinoDialogAction(
                                               child: const Text("Yes"),
                                               onPressed: () {
+                                                Navigator.of(dialogContext,
+                                                        rootNavigator: true)
+                                                    .pop();
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
