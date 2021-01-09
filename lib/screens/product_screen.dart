@@ -353,7 +353,6 @@ class _ProductScreenState extends State<ProductScreen> {
               ),
               child: FlatButton(
                 onPressed: () {
-                  addToCart(widget.product.id);
                   showDialog(
                     context: context,
                     barrierDismissible: false,
@@ -383,6 +382,7 @@ class _ProductScreenState extends State<ProductScreen> {
                         CupertinoDialogAction(
                           child: const Text("Yes"),
                           onPressed: () {
+                            addToCart(widget.product.id);
                             Navigator.of(dialogContext, rootNavigator: true)
                                 .pop();
                             Navigator.push(

@@ -245,7 +245,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                   ),
                                   child: FlatButton(
                                     onPressed: () {
-                                      addToCart(categoryProducts[index].id);
                                       showDialog(
                                         context: context,
                                         barrierDismissible: false,
@@ -277,6 +276,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                             CupertinoDialogAction(
                                               child: const Text("Yes"),
                                               onPressed: () {
+                                                addToCart(
+                                                    categoryProducts[index].id);
                                                 Navigator.of(dialogContext,
                                                         rootNavigator: true)
                                                     .pop();
