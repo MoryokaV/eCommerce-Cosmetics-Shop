@@ -60,7 +60,7 @@ class _AboutScreenState extends State<AboutScreen> {
             Padding(
               padding: EdgeInsets.all(defaultPadding),
               child: Text(
-                "Descripton here",
+                "Description here",
                 softWrap: false,
                 overflow: TextOverflow.fade,
               ),
