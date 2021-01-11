@@ -105,6 +105,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   Future<Null> _onRefresh() async {
     setState(() {
+      productsGathering();
       favouritesGathering();
     });
   }
