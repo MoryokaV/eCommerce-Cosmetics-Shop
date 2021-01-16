@@ -1,6 +1,6 @@
 import 'package:cosmetics_shop/database/constants.dart';
-import 'package:cosmetics_shop/templateLayer.dart';
 import 'package:flutter/material.dart';
+import 'package:cosmetics_shop/templateLayer.dart';
 
 class OrderScreen extends StatefulWidget {
   @override
@@ -8,6 +8,10 @@ class OrderScreen extends StatefulWidget {
 }
 
 class _OrderScreenState extends State<OrderScreen> {
+  FocusNode _focusNodeName = new FocusNode();
+  FocusNode _focusNodeAddress = new FocusNode();
+  FocusNode _focusNodeZip = new FocusNode();
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -19,7 +23,7 @@ class _OrderScreenState extends State<OrderScreen> {
           children: [
             Padding(
               padding: EdgeInsets.all(
-                defaultPadding,
+                defaultPadding / 1.25,
               ),
               child: Row(
                 children: [
@@ -30,6 +34,78 @@ class _OrderScreenState extends State<OrderScreen> {
                       color: Colors.black87,
                       fontFamily: "Robot-Black",
                       fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              height: screenSize.height * 0.1,
+              width: screenSize.width * 0.9,
+              child: TextField(
+                focusNode: _focusNodeName,
+                onSubmitted: (string) {
+                  FocusScope.of(context).unfocus();
+                },
+                decoration: InputDecoration(
+                  labelText: "Full Name",
+                  labelStyle: TextStyle(
+                    fontFamily: "Arial",
+                    color: _focusNodeName.hasFocus
+                        ? Colors.black54
+                        : Colors.black54,
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              height: screenSize.height * 0.1,
+              width: screenSize.width * 0.9,
+              child: TextField(
+                focusNode: _focusNodeAddress,
+                onSubmitted: (string) {
+                  FocusScope.of(context).unfocus();
+                },
+                decoration: InputDecoration(
+                  labelText: "Address",
+                  labelStyle: TextStyle(
+                    fontFamily: "Arial",
+                    color: _focusNodeAddress.hasFocus
+                        ? Colors.black54
+                        : Colors.black54,
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              height: screenSize.height * 0.1,
+              width: screenSize.width * 0.9,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    width: screenSize.width * 0.4,
+                    child: DropdownButton(
+                      items: null,
+                      onChanged: null,
+                    ),
+                  ),
+                  Container(
+                    width: screenSize.width * 0.4,
+                    child: TextField(
+                      focusNode: _focusNodeZip,
+                      onSubmitted: (string) {
+                        FocusScope.of(context).unfocus();
+                      },
+                      decoration: InputDecoration(
+                        labelText: "Zip Code",
+                        labelStyle: TextStyle(
+                          fontFamily: "Arial",
+                          color: _focusNodeZip.hasFocus
+                              ? Colors.black54
+                              : Colors.black54,
+                        ),
+                      ),
                     ),
                   ),
                 ],
