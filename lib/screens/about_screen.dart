@@ -9,6 +9,7 @@ class AboutScreen extends StatefulWidget {
 class _AboutScreenState extends State<AboutScreen> {
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -54,12 +55,6 @@ class _AboutScreenState extends State<AboutScreen> {
             Padding(
               padding: EdgeInsets.all(defaultPadding),
               child: Text(
-                "Authors: - - - - -",
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(defaultPadding),
-              child: Text(
                 "Description here",
                 softWrap: false,
                 overflow: TextOverflow.fade,
@@ -71,6 +66,34 @@ class _AboutScreenState extends State<AboutScreen> {
                 "App version vX.Y.Z",
                 softWrap: false,
                 overflow: TextOverflow.fade,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(defaultPadding),
+              child: Column(
+                children: [
+                  Text(
+                    "Author: Vlaviano Mario-Alexandru",
+                    style: TextStyle(
+                      fontFamily: "Roboto-BoldItalic",
+                      fontSize: screenSize.width * 0.0525,
+                    ),
+                  ),
+                  SizedBox(
+                    height: screenSize.height * 0.025,
+                  ),
+                  Text(
+                    "Contact: +4 0736 743 002, \n \t \t \t \t \t mariovlaviano2005@yahoo.com",
+                    style: TextStyle(
+                      fontFamily: "Roboto-LightItalic",
+                      fontSize: screenSize.width * 0.045,
+                    ),
+                  ),
+                  Image.asset(
+                    "assets/images/misc/signature.png",
+                    width: screenSize.width * 0.33,
+                  ),
+                ],
               ),
             ),
           ],
