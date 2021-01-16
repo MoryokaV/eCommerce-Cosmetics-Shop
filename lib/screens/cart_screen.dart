@@ -305,8 +305,10 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                               children: [
                                 DropdownButton(
                                   value: quantities[index].toString(),
-                                  icon: Icon(Icons.arrow_drop_down),
-                                  iconSize: screenSize.width * 0.075,
+                                  icon: Icon(
+                                    Icons.arrow_drop_down,
+                                    size: screenSize.width * 0.075,
+                                  ),
                                   elevation: 16,
                                   underline: SizedBox(),
                                   onChanged: (String newValue) {
