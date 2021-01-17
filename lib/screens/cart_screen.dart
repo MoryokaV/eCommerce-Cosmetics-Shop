@@ -494,6 +494,8 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                         builder: (_) => OrderScreen(),
                       ),
                     );
+                    containerAnimationHeight = 0.06;
+                    containerAnimationWidth = 0.155;
                   });
                 });
               },
