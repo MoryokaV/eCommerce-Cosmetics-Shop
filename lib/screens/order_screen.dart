@@ -11,9 +11,11 @@ class _OrderScreenState extends State<OrderScreen> {
   FocusNode _focusNodeName = new FocusNode();
   FocusNode _focusNodeAddress = new FocusNode();
   FocusNode _focusNodeZip = new FocusNode();
+
   String destinationCity = "Brăila";
   String destinationCountry = "Romania";
-  String shippingMethod = "Standard Delivery";
+  String shippingMethod = "Standard Delivery (+15.00 RON)";
+  bool saveDetails = false;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,7 @@ class _OrderScreenState extends State<OrderScreen> {
                     "Shipping",
                     style: TextStyle(
                       fontSize: screenSize.width * 0.085,
-                      color: Colors.black87,
+                      color: Colors.black54,
                       fontFamily: "Robot-Black",
                       fontWeight: FontWeight.bold,
                     ),
@@ -349,11 +351,12 @@ class _OrderScreenState extends State<OrderScreen> {
                     ),
                     onChanged: (String value) {
                       setState(() {
-                        destinationCountry = value;
+                        shippingMethod = value;
                       });
                     },
                     items: <String>[
-                      "Standard Delivery",
+                      "Standard Delivery (+15.00 RON)",
+                      "No delivery (+0.00 RON)",
                     ].map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
@@ -366,6 +369,53 @@ class _OrderScreenState extends State<OrderScreen> {
                         ),
                       );
                     }).toList(),
+                  ),
+                ],
+              ),
+            ),
+            CheckboxListTile(
+              title: Text(
+                "Save for fast checkout next time?",
+                style: TextStyle(
+                  fontFamily: "Arial",
+                  color: Colors.black54,
+                  fontSize: screenSize.width * 0.045,
+                ),
+              ),
+              value: saveDetails,
+              onChanged: (bool newValue) {
+                setState(() {
+                  saveDetails = newValue;
+                });
+              },
+              controlAffinity: ListTileControlAffinity.leading,
+            ),
+            Container(
+              margin: EdgeInsets.only(
+                top: defaultPadding / 2,
+              ),
+              height: screenSize.height * 0.0775,
+              width: screenSize.width * 0.775,
+              child: Center(
+                child: Text(
+                  "-> Launch order <-",
+                  style: TextStyle(
+                    fontFamily: "Roboto-Bold",
+                    fontSize: screenSize.width * 0.065,
+                    color: primaryColor,
+                  ),
+                ),
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(
+                  defaultPadding * 2,
+                ),
+                color: accentColor,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black45,
+                    blurRadius: 2.5,
+                    offset: Offset(-1, 1),
                   ),
                 ],
               ),

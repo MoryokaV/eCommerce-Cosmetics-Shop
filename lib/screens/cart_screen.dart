@@ -314,6 +314,8 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                                   onChanged: (String newValue) {
                                     setState(() {
                                       quantities[index] = int.parse(newValue);
+                                      cartItems[index].productQuantity =
+                                          int.parse(newValue);
                                     });
                                   },
                                   items: <String>['1', '2', '3', '4', '5']

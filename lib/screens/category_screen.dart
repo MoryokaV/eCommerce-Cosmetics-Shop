@@ -269,6 +269,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                             CupertinoDialogAction(
                                               child: const Text("No"),
                                               onPressed: () {
+                                                addToCart(
+                                                    categoryProducts[index].id);
                                                 Navigator.of(dialogContext,
                                                         rootNavigator: true)
                                                     .pop();

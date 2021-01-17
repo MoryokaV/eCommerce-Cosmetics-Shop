@@ -376,6 +376,7 @@ class _ProductScreenState extends State<ProductScreen> {
                         CupertinoDialogAction(
                             child: const Text("No"),
                             onPressed: () {
+                              addToCart(widget.product.id);
                               Navigator.of(dialogContext, rootNavigator: true)
                                   .pop();
                             }),
