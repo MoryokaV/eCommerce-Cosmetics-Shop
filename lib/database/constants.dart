@@ -17,3 +17,16 @@ const List<String> addFavDialogTexts = [
   "Let's get to cart and buy it!",
   "Don't forget about it!",
 ];
+
+const List<String> deliveryOptions = [
+  "Standard Delivery (+15.00 RON)",
+  "No delivery (+0.00 RON)",
+];
+
+const List<String> destinationCities = [
+  "Brăila",
+];
+
+const List<String> destinationCountries = [
+  "Romania",
+];

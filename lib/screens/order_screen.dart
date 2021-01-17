@@ -12,9 +12,9 @@ class _OrderScreenState extends State<OrderScreen> {
   FocusNode _focusNodeAddress = new FocusNode();
   FocusNode _focusNodeZip = new FocusNode();
 
-  String destinationCity = "Brăila";
-  String destinationCountry = "Romania";
-  String shippingMethod = "Standard Delivery (+15.00 RON)";
+  String destinationCity = destinationCities[0];
+  String destinationCountry = destinationCountries[0];
+  String shippingMethod = deliveryOptions[0];
   bool saveDetails = false;
 
   @override
@@ -22,6 +22,7 @@ class _OrderScreenState extends State<OrderScreen> {
     Size screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: buildAppBar(screenSize),
       body: SafeArea(
         child: Column(
@@ -178,9 +179,8 @@ class _OrderScreenState extends State<OrderScreen> {
                               destinationCity = value;
                             });
                           },
-                          items: <String>[
-                            "Brăila",
-                          ].map<DropdownMenuItem<String>>((String value) {
+                          items: destinationCities
+                              .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Text(
@@ -285,9 +285,8 @@ class _OrderScreenState extends State<OrderScreen> {
                         destinationCountry = value;
                       });
                     },
-                    items: <String>[
-                      "Romania",
-                    ].map<DropdownMenuItem<String>>((String value) {
+                    items: destinationCountries
+                        .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(
@@ -354,10 +353,8 @@ class _OrderScreenState extends State<OrderScreen> {
                         shippingMethod = value;
                       });
                     },
-                    items: <String>[
-                      "Standard Delivery (+15.00 RON)",
-                      "No delivery (+0.00 RON)",
-                    ].map<DropdownMenuItem<String>>((String value) {
+                    items: deliveryOptions
+                        .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(
