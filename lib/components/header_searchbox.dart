@@ -18,31 +18,27 @@ class _SearchDialogState extends State<SearchDialog> {
             children: <Widget>[
               Container(
                 height: screenSize.height * 0.185,
+                width: screenSize.width,
+                padding: EdgeInsets.only(
+                  top: defaultPadding / 4,
+                  left: defaultPadding / 1.5,
+                ),
+                child: SingleChildScrollView(
+                  child: Text(
+                    "\t Hi, what do you buy today?",
+                    style: TextStyle(
+                      fontSize: screenSize.width * 0.0625,
+                      fontWeight: FontWeight.w600,
+                      color: primaryColor,
+                    ),
+                  ),
+                ),
                 decoration: BoxDecoration(
                   color: accentColor,
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(36.0),
                     bottomRight: Radius.circular(36.0),
                   ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  bottom: defaultPadding * 4.5,
-                  left: defaultPadding / 2,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Hi, what do you buy today?",
-                      style: TextStyle(
-                        fontSize: screenSize.width * 0.0675,
-                        fontWeight: FontWeight.w600,
-                        color: primaryColor,
-                      ),
-                    ),
-                  ],
                 ),
               ),
               Positioned(

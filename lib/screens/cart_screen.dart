@@ -430,8 +430,8 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
             Padding(
               padding: EdgeInsets.only(
                 top: defaultPadding / 2,
-                left: defaultPadding / 2,
-                right: defaultPadding / 2,
+                left: defaultPadding / 4,
+                right: defaultPadding / 4,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -448,7 +448,7 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                           turns: _arrowAnimation,
                           child: Padding(
                             padding: EdgeInsets.only(
-                              right: defaultPadding / 4,
+                              right: defaultPadding / 6,
                             ),
                             child: Icon(
                               summaryListIcon,
@@ -461,7 +461,7 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                           summaryTitle,
                           style: TextStyle(
                             color: Colors.grey[500],
-                            fontSize: screenSize.width * 0.05,
+                            fontSize: screenSize.width * 0.045,
                             fontFamily: "Arial",
                             fontWeight: FontWeight.bold,
                           ),
@@ -469,6 +469,7 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                       ],
                     ),
                   ),
+                  Spacer(),
                   Text(
                     calcPrice().toString() + " RON",
                     style: TextStyle(

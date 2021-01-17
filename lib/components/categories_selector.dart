@@ -38,7 +38,7 @@ class _CategoriesListState extends State<CategoriesList> {
             left: 4,
             right: 4,
           ),
-          height: screenSize.height * 0.1775,
+          height: screenSize.height * 0.18,
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: categories.length,
@@ -53,51 +53,44 @@ class _CategoriesListState extends State<CategoriesList> {
                       ),
                     ),
                   ),
-                  child: Padding(
-                    padding: EdgeInsets.only(
+                  child: Container(
+                    width: screenSize.width * 0.325,
+                    margin: EdgeInsets.only(
                       top: screenSize.height * 0.0125,
-                      left: 1,
-                      right: 1,
+                      left: screenSize.width * 0.02,
+                      right: screenSize.width * 0.02,
                     ),
                     child: Column(
                       children: [
-                        Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Container(
-                              height: screenSize.height * 0.125,
-                              width: screenSize.width * 0.275,
-                              decoration: BoxDecoration(
-                                color: primaryColor,
-                                shape: BoxShape.circle,
-                                boxShadow: [
-                                  BoxShadow(
-                                    offset: Offset(0, 1),
-                                    color: Colors.black45,
-                                    blurRadius: 7.5,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Image.asset(
+                        Container(
+                          child: CircleAvatar(
+                            radius: screenSize.width * screenSize.height * 0.000155,
+                            backgroundColor: primaryColor,
+                            child: Image.asset(
                               category.iconPath,
                               width: screenSize.width * 0.195,
                               height: screenSize.height * 0.085,
                             ),
-                          ],
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            top: 2,
                           ),
-                          child: Text(
-                            category.name,
-                            style: TextStyle(
-                              fontFamily: "Roboto-Regular",
-                              fontWeight: FontWeight.w800,
-                              color: Colors.black54,
-                              fontSize: screenSize.width * 0.045,
-                            ),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                offset: Offset(0, 1),
+                                color: Colors.black45,
+                                blurRadius: 7.5,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Spacer(),
+                        Text(
+                          category.name,
+                          style: TextStyle(
+                            fontFamily: "Roboto-Regular",
+                            fontWeight: FontWeight.w800,
+                            color: Colors.black54,
+                            fontSize: screenSize.width * 0.0425,
                           ),
                         ),
                       ],
