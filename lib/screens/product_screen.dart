@@ -167,7 +167,7 @@ class _ProductScreenState extends State<ProductScreen> {
                       bottom: defaultPadding,
                       top: defaultPadding * 5.25,
                     ),
-                    height: screenSize.height * 0.175,
+                    height: screenSize.height * 0.2,
                     width: screenSize.width * 0.15,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

@@ -38,7 +38,7 @@ class _CategoriesListState extends State<CategoriesList> {
             left: 4,
             right: 4,
           ),
-          height: screenSize.height * 0.18,
+          height: screenSize.height * 0.17,
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: categories.length,
@@ -54,17 +54,18 @@ class _CategoriesListState extends State<CategoriesList> {
                     ),
                   ),
                   child: Container(
-                    width: screenSize.width * 0.325,
+                    width: screenSize.width * 0.3,
                     margin: EdgeInsets.only(
                       top: screenSize.height * 0.0125,
-                      left: screenSize.width * 0.02,
-                      right: screenSize.width * 0.02,
+                      left: screenSize.width * 0.015,
+                      right: screenSize.width * 0.015,
                     ),
                     child: Column(
                       children: [
                         Container(
                           child: CircleAvatar(
-                            radius: screenSize.width * screenSize.height * 0.000155,
+                            radius:
+                                screenSize.width * screenSize.height * 0.000155,
                             backgroundColor: primaryColor,
                             child: Image.asset(
                               category.iconPath,

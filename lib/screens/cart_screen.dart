@@ -581,7 +581,7 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
       //toggle list state
       summaryList = !summaryList;
       if (summaryList) {
-        listHeight = screenSize.height * 0.035 * (cartProducts.length + 1) +
+        listHeight = screenSize.height * 0.04 * (cartProducts.length + 1) +
             screenSize.height * 0.145;
         _arrowController.forward(); //animate arrow
         summaryListIcon = Icons.keyboard_arrow_down;
@@ -600,7 +600,7 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
       padding: EdgeInsets.only(
         top: defaultPadding / 2,
       ),
-      height: screenSize.height * 0.035 * (cartProducts.length + 1),
+      height: screenSize.height * 0.04 * (cartProducts.length + 1),
       child: ListView(
         children: [
           ListView.builder(
