@@ -167,7 +167,8 @@ class _ProductScreenState extends State<ProductScreen> {
                       bottom: defaultPadding,
                       top: defaultPadding * 5.25,
                     ),
-                    height: screenSize.height * 0.2,
+                    padding: EdgeInsets.all(0),
+                    height: screenSize.height * 0.2075,
                     width: screenSize.width * 0.15,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -175,7 +176,7 @@ class _ProductScreenState extends State<ProductScreen> {
                         IconButton(
                           icon: Icon(FontAwesomeIcons.plus),
                           onPressed: () => addQuantity(),
-                          iconSize: screenSize.width * 0.045,
+                          iconSize: screenSize.height * 0.025,
                           color: Colors.black54,
                           padding: EdgeInsets.only(
                             top: 0,
@@ -184,18 +185,20 @@ class _ProductScreenState extends State<ProductScreen> {
                             right: 1,
                           ),
                         ),
+                        Spacer(),
                         Text(
                           quantity.toString(),
                           style: TextStyle(
-                            fontFamily: "Roboto-Medium",
-                            fontSize: screenSize.width * 0.05,
+                            fontFamily: "Calibri",
+                            fontSize: screenSize.width * screenSize.height * 0.0001,
                             color: Colors.black54,
                           ),
                         ),
+                        Spacer(),
                         IconButton(
                           icon: Icon(FontAwesomeIcons.minus),
                           onPressed: () => removeQuantity(),
-                          iconSize: screenSize.width * 0.045,
+                          iconSize: screenSize.height * 0.025,
                           color: Colors.black54,
                           padding: EdgeInsets.only(
                             top: 0,
