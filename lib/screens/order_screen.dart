@@ -14,6 +14,7 @@ class _OrderScreenState extends State<OrderScreen> {
   FocusNode _focusNodeZip = new FocusNode();
   FocusNode _focusNodeEmail = new FocusNode();
   FocusNode _focusNodePhone = new FocusNode();
+  FocusNode _focusNodeDetails = new FocusNode();
 
   String destinationCity = destinationCities[0];
   String destinationCountry = destinationCountries[0];
@@ -24,6 +25,9 @@ class _OrderScreenState extends State<OrderScreen> {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
 
+    var textStyle = TextStyle(
+      fontSize: screenSize.height * 0.025,
+    );
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: buildAppBar(screenSize),
@@ -467,13 +471,58 @@ class _OrderScreenState extends State<OrderScreen> {
                   ],
                 ),
               ),
+              Container(
+                height: screenSize.height * 0.1,
+                width: screenSize.width * 0.9,
+                margin: EdgeInsets.only(
+                  top: defaultPadding / 1.5,
+                ),
+                child: Center(
+                  child: TextField(
+                    focusNode: _focusNodeDetails,
+                    onSubmitted: (string) {
+                      FocusScope.of(context).unfocus();
+                    },
+                    style: textStyle,
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.grey[400],
+                        ),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(8),
+                        ),
+                      ),
+                      labelText: "* Personal Notes",
+                      labelStyle: TextStyle(
+                        fontFamily: "Arial",
+                        fontSize: screenSize.width * 0.0425,
+                        color: _focusNodeAddress.hasFocus
+                            ? Colors.black54
+                            : Colors.black54,
+                      ),
+                    ),
+                  ),
+                ),
+                decoration: BoxDecoration(
+                  color: primaryColor,
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black54,
+                      blurRadius: 6,
+                      offset: Offset(-1, 1),
+                    ),
+                  ],
+                ),
+              ),
               CheckboxListTile(
                 title: Text(
-                  "Save for fast checkout next time?",
+                  "Save these details for faster checkout?",
                   style: TextStyle(
                     fontFamily: "Arial",
                     color: Colors.black54,
-                    fontSize: screenSize.width * 0.045,
+                    fontSize: screenSize.width * 0.04,
                   ),
                 ),
                 value: saveDetails,
