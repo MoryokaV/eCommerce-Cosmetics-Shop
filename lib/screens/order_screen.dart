@@ -84,7 +84,7 @@ class _OrderScreenState extends State<OrderScreen> {
                     labelText: "Full Name",
                     labelStyle: TextStyle(
                       fontFamily: "Arial",
-                      fontSize: screenSize.width * 0.05,
+                      fontSize: screenSize.width * screenSize.height * 0.00005,
                       color: _focusNodeName.hasFocus
                           ? Colors.black54
                           : Colors.black54,
@@ -125,7 +125,7 @@ class _OrderScreenState extends State<OrderScreen> {
                     labelText: "Email address",
                     labelStyle: TextStyle(
                       fontFamily: "Arial",
-                      fontSize: screenSize.width * 0.05,
+                      fontSize: screenSize.width * screenSize.height * 0.00005,
                       color: _focusNodeZip.hasFocus
                           ? Colors.black54
                           : Colors.black54,
@@ -167,7 +167,7 @@ class _OrderScreenState extends State<OrderScreen> {
                     labelText: "Phone Number (+40)",
                     labelStyle: TextStyle(
                       fontFamily: "Arial",
-                      fontSize: screenSize.width * 0.05,
+                      fontSize: screenSize.width * screenSize.height * 0.00005,
                       color: _focusNodeZip.hasFocus
                           ? Colors.black54
                           : Colors.black54,
@@ -208,7 +208,7 @@ class _OrderScreenState extends State<OrderScreen> {
                     labelText: "Address",
                     labelStyle: TextStyle(
                       fontFamily: "Arial",
-                      fontSize: screenSize.width * 0.05,
+                      fontSize: screenSize.width * screenSize.height * 0.00005,
                       color: _focusNodeAddress.hasFocus
                           ? Colors.black54
                           : Colors.black54,
