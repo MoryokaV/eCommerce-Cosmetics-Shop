@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cosmetics_shop/database/constants.dart';
 import 'package:cosmetics_shop/templateLayer.dart';
 import 'package:flutter/material.dart';
@@ -121,10 +123,10 @@ class _CongratsScreenState extends State<CongratsScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           IconButton(
-            icon: Icon(Icons.arrow_back_ios),
+            icon: Icon(Icons.exit_to_app),
             iconSize: screenSize.width * 0.06,
             color: primaryColor,
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => exit(0),
           ),
           Text(
             "Checkout",
