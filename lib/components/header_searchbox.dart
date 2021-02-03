@@ -1,4 +1,4 @@
-import 'package:cosmetics_shop/database/constants.dart';
+import 'package:cosmetics_shop/models/constants.dart';
 import 'package:flutter/material.dart';
 
 class SearchDialog extends StatefulWidget {

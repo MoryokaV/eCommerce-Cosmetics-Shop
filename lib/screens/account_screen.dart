@@ -1,4 +1,4 @@
-import 'package:cosmetics_shop/database/constants.dart';
+import 'package:cosmetics_shop/models/constants.dart';
 import 'package:cosmetics_shop/screens/about_screen.dart';
 import 'package:cosmetics_shop/screens/cart_screen.dart';
 import 'package:cosmetics_shop/screens/ordersHistory_screen.dart';

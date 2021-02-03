@@ -1,5 +1,5 @@
 import 'package:cosmetics_shop/screens/account_screen.dart';
-import 'package:cosmetics_shop/database/constants.dart';
+import 'package:cosmetics_shop/models/constants.dart';
 import 'package:cosmetics_shop/screens/favourites_screen.dart';
 import 'package:cosmetics_shop/screens/home_screen.dart';
 import 'package:flutter/cupertino.dart';

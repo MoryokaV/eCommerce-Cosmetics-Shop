@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'package:cosmetics_shop/database/constants.dart';
+import 'package:cosmetics_shop/models/constants.dart';
 import 'package:cosmetics_shop/screens/product_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:cosmetics_shop/database/favouriteItems.dart';
-import 'package:cosmetics_shop/database/productsList.dart';
+import 'package:cosmetics_shop/models/favouriteItems.dart';
+import 'package:cosmetics_shop/models/productsList.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FavouritesScreen extends StatefulWidget {

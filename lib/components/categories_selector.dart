@@ -1,7 +1,7 @@
 import 'package:cosmetics_shop/screens/category_screen.dart';
-import 'package:cosmetics_shop/database/constants.dart';
+import 'package:cosmetics_shop/models/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:cosmetics_shop/database/categoriesList.dart';
+import 'package:cosmetics_shop/models/categoriesList.dart';
 
 class CategoriesList extends StatefulWidget {
   @override
