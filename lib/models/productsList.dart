@@ -1,9 +1,7 @@
-import 'categoriesList.dart';
-
 class Product {
   int id;
   String name;
-  String category;
+  int categoryID;
   String manufacter;
   double price;
   String imagePath;
@@ -13,7 +11,7 @@ class Product {
   Product({
     this.id,
     this.name,
-    this.category,
+    this.categoryID,
     this.manufacter,
     this.price,
     this.imagePath,
@@ -26,7 +24,7 @@ final List<Product> products = [
   Product(
     id: 1,
     name: "Gerovital H3",
-    category: categories[0].name,
+    categoryID: 1,
     manufacter: "Gerovital",
     price: 50.00,
     imagePath: "assets/images/products/gerovitalH3.png",
@@ -37,7 +35,7 @@ final List<Product> products = [
   Product(
     id: 2,
     name: "Kiss Hexa-Eyes",
-    category: categories[1].name,
+    categoryID: 2,
     manufacter: "Kiss",
     price: 42.00,
     imagePath: "assets/images/products/kissHexaEyes.png",
@@ -48,7 +46,7 @@ final List<Product> products = [
   Product(
     id: 3,
     name: "Mascara Kiss Dead",
-    category: categories[1].name,
+    categoryID: 2,
     manufacter: "Mascara",
     price: 38.00,
     imagePath: "assets/images/products/mascaraKissDead.png",
@@ -60,7 +58,7 @@ final List<Product> products = [
   Product(    
     id: 4,
     name: "Techniques Blush",
-    category: categories[2].name,
+    categoryID: 3,
     manufacter: "realTechniques",
     price: 51.00,
     imagePath: "assets/images/products/techniquesBlush.png",
@@ -72,7 +70,7 @@ final List<Product> products = [
   Product(
     id: 5,
     name: "Secret Key",
-    category: categories[0].name,
+    categoryID: 1,
     manufacter: "Snail",
     price: 71.00,
     imagePath: "assets/images/products/snailSecretKey.png",
@@ -84,7 +82,7 @@ final List<Product> products = [
   Product(
     id: 6,
     name: "Sleek Lip Shot",
-    category: categories[3].name,
+    categoryID: 4,
     manufacter: "Sleek",
     price: 51.00,
     imagePath: "assets/images/products/sleekLipShot.png",

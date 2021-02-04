@@ -85,7 +85,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
     categoryProducts = [];
     fav = [];
     for (int i = 0; i < products.length; i++) {
-      if (products[i].category == widget.category.name) {
+      if (products[i].categoryID == widget.category.id) {
         categoryProducts.add(
           products[i],
         );
