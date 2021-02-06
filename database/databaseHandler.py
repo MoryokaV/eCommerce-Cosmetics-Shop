@@ -1,15 +1,28 @@
 #!/usr/bin/env python3
 
-import pandas as pd
 import sqlite3
+from sqlite3 import Error
+import sys
+import excelFetch
 
-db = sqlite3.connect("products.db")
-excel = pd.read_excel("list.xlsx", sheet_name = None)
 
-#print(pd.DataFrame(excel))
+#Establishing  connection
+conn = None
 
-for sheet in excel:
-    excel[sheet].to_sql(sheet, db, index = False)
+try:
+    conn = sqlite3.connect("products.db")
+except Error as e:
+    print("Error on connecting to database: " + e)
 
-db.commit()
-db.close()
+selector = str(sys.argv[1])
+
+
+if selector == "pull":
+    excelFetch.pull(conn)
+else:
+    print(" - Unknown Command - ")
+
+
+
+conn.commit()
+conn.close()
