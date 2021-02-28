@@ -33,6 +33,17 @@ if selector == "initialize":
    initialize(conn)
 elif selector == "pull":
     excelFetch.pull(conn)
+elif selector == "add":
+    selector = str(sys.argv[2])
+    if selector == "favourites":
+        productID == str(sys.argv[3])
+        #do something
+    elif selector == "cart":
+        productID = str((sys.argv[3])
+        quantity = str(sys.argv[4])
+        #do something
+    else:
+        print("add: Invalid args!")
 else:
     print(" - Unknown Command - ")
 
