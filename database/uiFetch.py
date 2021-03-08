@@ -18,8 +18,7 @@ def insertCart(conn, prod_id, prod_quantity):
         c.close()    
 
     except sqlite3.Error as e:
-        print("Database failed to insert new values: " + e)
-
+        print("Database failed to insert new values: " + str(e))
 
 def insertFav(conn, prod_id):
     
@@ -38,4 +37,4 @@ def insertFav(conn, prod_id):
     
 
     except sqlite3.Error as e:
-        print("Database failed to insert new values: " + e)
+        print("Database failed to insert new values: " + str(e))
