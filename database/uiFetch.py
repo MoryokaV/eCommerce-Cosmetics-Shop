@@ -3,10 +3,9 @@
 import sqlite3
 
 def insertCart(conn, prod_id, prod_quantity):
-    
     try:
         c = conn.cursor()
-        
+         
         c.execute(""" INSERT INTO cartItems
                     (productID, productQuantity)
                     VALUES
@@ -38,3 +37,53 @@ def insertFav(conn, prod_id):
 
     except sqlite3.Error as e:
         print("Database failed to insert new values: " + str(e))
+
+def removeFav(conn, prod_id):
+    try:
+        c = conn.cursor()
+        
+        c.execute(""" DELETE FROM favouriteItems 
+                    WHERE productID == (?)""", (prod_id,))
+        conn.commit()
+    
+        print("Favourites record succesfully deleted!")
+
+        c.close()
+    
+    except sqlite3.Error as e:
+        print("Database failed to remove values: " + str(e))
+
+def removeItem(conn, prod_id):
+    try:
+        c = conn.cursor()
+        
+        c.execute(""" DELETE FROM cartItems 
+                    WHERE productID = (?)""", (prod_id,))
+        conn.commit()
+    
+        print("Cart record succesfully deleted!")
+
+        c.close()
+    
+    except sqlite3.Error as e:
+        print("Database failed to remove values: " + str(e))
+
+def updateQuantity(conn, prod_id, quantity):
+    if quantity != 0:
+        try:
+            c = conn.cursor()
+            
+            c.execute(""" UPDATE cartItems SET productQuantity = (?) WHERE  
+                        productID = (?)""", (quantity, prod_id))
+            conn.commit()
+          
+            print("Cart record succesfully updated!")
+
+            c.close()
+        
+        except sqlite3.Error as e:
+            print("Database failed to remove values: " + str(e))
+    else:
+        print("Quantity is invalid!..Use 'remove cart item' instead")
+
+

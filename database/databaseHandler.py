@@ -77,17 +77,53 @@ def cmdSelector():
         excelFetch.pull(conn)
     elif selector == "add":
         selector = str(sys.argv[2])
-        if selector == "favourites":
+
+        if selector == "favourite":
             productID = int(sys.argv[3])
-            
+
             uiFetch.insertFav(conn, productID)
         elif selector == "cart":
-            productID = int(sys.argv[3])
-            quantity = int(sys.argv[4])
-            
-            uiFetch.insertCart(conn, productID, quantity)
+            selector = str(sys.argv[3])
+
+            if selector == "item":
+                productID = int(sys.argv[4])
+                quantity = int(sys.argv[5])
+                
+                uiFetch.insertCart(conn, productID, quantity)
+            else:
+                print("Unknown insert command!")
         else:
             print("add: Invalid args!")
+    elif selector == "remove":
+        selector = str(sys.argv[2])
+
+        if selector == "favourite":
+            productID = int(sys.argv[3])
+            
+            uiFetch.removeFav(conn, productID)
+        elif selector == "cart":
+            selector = str(sys.argv[3])
+            
+            if selector == "item":
+                productID = int(sys.argv[4])
+
+                uiFetch.removeItem(conn, productID)
+            else:
+                print("Invalid cart operation!")
+        else:
+            print("remove: Invalid args!")
+    elif selector == "update":
+        selector = str(sys.argv[2])
+        
+        if selector == "cart":
+            productID = int(sys.argv[3])
+            quantity = int(sys.argv[4])
+
+            uiFetch.updateQuantity(conn, productID, quantity)
+        else:
+            print("Unknown update command")
+        
+
     else:
         print(" - Unknown Command - ")
 
