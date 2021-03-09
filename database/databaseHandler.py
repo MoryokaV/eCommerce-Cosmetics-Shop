@@ -23,11 +23,17 @@ def initialize(conn):
         c.execute("""CREATE TABLE categoriesList_copy(id integer primary key
                 autoincrement,name TEXT, imagePath TEXT)""")
 
+        #wipe existing data if exists
+        c.execute("""DROP TABLE IF EXISTS favouriteItems""")
+        c.execute("""DROP TABLE IF EXISTS cartItems""")
+        print("Old data has been wiped!")
+    
         for table in sql_tables:
             c.execute(table)
         
-        excelFetch.pull(conn)
+        excelFetch.pull(conn) #import data from excel tables
 
+        #adding data from excel sqltables to copies with ID field
         c.execute("""INSERT INTO productsList_copy(name, categoryID, manufacter,
                 price, imagePath, shortDescription, longDescription) SELECT
                 name, categoryID, manufacter, price, imagePath,
@@ -35,10 +41,12 @@ def initialize(conn):
 
         c.execute("""INSERT INTO categoriesList_copy(name, imagePath) SELECT
                 name, imagePath FROM categoriesList""")
-
+        
+        #remove old tables
         c.execute("""DROP TABLE productsList""")
         c.execute("""DROP TABLE categoriesList""")
-
+    
+        #rename tables
         c.execute("""ALTER TABLE productsList_copy RENAME TO productsList""")
         c.execute("""ALTER TABLE categoriesList_copy RENAME TO categoriesList""")
         
