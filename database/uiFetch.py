@@ -5,16 +5,28 @@ import sqlite3
 def insertCart(conn, prod_id, prod_quantity):
     try:
         c = conn.cursor()
-         
-        c.execute(""" INSERT INTO cartItems
-                    (productID, productQuantity)
-                    VALUES
-                    (?, ?)""", (prod_id, prod_quantity,))
-        conn.commit()
-    
-        print("Cart record succesfully inserted!")
 
-        c.close()    
+        c.execute("""SELECT * FROM cartItems WHERE productID=?""",(prod_id,))
+        finder = c.fetchone()
+
+        if finder is None:
+
+            c.execute(""" INSERT INTO cartItems
+                        (productID, productQuantity)
+                        VALUES
+                        (?, ?)""", (prod_id, prod_quantity,))
+            conn.commit()
+        
+            print("Cart record succesfully inserted!")
+
+            c.close()    
+        else:
+            print("Entry already found at: " + str(finder))
+            print("Updating the quantity...")
+
+            updateQuantity(conn, prod_id, prod_quantity)
+            
+            c.close() 
 
     except sqlite3.Error as e:
         print("Database failed to insert new values: " + str(e))
@@ -24,16 +36,23 @@ def insertFav(conn, prod_id):
     try:
         c = conn.cursor()
         
-        c.execute(""" INSERT INTO favouriteItems
-                    (productID)
-                    VALUES
-                    (?)""", (prod_id,))
-        conn.commit()
-    
-        print("Favourites record succesfully inserted!")
+        c.execute("""SELECT * FROM favouriteItems WHERE productID=?""",(prod_id,))
+        finder = c.fetchone()
+        
+        if finder is None:
+            c.execute(""" INSERT INTO favouriteItems
+                        (productID)
+                        VALUES
+                        (?)""", (prod_id,))
+            conn.commit()
+        
+            print("Favourites record succesfully inserted!")
 
-        c.close()
-    
+            c.close()
+        else:
+            print("Entry already found at: " + str(finder))
+            
+            c.close() 
 
     except sqlite3.Error as e:
         print("Database failed to insert new values: " + str(e))

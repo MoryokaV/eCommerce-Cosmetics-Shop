@@ -80,7 +80,7 @@ def cmdSelector():
 
         if selector == "favourite":
             productID = int(sys.argv[3])
-
+           
             uiFetch.insertFav(conn, productID)
         elif selector == "cart":
             selector = str(sys.argv[3])
