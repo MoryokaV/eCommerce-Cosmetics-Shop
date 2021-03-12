@@ -122,8 +122,10 @@ def cmdSelector():
             uiFetch.updateQuantity(conn, productID, quantity)
         else:
             print("Unknown update command")
+    elif selector == "find":
+        categ = str(sys.argv[2])
         
-
+        uiFetch.findProducts(conn, categ)
     else:
         print(" - Unknown Command - ")
 

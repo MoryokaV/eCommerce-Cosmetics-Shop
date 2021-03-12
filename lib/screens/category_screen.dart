@@ -1,16 +1,16 @@
-import 'dart:math';
-
-import 'package:cosmetics_shop/models/cart.dart';
-import 'package:cosmetics_shop/models/constants.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:cosmetics_shop/screens/product_screen.dart';
+import 'package:cosmetics_shop/models/categoriesList.dart';
 import 'package:cosmetics_shop/models/favouriteItems.dart';
 import 'package:cosmetics_shop/models/productsList.dart';
 import 'package:cosmetics_shop/screens/cart_screen.dart';
-import 'package:cosmetics_shop/screens/product_screen.dart';
+import 'package:cosmetics_shop/models/constants.dart';
+import 'package:cosmetics_shop/models/cart.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:cosmetics_shop/models/categoriesList.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'dart:math';
+
 
 class CategoryScreen extends StatefulWidget {
   final Category category;

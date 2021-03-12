@@ -106,3 +106,14 @@ def updateQuantity(conn, prod_id, quantity):
         print("Quantity is invalid!..Use 'remove cart item' instead")
 
 
+def findProducts(conn, categ):
+    try:
+        c = conn.cursor()
+
+        c.execute("""SELECT * FROM productsList WHERE categoryID=?""",(categ,))
+
+        response = c.fetchall()
+
+        print(str(response))
+    except sqlite3.Error as e:
+        print("Error on finding records: " + str(e))
