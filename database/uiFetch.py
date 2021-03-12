@@ -114,6 +114,11 @@ def findProducts(conn, categ):
 
         response = c.fetchall()
 
-        print(str(response))
+        #print(str(response))
+
+        return response
+
     except sqlite3.Error as e:
         print("Error on finding records: " + str(e))
+        
+        return None

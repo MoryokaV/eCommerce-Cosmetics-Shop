@@ -65,6 +65,8 @@ def connectDatabase():
         conn = sqlite3.connect("models.db")
 
         print("Connection to databse has been established! \n Waiting for queries...")
+        
+        return conn
     except Error as e:
         print("Error on connecting to database: " + e)
 
@@ -133,6 +135,3 @@ def cmdSelector():
 if __name__ == '__main__':
     connectDatabase()       
     cmdSelector()
-
-conn.commit()
-conn.close()
