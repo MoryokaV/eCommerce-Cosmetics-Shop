@@ -25,7 +25,7 @@ def finder():
     #print(str(output))
     #print(type(output)) #list
         
-    return str(output) 
+    return jsonify(output) 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host = '192.168.0.163')
