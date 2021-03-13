@@ -13,7 +13,7 @@ void main() {
 }
 
 void test() async{
-  var url = "http://10.0.2.2:5000/";
+  var url = "http://127.0.0.1:5000/";
 
   Response response = await get(Uri.parse(url + "find?productID=1"));
   print(response.body);
