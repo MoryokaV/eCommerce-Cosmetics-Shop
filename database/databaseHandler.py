@@ -62,7 +62,7 @@ def connectDatabase():
     global conn
 
     try:
-        conn = sqlite3.connect("models.db")
+        conn = sqlite3.connect("models.db", check_same_thread = False)
 
         print("Connection to databse has been established! \n Waiting for queries...")
         
