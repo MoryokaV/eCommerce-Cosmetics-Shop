@@ -12,9 +12,8 @@ def pull(conn):
 
     for sheet in excel:
         #excel[sheet].dropna(how = 'any', axis = 0) # delete all the null records ... doesn't work 
-
         excel[sheet].to_sql(sheet, conn, index = False, if_exists = 'replace')        
-
+        
         #print(type(excel[sheet]))
         #print(sheet)
 

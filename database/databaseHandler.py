@@ -49,10 +49,12 @@ def initialize(conn):
         #rename tables
         c.execute("""ALTER TABLE productsList_copy RENAME TO productsList""")
         c.execute("""ALTER TABLE categoriesList_copy RENAME TO categoriesList""")
-        
+
+        conn.commit()
+ 
         print("Initialization was made succesfully!")
         print("Your database is up-to-date")
-
+        
     except Error as e:
         print("Failed to create table: " + str(e))
 
@@ -63,6 +65,7 @@ def connectDatabase():
 
     try:
         conn = sqlite3.connect("models.db", check_same_thread = False)
+        #conn = sqlite3.connect("models.db")
 
         print("Connection to databse has been established! \n Waiting for queries...")
         
