@@ -28,4 +28,4 @@ def finder():
     return jsonify(output) 
 
 if __name__ == '__main__':
-    app.run(host = '192.168.0.163')
+    app.run()

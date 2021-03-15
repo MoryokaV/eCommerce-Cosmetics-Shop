@@ -15,12 +15,12 @@ def initialize(conn):
         
         #Workaround for inserting id field into an existing table
 
-        c.execute("""CREATE TABLE productsList_copy(id integer primary key
+        c.execute("""CREATE TABLE products_copy(id integer primary key
                 autoincrement, name TEXT, categoryID INTEGER, manufacter TEXT,
                 price REAL, imagePath TEXT, shortDescription TEXT,
                 longDescription TEXT)""")
 
-        c.execute("""CREATE TABLE categoriesList_copy(id integer primary key
+        c.execute("""CREATE TABLE categories_copy(id integer primary key
                 autoincrement,name TEXT, imagePath TEXT)""")
 
         #wipe existing data if exists
@@ -34,21 +34,21 @@ def initialize(conn):
         excelFetch.pull(conn) #import data from excel tables
 
         #adding data from excel sqltables to copies with ID field
-        c.execute("""INSERT INTO productsList_copy(name, categoryID, manufacter,
+        c.execute("""INSERT INTO products_copy(name, categoryID, manufacter,
                 price, imagePath, shortDescription, longDescription) SELECT
                 name, categoryID, manufacter, price, imagePath,
-                shortDescription, longDescription FROM productsList""")
+                shortDescription, longDescription FROM products""")
 
-        c.execute("""INSERT INTO categoriesList_copy(name, imagePath) SELECT
-                name, imagePath FROM categoriesList""")
+        c.execute("""INSERT INTO categories_copy(name, imagePath) SELECT
+                name, imagePath FROM categories""")
         
         #remove old tables
-        c.execute("""DROP TABLE productsList""")
-        c.execute("""DROP TABLE categoriesList""")
+        c.execute("""DROP TABLE products""")
+        c.execute("""DROP TABLE categories""")
     
         #rename tables
-        c.execute("""ALTER TABLE productsList_copy RENAME TO productsList""")
-        c.execute("""ALTER TABLE categoriesList_copy RENAME TO categoriesList""")
+        c.execute("""ALTER TABLE products_copy RENAME TO products""")
+        c.execute("""ALTER TABLE categories_copy RENAME TO categories""")
 
         conn.commit()
  

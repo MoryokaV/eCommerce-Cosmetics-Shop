@@ -110,7 +110,7 @@ def findProducts(conn, categ):
     try:
         c = conn.cursor()
 
-        c.execute("""SELECT * FROM productsList WHERE categoryID=?""",(categ,))
+        c.execute("""SELECT * FROM products WHERE categoryID=?""",(categ,))
 
         response = c.fetchall()
 
