@@ -5,18 +5,13 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 
 void main() {
-  //add code here for testing the api
-
-  test();
+  initDB();
 
   runApp(MyApp());
 }
 
-void test() async{
-  var url = "http://192.168.0.163:5000/";
+void initDB() {
 
-  Response response = await get(Uri.parse(url + "find?productID=1"));
-  print(response.body);
 }
 
 class MyApp extends StatelessWidget {
