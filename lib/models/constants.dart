@@ -11,6 +11,7 @@ const double defaultPadding = 20;
 
 //Customizable variables
 const double deliveryCost = 15.5;
+
 const List<String> addFavDialogTexts = [
   "Good choice!",
   "This is an amazing product!",

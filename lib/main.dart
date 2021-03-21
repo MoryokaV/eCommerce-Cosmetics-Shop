@@ -2,16 +2,9 @@ import 'package:cosmetics_shop/components/splash_screen.dart';
 import 'package:cosmetics_shop/models/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart';
 
 void main() {
-  initDB();
-
   runApp(MyApp());
-}
-
-void initDB() {
-
 }
 
 class MyApp extends StatelessWidget {
