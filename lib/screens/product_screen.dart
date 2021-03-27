@@ -354,7 +354,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   ),
                 ],
               ),
-              child: FlatButton(
+              child: TextButton(
                 onPressed: () {
                   showDialog(
                     context: context,

@@ -9,34 +9,29 @@ class OrdersHistoryScreen extends StatefulWidget {
 
 class _OrdersHistoryScreenState extends State<OrdersHistoryScreen> {
   Widget buildOrdersList(Size screenSize) {
-    //just for testing
-    /*
-    for (int i = 0; i < orders.length; i++) {
-      print(orders[i].description);
-    }*/
-
     return ListView.builder(
       scrollDirection: Axis.vertical,
+      physics: ScrollPhysics(),
       shrinkWrap: true,
       itemCount: orders.length,
       itemBuilder: (BuildContext context, int index) {
         Order order = orders[index];
         return Container(
-          margin: EdgeInsets.all(
-            defaultPadding / 1.5,
+          margin: EdgeInsets.only(
+            top: defaultPadding,
+            bottom: defaultPadding / 1.75,
           ),
           padding: EdgeInsets.all(
-            defaultPadding / 2,
+            defaultPadding / 1.5,
           ),
-          height: screenSize.height * 0.075,
+          height: screenSize.height * 0.07,
           decoration: BoxDecoration(
-            color: backgroundAccent,
-            borderRadius: BorderRadius.circular(16),
+            color: backgroundColor,
             boxShadow: [
               BoxShadow(
                 color: Colors.black45,
                 offset: Offset(1, 1),
-                blurRadius: 5,
+                blurRadius: 7.5,
               ),
             ],
           ),
@@ -44,6 +39,26 @@ class _OrdersHistoryScreenState extends State<OrdersHistoryScreen> {
             children: [
               Text(
                 "#" + order.number.toString(),
+                style: TextStyle(
+                  fontFamily: "Calibri",
+                  fontSize: screenSize.width * 0.055,
+                ),
+              ),
+              Spacer(),
+              Text(
+                order.dateTime,
+                style: TextStyle(
+                  fontFamily: "Calibri",
+                  fontSize: screenSize.width * 0.055,
+                ),
+              ),
+              Spacer(),
+              Text(
+                order.value.toString() + " RON",
+                style: TextStyle(
+                  fontFamily: "Calibri",
+                  fontSize: screenSize.width * 0.055,
+                ),
               ),
             ],
           ),
@@ -64,8 +79,8 @@ class _OrdersHistoryScreenState extends State<OrdersHistoryScreen> {
           height: screenSize.height * 0.2,
         ),
         Container(
-          height: screenSize.height * 0.075,
-          width: screenSize.width * 0.80,
+          height: screenSize.height * 0.07,
+          width: screenSize.width * 0.75,
           child: TextButton(
             child: Text(
               "‹ Main Menu",
@@ -99,14 +114,43 @@ class _OrdersHistoryScreenState extends State<OrdersHistoryScreen> {
 
     return Scaffold(
       appBar: buildAppBar(context, screenSize),
-      body: SafeArea(
-        child: ListView(
-          children: [
-            orders.length != 0
-                ? buildOrdersList(screenSize)
-                : buildPopUpMessage(screenSize),
-          ],
-        ),
+      body: ListView(
+        scrollDirection: Axis.vertical,
+        children: [
+          orders.length != 0
+              ? buildOrdersList(screenSize)
+              : buildPopUpMessage(screenSize),
+          if (orders.length != 0)
+            Container(
+              height: screenSize.height * 0.07,
+              width: screenSize.width * 0.75,
+              margin: EdgeInsets.all(
+                defaultPadding,
+              ),
+              child: TextButton(
+                child: Text(
+                  "‹ Main Menu",
+                  style: TextStyle(
+                    color: primaryColor,
+                    fontWeight: FontWeight.w600,
+                    fontSize: screenSize.height * 0.035,
+                  ),
+                ),
+                onPressed: () => Navigator.pop(context),
+              ),
+              decoration: BoxDecoration(
+                color: accentColor,
+                borderRadius: BorderRadius.circular(36),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black38,
+                    blurRadius: 5,
+                    offset: Offset(0, 1),
+                  ),
+                ],
+              ),
+            ),
+        ],
       ),
     );
   }

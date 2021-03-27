@@ -42,7 +42,7 @@ class _RecomendedItemsState extends State<RecomendedItems> {
                   left: defaultPadding,
                   top: 2,
                 ),
-                child: FlatButton(
+                child: TextButton(
                   onPressed: () {},
                   child: Text(
                     "More",

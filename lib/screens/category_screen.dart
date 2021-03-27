@@ -244,7 +244,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                       ),
                                     ],
                                   ),
-                                  child: FlatButton(
+                                  child: TextButton(
                                     onPressed: () {
                                       showDialog(
                                         context: context,
