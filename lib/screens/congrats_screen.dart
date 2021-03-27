@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 
 class CongratsScreen extends StatefulWidget {
+  final int number;
+
+  CongratsScreen({@required this.number});
+
   @override
   _CongratsScreenState createState() => _CongratsScreenState();
 }
@@ -59,7 +63,9 @@ class _CongratsScreenState extends State<CongratsScreen> {
                   defaultPadding,
                 ),
                 child: Text(
-                  "Thank you for purchasing. Your order number is #zzzz, check email for latest status.",
+                  "Thank you for purchasing. Your order number is #" +
+                      widget.number.toString() +
+                      ", check email for latest status.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: "Roboto-Light",

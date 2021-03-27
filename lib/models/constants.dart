@@ -10,7 +10,7 @@ const backgroundColor = Color.fromRGBO(250, 225, 202, 1.0);
 const double defaultPadding = 20;
 
 //Customizable variables
-const double deliveryCost = 15.5;
+const double deliveryCost = 15;
 
 const List<String> addFavDialogTexts = [
   "Good choice!",

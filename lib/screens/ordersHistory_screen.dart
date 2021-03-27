@@ -9,10 +9,45 @@ class OrdersHistoryScreen extends StatefulWidget {
 
 class _OrdersHistoryScreenState extends State<OrdersHistoryScreen> {
   Widget buildOrdersList(Size screenSize) {
+    //just for testing
+    /*
+    for (int i = 0; i < orders.length; i++) {
+      print(orders[i].description);
+    }*/
+
     return ListView.builder(
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
       itemCount: orders.length,
       itemBuilder: (BuildContext context, int index) {
-        return Container();
+        Order order = orders[index];
+        return Container(
+          margin: EdgeInsets.all(
+            defaultPadding / 1.5,
+          ),
+          padding: EdgeInsets.all(
+            defaultPadding / 2,
+          ),
+          height: screenSize.height * 0.075,
+          decoration: BoxDecoration(
+            color: backgroundAccent,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black45,
+                offset: Offset(1, 1),
+                blurRadius: 5,
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              Text(
+                "#" + order.number.toString(),
+              ),
+            ],
+          ),
+        );
       },
     );
   }

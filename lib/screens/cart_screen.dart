@@ -1,3 +1,4 @@
+import 'package:cosmetics_shop/models/order.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cosmetics_shop/screens/product_screen.dart';
 import 'package:cosmetics_shop/models/favouriteItems.dart';
@@ -55,6 +56,15 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
         reverseCurve: Curves.elasticIn,
       );
     }
+  }
+
+  String buildOrderDescription(){
+    String desc = " ";
+
+    for(int i = 0; i < cartProducts.length; i++)
+      desc += quantities[i].toString() + " x " + cartProducts[i].name + ", ";
+
+    return desc;
   }
 
   void addFavourites(int id, Size screenSize) {
@@ -492,7 +502,13 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => OrderScreen(),
+                        builder: (_) => OrderScreen(
+                          order: new Order(
+                            number: orders.length != 0 ? orders[orders.length - 1].number + 1 : 1,
+                            value: calcPrice(),
+                            description: buildOrderDescription(),
+                          ),
+                        ),
                       ),
                     );
                     containerAnimationHeight = 0.06;

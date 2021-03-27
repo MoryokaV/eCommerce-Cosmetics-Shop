@@ -1,10 +1,15 @@
 import 'package:cosmetics_shop/models/constants.dart';
+import 'package:cosmetics_shop/models/order.dart';
 import 'package:cosmetics_shop/screens/congrats_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cosmetics_shop/templateLayer.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class OrderScreen extends StatefulWidget {
+  final Order order;
+
+  OrderScreen({@required this.order});
+
   @override
   _OrderScreenState createState() => _OrderScreenState();
 }
@@ -42,7 +47,7 @@ class _OrderScreenState extends State<OrderScreen> {
     true,
     true,
   ];
-  
+
   final validName = RegExp(r'^[a-zA-Z]+$');
   final validNumbers = RegExp(r'^-?[0-9]+$');
   final validEmail = RegExp(
@@ -672,10 +677,19 @@ class _OrderScreenState extends State<OrderScreen> {
                   });
                   extractControllers();
                   if (checkForCorrectDetails(screenSize)) {
+                    orders.add(
+                      Order(
+                        number: widget.order.number,
+                        value: shippingMethod == deliveryOptions[0]
+                            ? widget.order.value + deliveryCost
+                            : widget.order.value,
+                        description: widget.order.description,
+                      ),
+                    );
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => CongratsScreen(),
+                        builder: (_) => CongratsScreen(number: widget.order.number,),
                       ),
                     );
                   }
