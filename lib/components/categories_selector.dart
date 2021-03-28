@@ -35,8 +35,8 @@ class _CategoriesListState extends State<CategoriesList> {
         ),
         Container(
           margin: EdgeInsets.only(
-            left: 4,
-            right: 4,
+            left: defaultPadding / 2,
+            right: defaultPadding / 2,
           ),
           height: screenSize.height * 0.17,
           child: ListView.builder(
@@ -53,48 +53,56 @@ class _CategoriesListState extends State<CategoriesList> {
                       ),
                     ),
                   ),
-                  child: Container(
-                    width: screenSize.width * 0.3,
-                    margin: EdgeInsets.only(
-                      top: screenSize.height * 0.0125,
-                      left: screenSize.width * 0.015,
-                      right: screenSize.width * 0.015,
-                    ),
-                    child: Column(
-                      children: [
-                        Container(
-                          child: CircleAvatar(
-                            radius:
-                                screenSize.width * screenSize.height * 0.000155,
-                            backgroundColor: primaryColor,
-                            child: Image.asset(
-                              category.iconPath,
-                              width: screenSize.width * 0.19,
-                              height: screenSize.height * 0.08,
+                  child: FittedBox(
+                    fit: BoxFit.fill,
+                    child: Container(
+                      height: screenSize.height * 0.17,
+                      margin: EdgeInsets.only(
+                        top: screenSize.height * 0.0125,
+                        left: screenSize.width * 0.0175,
+                        right: screenSize.width * 0.0175,
+                      ),
+                      child: Column(
+                        children: [
+                          Container(
+                            child: CircleAvatar(
+                              radius: screenSize.width *
+                                  screenSize.height *
+                                  0.000155,
+                              backgroundColor: primaryColor,
+                              child: Image.asset(
+                                category.iconPath,
+                                width: screenSize.width * 0.19,
+                                height: screenSize.height * 0.08,
+                              ),
+                            ),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  offset: Offset(0, 1),
+                                  color: Colors.black45,
+                                  blurRadius: 7.5,
+                                ),
+                              ],
                             ),
                           ),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            boxShadow: [
-                              BoxShadow(
-                                offset: Offset(0, 1),
-                                color: Colors.black45,
-                                blurRadius: 7.5,
+                          Padding(
+                            padding: EdgeInsets.only(
+                              top: defaultPadding / 4,
+                            ),
+                            child: Text(
+                              category.name,
+                              style: TextStyle(
+                                fontFamily: "Roboto-Regular",
+                                fontWeight: FontWeight.w800,
+                                color: Colors.black54,
+                                fontSize: screenSize.width * 0.0425,
                               ),
-                            ],
+                            ),
                           ),
-                        ),
-                        Spacer(),
-                        Text(
-                          category.name,
-                          style: TextStyle(
-                            fontFamily: "Roboto-Regular",
-                            fontWeight: FontWeight.w800,
-                            color: Colors.black54,
-                            fontSize: screenSize.width * 0.0425,
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 );
