@@ -106,7 +106,7 @@ class _OrdersHistoryScreenState extends State<OrdersHistoryScreen> {
           height: screenSize.height * 0.2,
         ),
         Container(
-          height: screenSize.height * 0.07,
+          height: screenSize.height * 0.0625,
           width: screenSize.width * 0.75,
           child: TextButton(
             child: Text(
