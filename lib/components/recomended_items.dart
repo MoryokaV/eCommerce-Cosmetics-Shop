@@ -36,34 +36,37 @@ class _RecomendedItemsState extends State<RecomendedItems> {
                   ),
                 ),
               ),
-              Container(
-                height: screenSize.height * 0.045,
-                margin: EdgeInsets.only(
-                  left: defaultPadding,
-                  top: 2,
-                ),
-                child: TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    "More",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: "Roboto-Thin",
-                      fontSize: screenSize.height * 0.0275,
-                      fontWeight: FontWeight.bold,
+              FittedBox(
+                fit: BoxFit.fill,
+                child: Container(
+                  height: screenSize.height * 0.04,
+                  margin: EdgeInsets.only(
+                    left: defaultPadding,
+                    top: 2,
+                  ),
+                  child: TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      "More",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: "Roboto-Thin",
+                        fontSize: screenSize.height * 0.02,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                decoration: BoxDecoration(
-                  color: accentColor,
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: [
-                    BoxShadow(
-                      offset: Offset(0, 1),
-                      color: Colors.black38,
-                      blurRadius: 2.5,
-                    ),
-                  ],
+                  decoration: BoxDecoration(
+                    color: accentColor,
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: [
+                      BoxShadow(
+                        offset: Offset(0, 1),
+                        color: Colors.black38,
+                        blurRadius: 2.5,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
