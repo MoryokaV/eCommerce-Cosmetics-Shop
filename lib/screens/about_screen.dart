@@ -87,29 +87,84 @@ class _AboutScreenState extends State<AboutScreen> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(defaultPadding),
+              padding: EdgeInsets.only(
+                top: defaultPadding,
+                left: defaultPadding / 4,
+                right: defaultPadding / 4,
+              ),
               child: Column(
                 children: [
-                  Text(
-                    "Author: Vlaviano Mario-Alexandru",
-                    style: TextStyle(
-                      fontFamily: "Roboto-BoldItalic",
-                      fontSize: screenSize.width * 0.0525,
+                  FittedBox(
+                    fit: BoxFit.contain,
+                    child: Container(
+                      margin: EdgeInsets.all(
+                        defaultPadding / 5,
+                      ),
+                      width: screenSize.width,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Author: Vlaviano Mario-Alexandru",
+                            style: TextStyle(
+                              fontFamily: "Roboto-BoldItalic",
+                              fontSize: screenSize.width * 0.05,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  SizedBox(
-                    height: screenSize.height * 0.025,
+                  FittedBox(
+                    fit: BoxFit.contain,
+                    child: Container(
+                      margin: EdgeInsets.only(
+                        top: defaultPadding / 1.5,
+                        left: defaultPadding / 5,
+                        right: defaultPadding / 5,
+                      ),
+                      width: screenSize.width,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Contact: +4 0736 743 002,",
+                            style: TextStyle(
+                              fontFamily: "Roboto-LightItalic",
+                              fontSize: screenSize.width * 0.05,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                  Text(
-                    "Contact: +4 0736 743 002, \n \t \t \t \t \t mariovlaviano2005@yahoo.com",
-                    style: TextStyle(
-                      fontFamily: "Roboto-LightItalic",
-                      fontSize: screenSize.width * 0.045,
+                  FittedBox(
+                    fit: BoxFit.contain,
+                    child: Container(
+                      margin: EdgeInsets.only(
+                        top: defaultPadding / 10,
+                        left: defaultPadding / 5,
+                        right: defaultPadding / 5,
+                      ),
+                      width: screenSize.width,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            "mariovlaviano2005@yahoo.com",
+                            style: TextStyle(
+                              fontFamily: "Roboto-LightItalic",
+                              fontSize: screenSize.width * 0.05,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Image.asset(
                     "assets/images/misc/signature.png",
                     width: screenSize.width * 0.33,
+                    height: screenSize.width * 0.33,
                   ),
                 ],
               ),
