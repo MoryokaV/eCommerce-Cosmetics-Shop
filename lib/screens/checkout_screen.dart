@@ -6,6 +6,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../models/cart.dart';
+
 class OrderScreen extends StatefulWidget {
   final Order order;
 
@@ -695,6 +697,9 @@ class _OrderScreenState extends State<OrderScreen> {
                         dateTime: dateTime,
                       ),
                     );
+
+                    cartItems.clear();
+
                     Navigator.push(
                       context,
                       MaterialPageRoute(
