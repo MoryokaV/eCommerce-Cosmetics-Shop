@@ -2,7 +2,7 @@ import 'package:cosmetics_shop/models/order.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cosmetics_shop/screens/product_screen.dart';
 import 'package:cosmetics_shop/models/favouriteItems.dart';
-import 'package:cosmetics_shop/screens/order_screen.dart';
+import 'package:cosmetics_shop/screens/checkout_screen.dart';
 import 'package:cosmetics_shop/models/productsList.dart';
 import 'package:cosmetics_shop/models/constants.dart';
 import 'package:cosmetics_shop/models/cart.dart';
@@ -59,10 +59,10 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
   }
 
   String buildOrderDescription(){
-    String desc = " ";
+    String desc = "";
 
     for(int i = 0; i < cartProducts.length; i++)
-      desc += quantities[i].toString() + " x " + cartProducts[i].name + ", ";
+      desc += quantities[i].toString() + " x " + cartProducts[i].name + "\n";
 
     return desc;
   }

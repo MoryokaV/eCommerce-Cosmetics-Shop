@@ -16,51 +16,78 @@ class _OrdersHistoryScreenState extends State<OrdersHistoryScreen> {
       itemCount: orders.length,
       itemBuilder: (BuildContext context, int index) {
         Order order = orders[index];
-        return Container(
-          margin: EdgeInsets.only(
-            top: defaultPadding,
-            bottom: defaultPadding / 1.75,
-          ),
-          padding: EdgeInsets.all(
-            defaultPadding / 1.5,
-          ),
-          height: screenSize.height * 0.07,
-          decoration: BoxDecoration(
-            color: backgroundColor,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black45,
-                offset: Offset(1, 1),
-                blurRadius: 7.5,
-              ),
-            ],
-          ),
-          child: Row(
-            children: [
-              Text(
-                "#" + order.number.toString(),
-                style: TextStyle(
-                  fontFamily: "Calibri",
-                  fontSize: screenSize.width * 0.055,
+        return FittedBox(
+          fit: BoxFit.fill,
+          child: Container(
+            width: screenSize.width,
+            margin: EdgeInsets.only(
+              top: defaultPadding,
+              bottom: defaultPadding / 1.75,
+            ),
+            padding: EdgeInsets.only(
+              left: defaultPadding,
+              right: defaultPadding,
+              top: defaultPadding / 2,
+              bottom: defaultPadding / 2,
+            ),
+            decoration: BoxDecoration(
+              color: backgroundColor,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black45,
+                  offset: Offset(1, 1),
+                  blurRadius: 7.5,
                 ),
-              ),
-              Spacer(),
-              Text(
-                order.dateTime,
-                style: TextStyle(
-                  fontFamily: "Calibri",
-                  fontSize: screenSize.width * 0.055,
+              ],
+            ),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      "#" + order.number.toString(),
+                      style: TextStyle(
+                        fontFamily: "Calibri",
+                        fontSize: screenSize.width * 0.055,
+                      ),
+                    ),
+                    Spacer(),
+                    Text(
+                      order.dateTime,
+                      style: TextStyle(
+                        fontFamily: "Calibri",
+                        fontSize: screenSize.width * 0.055,
+                      ),
+                    ),
+                    Spacer(),
+                    Text(
+                      order.value.toString() + " RON",
+                      style: TextStyle(
+                        fontFamily: "Calibri",
+                        fontSize: screenSize.width * 0.055,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              Spacer(),
-              Text(
-                order.value.toString() + " RON",
-                style: TextStyle(
-                  fontFamily: "Calibri",
-                  fontSize: screenSize.width * 0.055,
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: defaultPadding / 4,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        order.description,
+                        style: TextStyle(
+                          fontFamily: "Roboto-Light",
+                          fontSize: screenSize.width * 0.04,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
@@ -122,8 +149,7 @@ class _OrdersHistoryScreenState extends State<OrdersHistoryScreen> {
               : buildPopUpMessage(screenSize),
           if (orders.length != 0)
             Container(
-              height: screenSize.height * 0.07,
-              width: screenSize.width * 0.75,
+              height: screenSize.height * 0.065,
               margin: EdgeInsets.all(
                 defaultPadding,
               ),

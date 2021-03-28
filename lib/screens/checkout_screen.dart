@@ -682,12 +682,15 @@ class _OrderScreenState extends State<OrderScreen> {
                   });
                   extractControllers();
                   if (checkForCorrectDetails(screenSize)) {
+                    if (shippingMethod == deliveryOptions[0]) {
+                      widget.order.value += deliveryCost;
+                      widget.order.description += "Standard Delivery";
+                    }
+
                     orders.add(
                       Order(
                         number: widget.order.number,
-                        value: shippingMethod == deliveryOptions[0]
-                            ? widget.order.value + deliveryCost
-                            : widget.order.value,
+                        value: widget.order.value,
                         description: widget.order.description,
                         dateTime: dateTime,
                       ),
@@ -695,7 +698,9 @@ class _OrderScreenState extends State<OrderScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => CongratsScreen(number: widget.order.number,),
+                        builder: (_) => CongratsScreen(
+                          number: widget.order.number,
+                        ),
                       ),
                     );
                   }
