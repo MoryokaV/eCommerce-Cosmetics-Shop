@@ -45,11 +45,20 @@ class _AboutScreenState extends State<AboutScreen> {
                 ),
               ],
             ),
-            FlutterLogo(),
+            Image.asset(
+              "assets/images/launcher_ic.png",
+              width: screenSize.width * 0.25,
+              height: screenSize.width * 0.25,
+            ),
             Padding(
               padding: EdgeInsets.all(defaultPadding),
               child: Text(
                 "Your company title here",
+                style: TextStyle(
+                  fontSize: screenSize.width * 0.05,
+                  fontFamily: "Arial",
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             Padding(
@@ -58,6 +67,10 @@ class _AboutScreenState extends State<AboutScreen> {
                 "Description here",
                 softWrap: false,
                 overflow: TextOverflow.fade,
+                style: TextStyle(
+                  fontSize: screenSize.width * 0.04,
+                  fontWeight: FontWeight.w300,
+                ),
               ),
             ),
             Padding(
@@ -66,6 +79,11 @@ class _AboutScreenState extends State<AboutScreen> {
                 "App version vX.Y.Z",
                 softWrap: false,
                 overflow: TextOverflow.fade,
+                style: TextStyle(
+                  fontSize: screenSize.width * 0.05,
+                  fontFamily: "Arial",
+                  fontWeight: FontWeight.w400,
+                ),
               ),
             ),
             Padding(
