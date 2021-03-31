@@ -1,3 +1,4 @@
+import 'package:cosmetics_shop/components/viewAll_screen.dart';
 import 'package:cosmetics_shop/models/constants.dart';
 import 'package:cosmetics_shop/screens/product_screen.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,14 @@ class _RecomendedItemsState extends State<RecomendedItems> {
                     top: 2,
                   ),
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => ViewAllScreen(),
+                        ),
+                      );
+                    },
                     child: Text(
                       "More",
                       style: TextStyle(

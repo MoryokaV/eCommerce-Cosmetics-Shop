@@ -1,6 +1,5 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cosmetics_shop/screens/product_screen.dart';
-import 'package:cosmetics_shop/models/categoriesList.dart';
 import 'package:cosmetics_shop/models/favouriteItems.dart';
 import 'package:cosmetics_shop/models/productsList.dart';
 import 'package:cosmetics_shop/screens/cart_screen.dart';
@@ -11,17 +10,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
-class CategoryScreen extends StatefulWidget {
-  final Category category;
-
-  CategoryScreen({this.category});
+class ViewAllScreen extends StatefulWidget {
   @override
-  _CategoryScreenState createState() => _CategoryScreenState();
+  _ViewAllScreenState createState() => _ViewAllScreenState();
 }
 
-class _CategoryScreenState extends State<CategoryScreen> {
-  List<Product> categoryProducts = [];
+class _ViewAllScreenState extends State<ViewAllScreen> {
   List<bool> fav = [];
+
+  void initState() {
+    favouritesGathering();
+    super.initState();
+  }
 
   void addToCart(int id) {
     for (int i = 0; i < cartItems.length; i++) {
@@ -70,9 +70,12 @@ class _CategoryScreenState extends State<CategoryScreen> {
   }
 
   void favouritesGathering() {
-    for (int i = 0; i < categoryProducts.length; i++) {
+    for (int i = 0; i < products.length; i++) {
+      fav.add(
+        false,
+      );
       for (int j = 0; j < favourites.length; j++) {
-        if (favourites[j].productID == categoryProducts[i].id) {
+        if (favourites[j].productID == products[i].id) {
           fav[i] = true;
           break;
         }
@@ -80,31 +83,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
     }
   }
 
-  void productsGathering() {
-    categoryProducts = [];
-    fav = [];
-    for (int i = 0; i < products.length; i++) {
-      if (products[i].categoryID == widget.category.id) {
-        categoryProducts.add(
-          products[i],
-        );
-        fav.add(
-          false,
-        );
-      }
-    }
-  }
-
-  void initState() {
-    productsGathering();
-    favouritesGathering();
-
-    super.initState();
-  }
-
   Future<Null> _onRefresh() async {
     setState(() {
-      productsGathering();
       favouritesGathering();
     });
   }
@@ -114,7 +94,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
     Size screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: buildAppBar(),
+      appBar: buildAppBar(context, screenSize),
       body: SafeArea(
         child: Column(
           children: [
@@ -125,7 +105,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   physics: const AlwaysScrollableScrollPhysics(),
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
-                  itemCount: categoryProducts.length,
+                  itemCount: products.length,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
                       onTap: () {
@@ -133,7 +113,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (_) => ProductScreen(
-                              product: categoryProducts[index],
+                              product: products[index],
                             ),
                           ),
                         );
@@ -151,7 +131,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                               height: screenSize.height * 0.2,
                               width: screenSize.width * 0.35,
                               child: Image.asset(
-                                categoryProducts[index].imagePath,
+                                products[index].imagePath,
                               ),
                             ),
                             Column(
@@ -170,10 +150,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                       width: screenSize.width * 0.525,
                                       child: Text(
                                         "\t\t" +
-                                            categoryProducts[index].name +
+                                            products[index].name +
                                             " - " +
-                                            categoryProducts[index]
-                                                .shortDescription,
+                                            products[index].shortDescription,
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 2,
                                         style: TextStyle(
@@ -194,7 +173,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                         onPressed: () => toggleFavourites(
                                             screenSize,
                                             index,
-                                            categoryProducts[index].id),
+                                            products[index].id),
                                         iconSize: screenSize.height *
                                             screenSize.width *
                                             0.0000575,
@@ -211,9 +190,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                         left: defaultPadding / 2,
                                       ),
                                       child: Text(
-                                        categoryProducts[index]
-                                                .price
-                                                .toString() +
+                                        products[index].price.toString() +
                                             " RON",
                                         style: TextStyle(
                                           fontFamily: "Roboto-Medium",
@@ -269,8 +246,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                             CupertinoDialogAction(
                                               child: const Text("No"),
                                               onPressed: () {
-                                                addToCart(
-                                                    categoryProducts[index].id);
+                                                addToCart(products[index].id);
                                                 Navigator.of(dialogContext,
                                                         rootNavigator: true)
                                                     .pop();
@@ -279,8 +255,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                             CupertinoDialogAction(
                                               child: const Text("Yes"),
                                               onPressed: () {
-                                                addToCart(
-                                                    categoryProducts[index].id);
+                                                addToCart(products[index].id);
                                                 Navigator.of(dialogContext,
                                                         rootNavigator: true)
                                                     .pop();
@@ -350,22 +325,18 @@ class _CategoryScreenState extends State<CategoryScreen> {
     );
   }
 
-  Widget buildAppBar() {
-    Size screenSize = MediaQuery.of(context).size;
+  Widget buildAppBar(BuildContext context, Size screenSize) {
     return AppBar(
       elevation: 5,
-      automaticallyImplyLeading: false,
       backgroundColor: accentColor,
       leading: IconButton(
-        icon: Icon(
-          Icons.arrow_back_ios,
-        ),
+        icon: Icon(Icons.arrow_back_ios),
+        color: Colors.white,
         onPressed: () => Navigator.pop(context),
-        color: primaryColor,
       ),
       centerTitle: true,
       title: Text(
-        widget.category.name,
+        "All Products",
         style: TextStyle(
           color: primaryColor,
           fontSize: screenSize.width * 0.06,
