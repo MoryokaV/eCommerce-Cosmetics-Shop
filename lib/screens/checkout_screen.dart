@@ -5,8 +5,8 @@ import 'package:cosmetics_shop/models/order.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-import '../models/cart.dart';
+import 'package:cosmetics_shop/models/cart.dart';
+import 'package:cosmetics_shop/models/accountDetails.dart';
 
 class OrderScreen extends StatefulWidget {
   final Order order;
@@ -34,10 +34,10 @@ class _OrderScreenState extends State<OrderScreen> {
 
   String fullName = "";
   String email = "";
-  String phoneNumber = "";
+  int phoneNumber;
   String address = "";
   String notes = "";
-  String zip = "";
+  int zip;
 
   String destinationCity = destinationCities[0];
   String destinationCountry = destinationCountries[0];
@@ -76,10 +76,10 @@ class _OrderScreenState extends State<OrderScreen> {
     setState(() {
       fullName = _controllerName.text;
       email = _controllerEmail.text;
-      phoneNumber = _controllerPhone.text;
+      phoneNumber = int.parse(_controllerPhone.text);
       address = _controllerAddress.text;
       notes = _controllerDetails.text;
-      zip = _controllerZip.text;
+      zip = int.parse(_controllerZip.text);
     });
   }
 
@@ -106,7 +106,7 @@ class _OrderScreenState extends State<OrderScreen> {
       validFields[1] = true;
     }
 
-    if (!validNumbers.hasMatch(phoneNumber)) {
+    if (!validNumbers.hasMatch(phoneNumber.toString())) {
       displayMessage(screenSize, "phone number");
       setState(() {
         validFields[2] = false;
@@ -275,7 +275,7 @@ class _OrderScreenState extends State<OrderScreen> {
                     keyboardType: TextInputType.number,
                     focusNode: _focusNodePhone,
                     onSubmitted: (newValue) {
-                      phoneNumber = newValue;
+                      phoneNumber = int.parse(newValue);
                       FocusScope.of(context).unfocus();
                     },
                     controller: _controllerPhone,
@@ -439,7 +439,8 @@ class _OrderScreenState extends State<OrderScreen> {
                       child: Center(
                         child: TextField(
                           focusNode: _focusNodeZip,
-                          onSubmitted: (string) {
+                          onSubmitted: (newValue) {
+                            zip = int.parse(newValue);
                             FocusScope.of(context).unfocus();
                           },
                           controller: _controllerZip,
@@ -688,6 +689,16 @@ class _OrderScreenState extends State<OrderScreen> {
                       widget.order.value += deliveryCost;
                       widget.order.description += "Standard Delivery";
                     }
+
+                    if(saveDetails){
+                      user.name = fullName;
+                      user.email = email;
+                      user.phone = phoneNumber;
+                      user.address = address;
+                      user.zipcode = zip;
+                    } 
+
+                    //print(user.name + " " + user.email + " " + user.phone.toString() + " " + user.address + " " + user.zipcode.toString());
 
                     orders.add(
                       Order(
