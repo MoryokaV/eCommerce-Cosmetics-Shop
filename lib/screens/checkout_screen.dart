@@ -32,12 +32,12 @@ class _OrderScreenState extends State<OrderScreen> {
   String notes = "";
   int zip;
 
-  TextEditingController _controllerName;
-  TextEditingController _controllerAddress;
-  TextEditingController _controllerZip;
-  TextEditingController _controllerEmail;
-  TextEditingController _controllerPhone;
-  TextEditingController _controllerDetails;
+  TextEditingController _controllerName = new TextEditingController();
+  TextEditingController _controllerAddress = new TextEditingController();
+  TextEditingController _controllerZip = new TextEditingController();
+  TextEditingController _controllerEmail = new TextEditingController();
+  TextEditingController _controllerPhone = new TextEditingController();
+  TextEditingController _controllerDetails = new TextEditingController();
 
   String destinationCity = destinationCities[0];
   String destinationCountry = destinationCountries[0];
@@ -64,39 +64,29 @@ class _OrderScreenState extends State<OrderScreen> {
     setState(() {
       if (user.name != null) {
         fullName = user.name;
-        _controllerName = new TextEditingController(text: fullName);
-      } else {
-        _controllerName = new TextEditingController();
+        _controllerName.text = fullName;
       }
 
       if (user.email != null) {
         email = user.email;
-        _controllerEmail = new TextEditingController(text: email);
-      } else {
-        _controllerEmail = new TextEditingController();
+        _controllerEmail.text = email;
       }
 
       if (user.phone != null) {
         phoneNumber = user.phone;
-        _controllerPhone =
-            new TextEditingController(text: phoneNumber.toString());
-      } else {
-        _controllerPhone = new TextEditingController();
+        _controllerPhone.text = phoneNumber.toString();
       }
 
       if (user.address != null) {
-        address = user.email;
-        _controllerAddress = new TextEditingController(text: address);
-      } else {
-        _controllerAddress = new TextEditingController();
+        address = user.address;
+        _controllerAddress.text = address;
       }
 
       if (user.zipcode != null) {
         zip = user.zipcode;
-        _controllerZip = new TextEditingController(text: zip.toString());
-      } else {
-        _controllerZip = new TextEditingController();
+        _controllerZip.text = zip.toString();
       }
+
     });
   }
 
@@ -742,6 +732,8 @@ class _OrderScreenState extends State<OrderScreen> {
                       user.address = address;
                       user.zipcode = zip;
                     }
+
+                    print(user.address);
 
                     //print(user.name + " " + user.email + " " + user.phone.toString() + " " + user.address + " " + user.zipcode.toString());
 
