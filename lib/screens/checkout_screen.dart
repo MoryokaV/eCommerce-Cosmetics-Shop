@@ -25,19 +25,19 @@ class _OrderScreenState extends State<OrderScreen> {
   FocusNode _focusNodePhone = new FocusNode();
   FocusNode _focusNodeDetails = new FocusNode();
 
-  TextEditingController _controllerName = new TextEditingController();
-  TextEditingController _controllerAddress = new TextEditingController();
-  TextEditingController _controllerZip = new TextEditingController();
-  TextEditingController _controllerEmail = new TextEditingController();
-  TextEditingController _controllerPhone = new TextEditingController();
-  TextEditingController _controllerDetails = new TextEditingController();
-
   String fullName = "";
   String email = "";
   int phoneNumber;
   String address = "";
   String notes = "";
   int zip;
+
+  TextEditingController _controllerName;
+  TextEditingController _controllerAddress;
+  TextEditingController _controllerZip;
+  TextEditingController _controllerEmail;
+  TextEditingController _controllerPhone;
+  TextEditingController _controllerDetails;
 
   String destinationCity = destinationCities[0];
   String destinationCountry = destinationCountries[0];
@@ -59,6 +59,51 @@ class _OrderScreenState extends State<OrderScreen> {
   static final DateTime now = DateTime.now();
   static final DateFormat formatter = DateFormat("dd-MM-yyyy");
   final String dateTime = formatter.format(now);
+
+  void loadAccountDetails() {
+    setState(() {
+      if (user.name != null) {
+        fullName = user.name;
+        _controllerName = new TextEditingController(text: fullName);
+      } else {
+        _controllerName = new TextEditingController();
+      }
+
+      if (user.email != null) {
+        email = user.email;
+        _controllerEmail = new TextEditingController(text: email);
+      } else {
+        _controllerEmail = new TextEditingController();
+      }
+
+      if (user.phone != null) {
+        phoneNumber = user.phone;
+        _controllerPhone =
+            new TextEditingController(text: phoneNumber.toString());
+      } else {
+        _controllerPhone = new TextEditingController();
+      }
+
+      if (user.address != null) {
+        address = user.email;
+        _controllerAddress = new TextEditingController(text: address);
+      } else {
+        _controllerAddress = new TextEditingController();
+      }
+
+      if (user.zipcode != null) {
+        zip = user.zipcode;
+        _controllerZip = new TextEditingController(text: zip.toString());
+      } else {
+        _controllerZip = new TextEditingController();
+      }
+    });
+  }
+
+  void initState() {
+    loadAccountDetails();
+    super.initState();
+  }
 
   void displayMessage(Size screenSize, String fieldName) {
     Fluttertoast.showToast(
@@ -690,13 +735,13 @@ class _OrderScreenState extends State<OrderScreen> {
                       widget.order.description += "Standard Delivery";
                     }
 
-                    if(saveDetails){
+                    if (saveDetails) {
                       user.name = fullName;
                       user.email = email;
                       user.phone = phoneNumber;
                       user.address = address;
                       user.zipcode = zip;
-                    } 
+                    }
 
                     //print(user.name + " " + user.email + " " + user.phone.toString() + " " + user.address + " " + user.zipcode.toString());
 
