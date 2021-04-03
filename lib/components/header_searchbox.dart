@@ -13,23 +13,28 @@ class _SearchDialogState extends State<SearchDialog> {
   bool showNamePrice = true;
   String name = "";
   String price = "";
+  List list;
 
   List getProduct() {
     int index = Random().nextInt(products.length);
-    return [products[index].name, "Only " + products[index].price.toString() + " RON"];
+    return [
+      products[index].name,
+      "Only " + products[index].price.toString() + " RON"
+    ];
   }
 
   void toggleAntimations() {
     Timer.periodic(Duration(seconds: 5), (timer) {
       setState(() {
         showNamePrice = !showNamePrice;
-        retrieveValues();
+        if(showNamePrice)
+          retrieveValues();
       });
     });
   }
 
   void retrieveValues() {
-    List list = getProduct();
+    list = getProduct();
 
     name = list[0];
     price = list[1];
@@ -37,7 +42,7 @@ class _SearchDialogState extends State<SearchDialog> {
 
   void initState() {
     super.initState();
-
+    retrieveValues();
     toggleAntimations();
   }
 
@@ -108,7 +113,7 @@ class _SearchDialogState extends State<SearchDialog> {
                             name,
                             style: TextStyle(
                               fontFamily: "Arial",
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w600,
                               fontSize: screenSize.height * 0.03,
                               color: accentColor,
                             ),
@@ -119,15 +124,15 @@ class _SearchDialogState extends State<SearchDialog> {
                               fontFamily: "Arial",
                               fontWeight: FontWeight.w500,
                               fontSize: screenSize.height * 0.025,
-                              color: accentColor,
+                              color: Colors.green[600],
                             ),
                           ),
                           crossFadeState: showNamePrice
                               ? CrossFadeState.showFirst
                               : CrossFadeState.showSecond,
-                          firstCurve: Curves.fastOutSlowIn,
-                          secondCurve: Curves.fastOutSlowIn,
-                          sizeCurve: Curves.fastOutSlowIn,
+                          firstCurve: Curves.easeOut,
+                          secondCurve: Curves.easeIn,
+                          sizeCurve: Curves.bounceOut,
                           duration: Duration(seconds: 1),
                         ),
                         Icon(
