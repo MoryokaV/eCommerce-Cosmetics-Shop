@@ -1,5 +1,8 @@
-import 'package:cosmetics_shop/models/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:cosmetics_shop/models/constants.dart';
+import 'package:cosmetics_shop/models/products.dart';
+import 'dart:async';
+import 'dart:math';
 
 class SearchDialog extends StatefulWidget {
   @override
@@ -7,17 +10,51 @@ class SearchDialog extends StatefulWidget {
 }
 
 class _SearchDialogState extends State<SearchDialog> {
+  bool showNamePrice = true;
+  String name = "";
+  String price = "";
+
+  List getProduct() {
+    int index = Random().nextInt(products.length);
+    return [products[index].name, "Only " + products[index].price.toString() + " RON"];
+  }
+
+  void toggleAntimations() {
+    Timer.periodic(Duration(seconds: 5), (timer) {
+      setState(() {
+        showNamePrice = !showNamePrice;
+        retrieveValues();
+      });
+    });
+  }
+
+  void retrieveValues() {
+    List list = getProduct();
+
+    name = list[0];
+    price = list[1];
+  }
+
+  void initState() {
+    super.initState();
+
+    toggleAntimations();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return Column(
       children: [
         Container(
-          height: screenSize.height * 0.2,
+          margin: EdgeInsets.only(
+            bottom: defaultPadding / 1.5,
+          ),
+          height: screenSize.height * 0.175,
           child: Stack(
             children: <Widget>[
               Container(
-                height: screenSize.height * 0.185,
+                height: screenSize.height * 0.15,
                 width: screenSize.width,
                 padding: EdgeInsets.only(
                   top: defaultPadding / 4,
@@ -46,44 +83,60 @@ class _SearchDialogState extends State<SearchDialog> {
                 right: 0,
                 left: 0,
                 child: Container(
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.symmetric(horizontal: defaultPadding - 5),
-                  padding: EdgeInsets.symmetric(horizontal: defaultPadding - 5),
-                  height: 54,
-                  decoration: BoxDecoration(
-                    color: primaryColor,
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black38,
-                        offset: Offset(0, 10),
-                        blurRadius: 25,
-                      ),
-                    ],
-                  ),
-                  child: TextField(
-                    onSubmitted: (string) {
-                      FocusScope.of(context).unfocus();
-                    },
-                    decoration: InputDecoration(
-                      hintText: "Search",
-                      fillColor: primaryColor,
-                      hintStyle: TextStyle(
-                        color: accentColor.withOpacity(0.75),
-                        fontWeight: FontWeight.w700,
-                        fontFamily: "Roboto-Light",
-                        fontSize: 22,
-                      ),
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      suffixIcon: Icon(
-                        Icons.search,
-                        color: accentColor,
-                        size: 35,
-                      ),
+                    alignment: Alignment.center,
+                    margin:
+                        EdgeInsets.symmetric(horizontal: defaultPadding - 5),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: defaultPadding - 5),
+                    height: screenSize.height * 0.055,
+                    decoration: BoxDecoration(
+                      color: primaryColor,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black38,
+                          offset: Offset(0, 10),
+                          blurRadius: 25,
+                        ),
+                      ],
                     ),
-                  ),
-                ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        AnimatedCrossFade(
+                          firstChild: Text(
+                            name,
+                            style: TextStyle(
+                              fontFamily: "Arial",
+                              fontWeight: FontWeight.w500,
+                              fontSize: screenSize.height * 0.03,
+                              color: accentColor,
+                            ),
+                          ),
+                          secondChild: Text(
+                            price,
+                            style: TextStyle(
+                              fontFamily: "Arial",
+                              fontWeight: FontWeight.w500,
+                              fontSize: screenSize.height * 0.025,
+                              color: accentColor,
+                            ),
+                          ),
+                          crossFadeState: showNamePrice
+                              ? CrossFadeState.showFirst
+                              : CrossFadeState.showSecond,
+                          firstCurve: Curves.fastOutSlowIn,
+                          secondCurve: Curves.fastOutSlowIn,
+                          sizeCurve: Curves.fastOutSlowIn,
+                          duration: Duration(seconds: 1),
+                        ),
+                        Icon(
+                          Icons.trending_up_rounded,
+                          color: accentColor,
+                          size: screenSize.height * 0.035,
+                        ),
+                      ],
+                    )),
               )
             ],
           ),

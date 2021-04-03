@@ -1,9 +1,9 @@
 import 'package:cosmetics_shop/models/order.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cosmetics_shop/screens/product_screen.dart';
-import 'package:cosmetics_shop/models/favouriteItems.dart';
+import 'package:cosmetics_shop/models/favourites.dart';
 import 'package:cosmetics_shop/screens/checkout_screen.dart';
-import 'package:cosmetics_shop/models/productsList.dart';
+import 'package:cosmetics_shop/models/products.dart';
 import 'package:cosmetics_shop/models/constants.dart';
 import 'package:cosmetics_shop/models/cart.dart';
 import 'package:fluttertoast/fluttertoast.dart';

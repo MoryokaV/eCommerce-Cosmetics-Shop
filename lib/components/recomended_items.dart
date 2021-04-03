@@ -2,7 +2,7 @@ import 'package:cosmetics_shop/components/viewAll_screen.dart';
 import 'package:cosmetics_shop/models/constants.dart';
 import 'package:cosmetics_shop/screens/product_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:cosmetics_shop/models/productsList.dart';
+import 'package:cosmetics_shop/models/products.dart';
 
 class RecomendedItems extends StatefulWidget {
   @override
