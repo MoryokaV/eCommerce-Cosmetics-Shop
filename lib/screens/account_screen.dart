@@ -2,6 +2,7 @@ import 'package:cosmetics_shop/models/constants.dart';
 import 'package:cosmetics_shop/screens/about_screen.dart';
 import 'package:cosmetics_shop/screens/cart_screen.dart';
 import 'package:cosmetics_shop/screens/ordersHistory_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -75,7 +76,7 @@ class _AccountScreenState extends State<AccountScreen> {
             GestureDetector(
               onTap: () => Navigator.push(
                 context,
-                MaterialPageRoute(
+                CupertinoPageRoute(
                   builder: (_) => CartScreen(),
                 ),
               ),
@@ -129,7 +130,7 @@ class _AccountScreenState extends State<AccountScreen> {
             GestureDetector(
               onTap: () => Navigator.push(
                 context,
-                MaterialPageRoute(
+                CupertinoPageRoute(
                   builder: (_) => OrdersHistoryScreen(),
                 ),
               ),
@@ -183,7 +184,7 @@ class _AccountScreenState extends State<AccountScreen> {
             GestureDetector(
               onTap: () => Navigator.push(
                 context,
-                MaterialPageRoute(
+                CupertinoPageRoute(
                   builder: (_) => AboutScreen(),
                 ),
               ),

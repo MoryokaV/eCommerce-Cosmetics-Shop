@@ -1,4 +1,5 @@
 import 'package:cosmetics_shop/models/order.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cosmetics_shop/screens/product_screen.dart';
 import 'package:cosmetics_shop/models/favourites.dart';
@@ -138,7 +139,7 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
           return GestureDetector(
             onTap: () => Navigator.push(
               context,
-              MaterialPageRoute(
+              CupertinoPageRoute(
                 builder: (_) => ProductScreen(
                   product: cartProducts[index],
                 ),
@@ -501,7 +502,7 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                   Timer(Duration(seconds: 1), () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
+                      CupertinoPageRoute(
                         builder: (_) => OrderScreen(
                           order: new Order(
                             number: orders.length != 0 ? orders[orders.length - 1].number + 1 : 1,

@@ -1,5 +1,6 @@
 import 'package:cosmetics_shop/screens/category_screen.dart';
 import 'package:cosmetics_shop/models/constants.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cosmetics_shop/models/categories.dart';
 
@@ -47,7 +48,7 @@ class _CategoriesListState extends State<CategoriesList> {
                 return GestureDetector(
                   onTap: () => Navigator.push(
                     context,
-                    MaterialPageRoute(
+                    CupertinoPageRoute(
                       builder: (_) => CategoryScreen(
                         category: category,
                       ),

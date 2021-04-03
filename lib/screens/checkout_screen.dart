@@ -2,6 +2,7 @@ import 'package:cosmetics_shop/screens/congrats_screen.dart';
 import 'package:cosmetics_shop/models/constants.dart';
 import 'package:cosmetics_shop/templateLayer.dart';
 import 'package:cosmetics_shop/models/order.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -86,7 +87,6 @@ class _OrderScreenState extends State<OrderScreen> {
         zip = user.zipcode;
         _controllerZip.text = zip.toString();
       }
-
     });
   }
 
@@ -750,7 +750,7 @@ class _OrderScreenState extends State<OrderScreen> {
 
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
+                      CupertinoPageRoute(
                         builder: (_) => CongratsScreen(
                           number: widget.order.number,
                         ),
@@ -827,7 +827,7 @@ class _OrderScreenState extends State<OrderScreen> {
             color: primaryColor,
             onPressed: () => Navigator.push(
               context,
-              MaterialPageRoute(
+              CupertinoPageRoute(
                 builder: (_) => TemplateLayer(),
               ),
             ),

@@ -1,6 +1,7 @@
 import 'package:cosmetics_shop/components/viewAll_screen.dart';
 import 'package:cosmetics_shop/models/constants.dart';
 import 'package:cosmetics_shop/screens/product_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cosmetics_shop/models/products.dart';
 
@@ -49,7 +50,7 @@ class _RecomendedItemsState extends State<RecomendedItems> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
+                        CupertinoPageRoute(
                           builder: (_) => ViewAllScreen(),
                         ),
                       );
@@ -100,7 +101,7 @@ class _RecomendedItemsState extends State<RecomendedItems> {
               return GestureDetector(
                 onTap: () => Navigator.push(
                   context,
-                  MaterialPageRoute(
+                  CupertinoPageRoute(
                     builder: (_) => ProductScreen(
                       product: product,
                     ),

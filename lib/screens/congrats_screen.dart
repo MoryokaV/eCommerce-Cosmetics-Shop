@@ -1,5 +1,6 @@
 import 'package:cosmetics_shop/models/constants.dart';
 import 'package:cosmetics_shop/templateLayer.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 
@@ -78,7 +79,7 @@ class _CongratsScreenState extends State<CongratsScreen> {
                   //send message
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
+                    CupertinoPageRoute(
                       builder: (_) => TemplateLayer(),
                     ),
                   );
@@ -151,7 +152,7 @@ class _CongratsScreenState extends State<CongratsScreen> {
             color: primaryColor,
             onPressed: () => Navigator.push(
               context,
-              MaterialPageRoute(
+              CupertinoPageRoute(
                 builder: (_) => TemplateLayer(),
               ),
             ),

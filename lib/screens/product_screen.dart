@@ -152,7 +152,7 @@ class _ProductScreenState extends State<ProductScreen> {
                           onPressed: () => {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
+                              CupertinoPageRoute(
                                 builder: (_) => CartScreen(),
                               ),
                             )
@@ -190,7 +190,8 @@ class _ProductScreenState extends State<ProductScreen> {
                           quantity.toString(),
                           style: TextStyle(
                             fontFamily: "Calibri",
-                            fontSize: screenSize.width * screenSize.height * 0.0001,
+                            fontSize:
+                                screenSize.width * screenSize.height * 0.0001,
                             color: Colors.black54,
                           ),
                         ),
@@ -391,7 +392,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                 .pop();
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
+                              CupertinoPageRoute(
                                 builder: (_) => CartScreen(),
                               ),
                             );

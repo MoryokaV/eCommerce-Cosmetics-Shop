@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:cosmetics_shop/models/constants.dart';
 import 'package:cosmetics_shop/screens/product_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cosmetics_shop/models/favourites.dart';
 import 'package:cosmetics_shop/models/products.dart';
@@ -72,7 +73,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
                 return GestureDetector(
                   onTap: () => Navigator.push(
                     context,
-                    MaterialPageRoute(
+                    CupertinoPageRoute(
                       builder: (_) => ProductScreen(
                         product: favProducts[index],
                       ),

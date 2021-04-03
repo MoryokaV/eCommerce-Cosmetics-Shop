@@ -111,7 +111,7 @@ class _ViewAllScreenState extends State<ViewAllScreen> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
+                          CupertinoPageRoute(
                             builder: (_) => ProductScreen(
                               product: products[index],
                             ),
@@ -261,7 +261,7 @@ class _ViewAllScreenState extends State<ViewAllScreen> {
                                                     .pop();
                                                 Navigator.push(
                                                   context,
-                                                  MaterialPageRoute(
+                                                  CupertinoPageRoute(
                                                     builder: (_) =>
                                                         CartScreen(),
                                                   ),

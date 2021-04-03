@@ -131,7 +131,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
+                          CupertinoPageRoute(
                             builder: (_) => ProductScreen(
                               product: categoryProducts[index],
                             ),
@@ -286,7 +286,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                                     .pop();
                                                 Navigator.push(
                                                   context,
-                                                  MaterialPageRoute(
+                                                  CupertinoPageRoute(
                                                     builder: (_) =>
                                                         CartScreen(),
                                                   ),
