@@ -1,5 +1,6 @@
 import 'package:cosmetics_shop/screens/congrats_screen.dart';
 import 'package:cosmetics_shop/models/constants.dart';
+import 'package:cosmetics_shop/services/mail.dart';
 import 'package:cosmetics_shop/templateLayer.dart';
 import 'package:cosmetics_shop/models/order.dart';
 import 'package:flutter/cupertino.dart';
@@ -732,8 +733,6 @@ class _OrderScreenState extends State<OrderScreen> {
                       user.address = address;
                       user.zipcode = zip;
                     }
-
-                    print(user.address);
 
                     //print(user.name + " " + user.email + " " + user.phone.toString() + " " + user.address + " " + user.zipcode.toString());
 
