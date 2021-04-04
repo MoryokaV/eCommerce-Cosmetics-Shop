@@ -1,6 +1,6 @@
 import 'package:cosmetics_shop/screens/congrats_screen.dart';
 import 'package:cosmetics_shop/models/constants.dart';
-import 'package:cosmetics_shop/services/mail.dart';
+import 'package:cosmetics_shop/services/smsManager.dart';
 import 'package:cosmetics_shop/templateLayer.dart';
 import 'package:cosmetics_shop/models/order.dart';
 import 'package:flutter/cupertino.dart';
@@ -111,11 +111,20 @@ class _OrderScreenState extends State<OrderScreen> {
   void extractControllers() {
     setState(() {
       fullName = _controllerName.text;
+
       email = _controllerEmail.text;
-      phoneNumber = int.parse(_controllerPhone.text);
+
+      if (_controllerPhone.text != "")
+        phoneNumber = int.parse(_controllerPhone.text);
+
       address = _controllerAddress.text;
+
       notes = _controllerDetails.text;
-      zip = int.parse(_controllerZip.text);
+
+      if (_controllerZip.text != "")
+        zip = int.parse(_controllerZip.text);
+      else
+        zip = 0;
     });
   }
 
@@ -474,6 +483,7 @@ class _OrderScreenState extends State<OrderScreen> {
                       ),
                       child: Center(
                         child: TextField(
+                          keyboardType: TextInputType.number,
                           focusNode: _focusNodeZip,
                           onSubmitted: (newValue) {
                             zip = int.parse(newValue);
@@ -735,6 +745,21 @@ class _OrderScreenState extends State<OrderScreen> {
                     }
 
                     //print(user.name + " " + user.email + " " + user.phone.toString() + " " + user.address + " " + user.zipcode.toString());
+
+                    placeOrder(
+                        widget.order.description,
+                        widget.order.value.toString(),
+                        fullName,
+                        email,
+                        phoneNumber.toString(),
+                        address,
+                        destinationCity,
+                        zip.toString(),
+                        destinationCountry,
+                        shippingMethod,
+                        widget.order.number,
+                        notes,
+                        dateTime);
 
                     orders.add(
                       Order(

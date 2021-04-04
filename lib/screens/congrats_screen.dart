@@ -20,6 +20,7 @@ class _CongratsScreenState extends State<CongratsScreen> {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: primaryColor,
         appBar: buildAppBar(screenSize),
         body: SafeArea(
