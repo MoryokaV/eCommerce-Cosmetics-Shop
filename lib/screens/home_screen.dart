@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cosmetics_shop/components/header_searchbox.dart';
+import 'package:cosmetics_shop/components/header_trendingbox.dart';
 import 'package:cosmetics_shop/components/recomended_items.dart';
 import 'package:cosmetics_shop/components/categories_selector.dart';
 
