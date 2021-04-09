@@ -1,9 +1,11 @@
 import 'package:cosmetics_shop/components/splash_screen.dart';
 import 'package:cosmetics_shop/models/constants.dart';
+import 'package:cosmetics_shop/services/databaseHandler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-void main() {
+void main() async{
+  initDatabase();
   runApp(MyApp());
 }
 
