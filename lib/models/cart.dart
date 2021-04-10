@@ -6,6 +6,11 @@ class Cart {
     this.productID,
     this.productQuantity,
   });
-}
 
-List<Cart> cartItems = [];
+  Map<String, dynamic> toMap(){
+    return{
+      'productID' : productID,
+      'productQuantity' : productQuantity,
+    };
+  }
+}

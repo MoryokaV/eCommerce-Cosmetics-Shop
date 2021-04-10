@@ -4,6 +4,10 @@ class Favourite {
   Favourite({
     this.productID,
   });
-}
 
-List<Favourite> favourites = [];
+  Map<String, dynamic> toMap() {
+    return {
+      'productID': productID,
+    };
+  }
+}

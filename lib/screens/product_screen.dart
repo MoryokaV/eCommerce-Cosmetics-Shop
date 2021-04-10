@@ -4,6 +4,7 @@ import 'package:cosmetics_shop/models/products.dart';
 import 'package:cosmetics_shop/screens/cart_screen.dart';
 import 'package:cosmetics_shop/models/constants.dart';
 import 'package:cosmetics_shop/models/cart.dart';
+import 'package:cosmetics_shop/services/databaseHandler.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,19 +20,26 @@ class ProductScreen extends StatefulWidget {
 }
 
 class _ProductScreenState extends State<ProductScreen> {
-  Icon favicon = Icon(FontAwesomeIcons.heart);
   bool fav = false;
   int quantity = 1;
 
-  void addToCart(int id) {
+  void addToCart(int id) async {
+    List<Cart> cartItems = await retrieveCart();
+
     for (int i = 0; i < cartItems.length; i++) {
       if (cartItems[i].productID == id) {
-        cartItems[i].productQuantity++;
+        await updateCartQuantity(
+          Cart(
+            productID: id,
+            productQuantity: cartItems[i].productQuantity + 1,
+          ),
+        );
+
         return;
       }
     }
 
-    cartItems.add(
+    await insertCartItem(
       Cart(
         productID: id,
         productQuantity: quantity,
@@ -45,38 +53,38 @@ class _ProductScreenState extends State<ProductScreen> {
     });
   }
 
-  void initState() {
-    super.initState();
-
-    checkFavourite();
-  }
-
   void removeQuantity() {
     setState(() {
       if (quantity > 1) quantity--;
     });
   }
 
-  void checkFavourite() {
-    setState(() {
-      for (int i = 0; i < favourites.length; i++) {
-        if (favourites[i].productID == widget.product.id) {
-          fav = true;
-          favicon = Icon(FontAwesomeIcons.solidHeart);
-          return;
-        }
-      }
-      fav = false;
-      favicon = Icon(FontAwesomeIcons.heart);
-    });
+  void initState() {
+    super.initState();
+    checkFavourite();
   }
 
-  void addFavourites(Size screenSize) {
-    favourites.add(
+  void checkFavourite() async {
+    List<Favourite> favourites = await retrieveFavourites();
+
+    for (int i = 0; i < favourites.length; i++) {
+      if (favourites[i].productID == widget.product.id) {
+        fav = true;
+
+        return;
+      }
+    }
+
+    fav = false;
+  }
+
+  void addFavourites(Size screenSize) async {
+    await insertFavouriteItem(
       Favourite(
         productID: widget.product.id,
       ),
     );
+
     Fluttertoast.showToast(
       msg: addFavDialogTexts[Random().nextInt(addFavDialogTexts.length)],
       toastLength: Toast.LENGTH_SHORT,
@@ -88,20 +96,14 @@ class _ProductScreenState extends State<ProductScreen> {
     );
   }
 
-  void removeFavourites() {
-    favourites.removeWhere(
-      (favourite) => favourite.productID == widget.product.id,
-    );
-  }
-
-  void switchFavourite(Size screenSize) {
+  void toggleFavourite(Size screenSize) async {
     setState(() {
       fav = !fav;
-      favicon = fav == true
-          ? Icon(FontAwesomeIcons.solidHeart)
-          : Icon(FontAwesomeIcons.heart);
-      fav == true ? addFavourites(screenSize) : removeFavourites();
     });
+
+    fav
+        ? addFavourites(screenSize)
+        : await deleteFavouriteItem(widget.product.id);
   }
 
   @override
@@ -234,11 +236,13 @@ class _ProductScreenState extends State<ProductScreen> {
                       height: screenSize.height * 0.085,
                       child: Center(
                         child: IconButton(
-                          icon: favicon,
+                          icon: fav
+                              ? Icon(FontAwesomeIcons.solidHeart)
+                              : Icon(FontAwesomeIcons.heart),
                           iconSize:
                               screenSize.width * screenSize.height * 0.0001,
                           color: Colors.red,
-                          onPressed: () => switchFavourite(screenSize),
+                          onPressed: () => toggleFavourite(screenSize),
                         ),
                       ),
                       decoration: BoxDecoration(

@@ -1,11 +1,10 @@
-import 'dart:async';
-import 'package:cosmetics_shop/models/constants.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cosmetics_shop/screens/product_screen.dart';
+import 'package:cosmetics_shop/models/constants.dart';
+import 'package:cosmetics_shop/models/products.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:cosmetics_shop/models/favourites.dart';
-import 'package:cosmetics_shop/models/products.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'dart:async';
 
 class FavouritesScreen extends StatefulWidget {
   @override
@@ -21,7 +20,6 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
 
   void initState() {
     super.initState();
-
     productGathering();
   }
 
@@ -144,7 +142,8 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
                                   bottom: defaultPadding / 1.5,
                                 ),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
                                   children: [
                                     Text(
                                       favProducts[index].price.toString() +

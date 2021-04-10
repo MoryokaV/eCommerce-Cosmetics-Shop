@@ -1,9 +1,10 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:cosmetics_shop/services/databaseHandler.dart';
 import 'package:cosmetics_shop/screens/product_screen.dart';
-import 'package:cosmetics_shop/models/favourites.dart';
-import 'package:cosmetics_shop/models/products.dart';
 import 'package:cosmetics_shop/screens/cart_screen.dart';
+import 'package:cosmetics_shop/models/favourites.dart';
 import 'package:cosmetics_shop/models/constants.dart';
+import 'package:cosmetics_shop/models/products.dart';
 import 'package:cosmetics_shop/models/cart.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,22 +17,30 @@ class ViewAllScreen extends StatefulWidget {
 }
 
 class _ViewAllScreenState extends State<ViewAllScreen> {
-  List<bool> fav = [];
+  List<bool> favIco = [];
 
   void initState() {
-    favouritesGathering();
     super.initState();
+    favouritesGathering();
   }
 
-  void addToCart(int id) {
+  void addToCart(int id) async {
+    List<Cart> cartItems = await retrieveCart();
+
     for (int i = 0; i < cartItems.length; i++) {
       if (cartItems[i].productID == id) {
-        cartItems[i].productQuantity++;
+        await updateCartQuantity(
+          Cart(
+            productID: id,
+            productQuantity: cartItems[i].productQuantity + 1,
+          ),
+        );
+
         return;
       }
     }
 
-    cartItems.add(
+    insertCartItem(
       Cart(
         productID: id,
         productQuantity: 1,
@@ -39,12 +48,13 @@ class _ViewAllScreenState extends State<ViewAllScreen> {
     );
   }
 
-  void addFavourites(Size screenSize, int id) {
-    favourites.add(
+  void addFavourites(Size screenSize, int id) async {
+    await insertFavouriteItem(
       Favourite(
         productID: id,
       ),
     );
+
     Fluttertoast.showToast(
       msg: addFavDialogTexts[Random().nextInt(addFavDialogTexts.length)],
       toastLength: Toast.LENGTH_SHORT,
@@ -56,37 +66,27 @@ class _ViewAllScreenState extends State<ViewAllScreen> {
     );
   }
 
-  void removeFavourites(int id) {
-    favourites.removeWhere(
-      (favourite) => favourite.productID == id,
+  void toggleFavourites(Size screenSize, int index, int id) async {
+    setState(
+      () => favIco[index] = !favIco[index],
     );
+
+    favIco[index]
+        ? addFavourites(screenSize, id)
+        : await deleteFavouriteItem(id);
   }
 
-  void toggleFavourites(Size screenSize, int index, int id) {
-    setState(() {
-      fav[index] = !fav[index];
-      fav[index] ? addFavourites(screenSize, id) : removeFavourites(id);
-    });
-  }
+  void favouritesGathering() async {
+    List<Favourite> favourites = await retrieveFavourites();
 
-  void favouritesGathering() {
-    for (int i = 0; i < products.length; i++) {
-      fav.add(
-        false,
-      );
-      for (int j = 0; j < favourites.length; j++) {
-        if (favourites[j].productID == products[i].id) {
-          fav[i] = true;
-          break;
-        }
-      }
-    }
+    for (int i = 0; i < products.length; i++) favIco[i] = false;
+
+    for (Favourite favourite in favourites)
+      favIco[favourite.productID - 1] = true;
   }
 
   Future<Null> _onRefresh() async {
-    setState(() {
-      favouritesGathering();
-    });
+    setState(() => favouritesGathering());
   }
 
   @override
@@ -167,7 +167,7 @@ class _ViewAllScreenState extends State<ViewAllScreen> {
                                       backgroundColor: Colors.grey[200],
                                       child: IconButton(
                                         icon: Icon(FontAwesomeIcons.solidHeart),
-                                        color: fav[index]
+                                        color: favIco[index]
                                             ? Colors.red
                                             : Colors.grey[600],
                                         onPressed: () => toggleFavourites(

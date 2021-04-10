@@ -9,12 +9,15 @@ PODS:
   - sqflite (0.0.2):
     - Flutter
     - FMDB (>= 2.7.5)
+  - telephony (0.0.1):
+    - Flutter
   - Toast (4.0.0)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
+  - telephony (from `.symlinks/plugins/telephony/ios`)
 
 SPEC REPOS:
   trunk:
@@ -28,12 +31,15 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/fluttertoast/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
+  telephony:
+    :path: ".symlinks/plugins/telephony/ios"
 
 SPEC CHECKSUMS:
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   fluttertoast: 6122fa75143e992b1d3470f61000f591a798cc58
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
+  telephony: c41768fae9fb5495781b05a72004106ca33ec777
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
 
 PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
