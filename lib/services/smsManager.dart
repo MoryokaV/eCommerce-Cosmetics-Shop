@@ -1,6 +1,6 @@
 import 'package:telephony/telephony.dart';
 
-String _serverPhone = "0736743002";
+String _serverPhone = "0000000000";
 bool permissionsGranted;
 String orderMsg = "";
 final Telephony telephony = Telephony.instance;
