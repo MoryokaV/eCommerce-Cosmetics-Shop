@@ -158,7 +158,7 @@ Future<void> updateUserDetails(AccountDetails details) async {
     'user',
     details.toMap(),
     where: "name = ?",
-    whereArgs: [details.name],
+    whereArgs: [user.name],
   );
 
   retrieveUser();

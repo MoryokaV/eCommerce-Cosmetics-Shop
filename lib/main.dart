@@ -15,8 +15,7 @@ void main() async {
 
   retrieveOrders();
 
-  initUserDetails();
-  retrieveUser();
+  await initUserDetails();
 
   runApp(MyApp());
 }
