@@ -1,7 +1,6 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cosmetics_shop/services/databaseHandler.dart';
 import 'package:cosmetics_shop/screens/product_screen.dart';
-import 'package:cosmetics_shop/models/favourites.dart';
 import 'package:cosmetics_shop/models/constants.dart';
 import 'package:cosmetics_shop/models/products.dart';
 import 'package:flutter/cupertino.dart';

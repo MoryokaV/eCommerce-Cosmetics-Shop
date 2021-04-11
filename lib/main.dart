@@ -9,10 +9,15 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await initDatabase();
-  
+
   retrieveFavourites();
   retrieveCart();
-  
+
+  retrieveOrders();
+
+  initUserDetails();
+  retrieveUser();
+
   runApp(MyApp());
 }
 

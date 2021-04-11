@@ -1,6 +1,5 @@
-import 'package:cosmetics_shop/models/cart.dart';
-import 'package:cosmetics_shop/screens/congrats_screen.dart';
 import 'package:cosmetics_shop/models/accountDetails.dart';
+import 'package:cosmetics_shop/screens/congrats_screen.dart';
 import 'package:cosmetics_shop/services/databaseHandler.dart';
 import 'package:cosmetics_shop/services/smsManager.dart';
 import 'package:cosmetics_shop/models/constants.dart';
@@ -30,10 +29,10 @@ class _OrderScreenState extends State<OrderScreen> {
 
   String fullName = "";
   String email = "";
-  int phoneNumber;
+  String phoneNumber;
   String address = "";
   String notes = "";
-  int zip;
+  String zip;
 
   TextEditingController _controllerName = new TextEditingController();
   TextEditingController _controllerAddress = new TextEditingController();
@@ -65,30 +64,20 @@ class _OrderScreenState extends State<OrderScreen> {
 
   void loadAccountDetails() {
     setState(() {
-      if (user.name != null) {
-        fullName = user.name;
-        _controllerName.text = fullName;
-      }
+      fullName = user.name;
+      _controllerName.text = fullName;
 
-      if (user.email != null) {
-        email = user.email;
-        _controllerEmail.text = email;
-      }
+      email = user.email;
+      _controllerEmail.text = email;
 
-      if (user.phone != null) {
-        phoneNumber = user.phone;
-        _controllerPhone.text = phoneNumber.toString();
-      }
+      phoneNumber = user.phone;
+      _controllerPhone.text = phoneNumber;
 
-      if (user.address != null) {
-        address = user.address;
-        _controllerAddress.text = address;
-      }
+      address = user.address;
+      _controllerAddress.text = address;
 
-      if (user.zipcode != null) {
-        zip = user.zipcode;
-        _controllerZip.text = zip.toString();
-      }
+      zip = user.zipcode;
+      _controllerZip.text = zip;
     });
   }
 
@@ -115,17 +104,13 @@ class _OrderScreenState extends State<OrderScreen> {
 
       email = _controllerEmail.text;
 
-      if (_controllerPhone.text != "")
-        phoneNumber = int.parse(_controllerPhone.text);
+      phoneNumber = _controllerPhone.text;
 
       address = _controllerAddress.text;
 
       notes = _controllerDetails.text;
 
-      if (_controllerZip.text != "")
-        zip = int.parse(_controllerZip.text);
-      else
-        zip = 0;
+      zip = _controllerZip.text;
     });
   }
 
@@ -320,8 +305,8 @@ class _OrderScreenState extends State<OrderScreen> {
                   child: TextField(
                     keyboardType: TextInputType.number,
                     focusNode: _focusNodePhone,
-                    onSubmitted: (newValue) {
-                      phoneNumber = int.parse(newValue);
+                    onSubmitted: (String newValue) {
+                      phoneNumber = newValue;
                       FocusScope.of(context).unfocus();
                     },
                     controller: _controllerPhone,
@@ -486,8 +471,8 @@ class _OrderScreenState extends State<OrderScreen> {
                         child: TextField(
                           keyboardType: TextInputType.number,
                           focusNode: _focusNodeZip,
-                          onSubmitted: (newValue) {
-                            zip = int.parse(newValue);
+                          onSubmitted: (String newValue) {
+                            zip = newValue;
                             FocusScope.of(context).unfocus();
                           },
                           controller: _controllerZip,
@@ -738,16 +723,20 @@ class _OrderScreenState extends State<OrderScreen> {
                     }
 
                     if (saveDetails) {
-                      user.name = fullName;
-                      user.email = email;
-                      user.phone = phoneNumber;
-                      user.address = address;
-                      user.zipcode = zip;
+                      updateUserDetails(
+                        AccountDetails(
+                          name: fullName,
+                          email: email,
+                          phone: phoneNumber,
+                          address: address,
+                          zipcode: zip,
+                        ),
+                      );
                     }
 
                     //print(user.name + " " + user.email + " " + user.phone.toString() + " " + user.address + " " + user.zipcode.toString());
 
-                    placeOrder(
+                    /*placeOrder(
                         widget.order.description,
                         widget.order.value.toString(),
                         fullName,
@@ -760,9 +749,9 @@ class _OrderScreenState extends State<OrderScreen> {
                         shippingMethod,
                         widget.order.number,
                         notes,
-                        dateTime);
+                        dateTime,);*/
 
-                    orders.add(
+                    await insertOrder(
                       Order(
                         number: widget.order.number,
                         value: widget.order.value,
