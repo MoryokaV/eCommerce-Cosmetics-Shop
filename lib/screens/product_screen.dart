@@ -23,7 +23,7 @@ class _ProductScreenState extends State<ProductScreen> {
   bool fav = false;
   int quantity = 1;
 
-  void addToCart(int id) async {
+  Future<void> addToCart(int id) async {
     for (int i = 0; i < cart.length; i++) {
       if (cart[i].productID == id) {
         await updateCartQuantity(
@@ -61,12 +61,10 @@ class _ProductScreenState extends State<ProductScreen> {
     checkFavourite();
   }
 
-  void checkFavourite() async {
+  void checkFavourite() {
     for (int i = 0; i < favourites.length; i++) {
       if (favourites[i].productID == widget.product.id) {
-        setState(
-          () => fav = true,
-        );
+        fav = true;
       }
     }
   }
@@ -376,15 +374,15 @@ class _ProductScreenState extends State<ProductScreen> {
                       actions: [
                         CupertinoDialogAction(
                             child: const Text("No"),
-                            onPressed: () {
-                              addToCart(widget.product.id);
+                            onPressed: () async {
+                              await addToCart(widget.product.id);
                               Navigator.of(dialogContext, rootNavigator: true)
                                   .pop();
                             }),
                         CupertinoDialogAction(
                           child: const Text("Yes"),
-                          onPressed: () {
-                            addToCart(widget.product.id);
+                          onPressed: () async {
+                            await addToCart(widget.product.id);
                             Navigator.of(dialogContext, rootNavigator: true)
                                 .pop();
                             Navigator.push(

@@ -61,7 +61,7 @@ Future<void> insertCartItem(Cart cart) async {
 }
 
 Future<void> updateCartQuantity(Cart cartItem) async {
-  final db = await database;
+  final Database db = await database;
 
   await db.update(
     'cartItems',
