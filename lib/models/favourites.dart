@@ -10,4 +10,8 @@ class Favourite {
       'productID': productID,
     };
   }
+
+  Favourite.fromMap(Map map){
+    productID = map["productID"];
+  }
 }

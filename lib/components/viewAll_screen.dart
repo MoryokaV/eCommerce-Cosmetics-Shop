@@ -18,15 +18,18 @@ class ViewAllScreen extends StatefulWidget {
 
 class _ViewAllScreenState extends State<ViewAllScreen> {
   List<bool> favIco = [];
+  List<Cart> cartItems = [];
 
   void initState() {
     super.initState();
+
     favouritesGathering();
+    //cartGathering();
   }
 
-  void addToCart(int id) async {
-    List<Cart> cartItems = await retrieveCart();
+  //void cartGathering() async => cartItems = await retrieveCart();
 
+  void addToCart(int id) async {
     for (int i = 0; i < cartItems.length; i++) {
       if (cartItems[i].productID == id) {
         await updateCartQuantity(
@@ -35,12 +38,11 @@ class _ViewAllScreenState extends State<ViewAllScreen> {
             productQuantity: cartItems[i].productQuantity + 1,
           ),
         );
-
         return;
       }
     }
 
-    insertCartItem(
+    await insertCartItem(
       Cart(
         productID: id,
         productQuantity: 1,
@@ -77,16 +79,25 @@ class _ViewAllScreenState extends State<ViewAllScreen> {
   }
 
   void favouritesGathering() async {
-    List<Favourite> favourites = await retrieveFavourites();
+    //List<Favourite> favourites = await retrieveFavourites();
+    favIco.clear();
 
-    for (int i = 0; i < products.length; i++) favIco[i] = false;
-
-    for (Favourite favourite in favourites)
-      favIco[favourite.productID - 1] = true;
+    setState(() {
+      for (int i = 0; i < products.length; i++) {
+        favIco.add(false);
+        for (int j = 0; j < favourites.length; j++) {
+          if (favourites[j].productID == products[i].id) {
+            favIco[i] = true;
+            break;
+          }
+        }
+      }
+    });
   }
 
   Future<Null> _onRefresh() async {
-    setState(() => favouritesGathering());
+    favouritesGathering();
+    //cartGathering();
   }
 
   @override

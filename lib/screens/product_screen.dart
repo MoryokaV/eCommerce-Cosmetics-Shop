@@ -24,17 +24,14 @@ class _ProductScreenState extends State<ProductScreen> {
   int quantity = 1;
 
   void addToCart(int id) async {
-    List<Cart> cartItems = await retrieveCart();
-
-    for (int i = 0; i < cartItems.length; i++) {
-      if (cartItems[i].productID == id) {
+    for (int i = 0; i < cart.length; i++) {
+      if (cart[i].productID == id) {
         await updateCartQuantity(
           Cart(
             productID: id,
-            productQuantity: cartItems[i].productQuantity + 1,
+            productQuantity: cart[i].productQuantity + 1,
           ),
         );
-
         return;
       }
     }
@@ -65,17 +62,13 @@ class _ProductScreenState extends State<ProductScreen> {
   }
 
   void checkFavourite() async {
-    List<Favourite> favourites = await retrieveFavourites();
-
     for (int i = 0; i < favourites.length; i++) {
       if (favourites[i].productID == widget.product.id) {
-        fav = true;
-
-        return;
+        setState(
+          () => fav = true,
+        );
       }
     }
-
-    fav = false;
   }
 
   void addFavourites(Size screenSize) async {
@@ -97,9 +90,9 @@ class _ProductScreenState extends State<ProductScreen> {
   }
 
   void toggleFavourite(Size screenSize) async {
-    setState(() {
-      fav = !fav;
-    });
+    setState(
+      () => fav = !fav,
+    );
 
     fav
         ? addFavourites(screenSize)

@@ -1,4 +1,5 @@
 import 'package:cosmetics_shop/models/order.dart';
+import 'package:cosmetics_shop/services/databaseHandler.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cosmetics_shop/screens/product_screen.dart';
@@ -19,9 +20,9 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
   //cart preview
-  List<bool> fav = [];
-  List<Product> cartProducts = [];
+  List<bool> favIco = [];
   List<int> quantities = [];
+  List<Product> cartProducts = [];
 
   //order summary
   IconData summaryListIcon = Icons.keyboard_arrow_up;
@@ -59,21 +60,22 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
     }
   }
 
-  String buildOrderDescription(){
+  String buildOrderDescription() {
     String desc = "";
 
-    for(int i = 0; i < cartProducts.length; i++)
+    for (int i = 0; i < cartProducts.length; i++)
       desc += quantities[i].toString() + " x " + cartProducts[i].name + "\n";
 
     return desc;
   }
 
-  void addFavourites(int id, Size screenSize) {
-    favourites.add(
+  void addFavourites(int id, Size screenSize) async {
+    await insertFavouriteItem(
       Favourite(
         productID: id,
       ),
     );
+
     Fluttertoast.showToast(
       msg: addFavDialogTexts[Random().nextInt(addFavDialogTexts.length)],
       backgroundColor: Colors.black54,
@@ -85,38 +87,37 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
     );
   }
 
-  void removeFromCart(int id) {
-    cartItems.removeWhere(
-      (cartItem) => cartItem.productID == id,
-    );
-  }
-
   void favouritesGathering() {
     for (int i = 0; i < cartProducts.length; i++) {
       for (int j = 0; j < favourites.length; j++) {
         if (favourites[j].productID == cartProducts[i].id) {
-          fav[i] = true;
+          favIco[i] = true;
           break;
         }
       }
     }
   }
 
-  void removeFavourites(int id) {
-    favourites.removeWhere(
-      (favourite) => favourite.productID == id,
-    );
+  void productsGathering() {
+    cartProducts.clear();
+    quantities.clear();
+    favIco.clear();
+
+    for (int i = 0; i < cart.length; i++) {
+      cartProducts.add(products[cart[i].productID - 1]);
+      quantities.add(cart[i].productQuantity);
+      favIco.add(false);
+    }
   }
 
-  void productsGathering() {
-    cartProducts = [];
-    quantities = [];
-    fav = [];
-    for (int i = 0; i < cartItems.length; i++) {
-      cartProducts.add(products[cartItems[i].productID - 1]);
-      quantities.add(cartItems[i].productQuantity);
-      fav.add(false);
-    }
+  void toggleFavourites(int index, Size screenSize) async {
+    setState(
+      () => favIco[index] = !favIco[index],
+    );
+
+    favIco[index]
+        ? addFavourites(cartProducts[index].id, screenSize)
+        : await deleteFavouriteItem(cartProducts[index].id);
   }
 
   Future<Null> refreshPage() async {
@@ -233,20 +234,11 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                             Row(
                               children: [
                                 IconButton(
-                                  icon: fav[index] == true
+                                  icon: favIco[index] == true
                                       ? Icon(FontAwesomeIcons.solidHeart)
                                       : Icon(FontAwesomeIcons.heart),
-                                  onPressed: () {
-                                    setState(() {
-                                      fav[index] = !fav[index];
-                                      fav[index]
-                                          ? addFavourites(
-                                              cartProducts[index].id,
-                                              screenSize)
-                                          : removeFavourites(
-                                              cartProducts[index].id);
-                                    });
-                                  },
+                                  onPressed: () =>
+                                      toggleFavourites(index, screenSize),
                                   color: Colors.red,
                                   iconSize: screenSize.width * 0.0575,
                                   padding: EdgeInsets.all(0),
@@ -267,7 +259,7 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                                   icon: Icon(Icons.delete),
                                   onPressed: () {
                                     setState(() {
-                                      removeFromCart(cartProducts[index].id);
+                                      deleteCartItem(cartProducts[index].id);
                                       productsGathering();
                                       favouritesGathering();
                                     });
@@ -322,12 +314,16 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                                   ),
                                   elevation: 16,
                                   underline: SizedBox(),
-                                  onChanged: (String newValue) {
+                                  onChanged: (String newValue) async {
                                     setState(() {
                                       quantities[index] = int.parse(newValue);
-                                      cartItems[index].productQuantity =
-                                          int.parse(newValue);
                                     });
+                                    await updateCartQuantity(
+                                      Cart(
+                                        productID: cartProducts[index].id,
+                                        productQuantity: quantities[index],
+                                      ),
+                                    );
                                   },
                                   items: <String>['1', '2', '3', '4', '5']
                                       .map<DropdownMenuItem<String>>(
@@ -505,7 +501,9 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                       CupertinoPageRoute(
                         builder: (_) => OrderScreen(
                           order: new Order(
-                            number: orders.length != 0 ? orders[orders.length - 1].number + 1 : 1,
+                            number: orders.length != 0
+                                ? orders[orders.length - 1].number + 1
+                                : 1,
                             value: calcPrice(),
                             description: buildOrderDescription(),
                           ),

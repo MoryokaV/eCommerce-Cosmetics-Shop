@@ -3,13 +3,12 @@ import 'package:cosmetics_shop/models/favourites.dart';
 import 'package:cosmetics_shop/models/cart.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:flutter/widgets.dart';
 
 Future<Database> database;
+List<Favourite> favourites;
+List<Cart> cart;
 
-void initDatabase() async {
-  //precache sqflite dependencies
-  WidgetsFlutterBinding.ensureInitialized();
+Future<void> initDatabase() async {
 
   database = openDatabase(
     join(await getDatabasesPath(), 'models.db'),
@@ -20,6 +19,7 @@ void initDatabase() async {
       db.execute(
         "CREATE TABLE cartItems (productID integer NOT NULL, productQuantity integer NOT NULL)",
       );
+      print("Database created!");
     },
     version: 1,
   );
@@ -33,6 +33,8 @@ Future<void> insertFavouriteItem(Favourite favourite) async {
     favourite.toMap(),
     conflictAlgorithm: ConflictAlgorithm.replace,
   );
+
+  retrieveFavourites();
 }
 
 Future<void> insertCartItem(Cart cart) async {
@@ -43,6 +45,8 @@ Future<void> insertCartItem(Cart cart) async {
     cart.toMap(),
     conflictAlgorithm: ConflictAlgorithm.replace,
   );
+
+  retrieveCart();
 }
 
 Future<void> updateCartQuantity(Cart cartItem) async {
@@ -54,6 +58,8 @@ Future<void> updateCartQuantity(Cart cartItem) async {
     where: "productID = ?",
     whereArgs: [cartItem.productID],
   );
+
+  retrieveCart();
 }
 
 Future<void> deleteFavouriteItem(int id) async {
@@ -64,6 +70,8 @@ Future<void> deleteFavouriteItem(int id) async {
     where: "productID = ?",
     whereArgs: [id],
   );
+
+  retrieveFavourites();
 }
 
 Future<void> deleteCartItem(int id) async {
@@ -74,29 +82,22 @@ Future<void> deleteCartItem(int id) async {
     where: "productID = ?",
     whereArgs: [id],
   );
+
+  retrieveCart();
 }
 
-Future<List<Favourite>> retrieveFavourites() async {
-  final Database db = await database;
+Future<void> retrieveFavourites() async {
+  Database db = await database;
 
-  final List<Map<String, dynamic>> maps = await db.query('favouriteItems');
+  List<Map> maps = await db.query('favouriteItems');
 
-  return List.generate(maps.length, (index) {
-    return Favourite(
-      productID: maps[index]['productID'],
-    );
-  });
+  favourites = maps.map((m) => Favourite.fromMap(m)).toList();
 }
 
-Future<List<Cart>> retrieveCart() async {
-  final Database db = await database;
+Future<void> retrieveCart() async {
+  Database db = await database;
 
-  final List<Map<String, dynamic>> maps = await db.query('cartItems');
+  List<Map> maps = await db.query('cartItems');
 
-  return List.generate(maps.length, (index) {
-    return Cart(
-      productID: maps[index]['productID'],
-      productQuantity: maps[index]['productQuantity'],
-    );
-  });
+  cart = maps.map((m) => Cart.fromMap(m)).toList();
 }

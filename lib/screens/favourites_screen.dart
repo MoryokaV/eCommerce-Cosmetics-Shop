@@ -1,5 +1,7 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:cosmetics_shop/services/databaseHandler.dart';
 import 'package:cosmetics_shop/screens/product_screen.dart';
+import 'package:cosmetics_shop/models/favourites.dart';
 import 'package:cosmetics_shop/models/constants.dart';
 import 'package:cosmetics_shop/models/products.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,11 +13,12 @@ class FavouritesScreen extends StatefulWidget {
   _FavouritesScreenState createState() => _FavouritesScreenState();
 }
 
-class _FavouritesScreenState extends State<FavouritesScreen> {
-  Icon favIcon = Icon(FontAwesomeIcons.solidHeart);
+class _FavouritesScreenState extends State<FavouritesScreen>
+    with TickerProviderStateMixin {
+  AnimationController controller;
 
   List<Product> favProducts = [];
-
+  List<bool> favIco = [];
   bool containerVisibility = true;
 
   void initState() {
@@ -23,31 +26,32 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
     productGathering();
   }
 
-  void productGathering() {
-    favProducts = [];
-    for (int i = 0; i < favourites.length; i++)
+  void productGathering() async {
+    favIco.clear();
+    favProducts.clear();
+
+    for (int i = 0; i < favourites.length; i++) {
+      favIco.add(true);
       favProducts.add(products[favourites[i].productID - 1]);
+    }
   }
 
-  void removeFavourite(int index) {
-    favIcon = Icon(FontAwesomeIcons.heart);
-
+  void removeFavourite(int index) async {
     setState(() {
+      favIco[index] = false;
       containerVisibility = !containerVisibility;
     });
 
-    favourites.removeWhere(
-      (favourite) => favourite.productID == favProducts[index].id,
-    );
+    await deleteFavouriteItem(favProducts[index].id);
 
     Timer(
-      Duration(milliseconds: 500),
+      Duration(milliseconds: 750),
       () {
-        setState(() {
-          productGathering();
-          favIcon = Icon(FontAwesomeIcons.solidHeart);
-          containerVisibility = !containerVisibility;
-        });
+        setState(
+          () => containerVisibility = !containerVisibility,
+        );
+
+        productGathering();
       },
     );
   }
@@ -156,7 +160,9 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
                                       ),
                                     ),
                                     IconButton(
-                                      icon: favIcon,
+                                      icon: favIco[index]
+                                          ? Icon(FontAwesomeIcons.solidHeart)
+                                          : Icon(FontAwesomeIcons.heart),
                                       onPressed: () => removeFavourite(index),
                                       color: Colors.red,
                                       iconSize: screenSize.width * 0.075,

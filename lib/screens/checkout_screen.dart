@@ -1,14 +1,15 @@
+import 'package:cosmetics_shop/models/cart.dart';
 import 'package:cosmetics_shop/screens/congrats_screen.dart';
-import 'package:cosmetics_shop/models/constants.dart';
+import 'package:cosmetics_shop/models/accountDetails.dart';
+import 'package:cosmetics_shop/services/databaseHandler.dart';
 import 'package:cosmetics_shop/services/smsManager.dart';
+import 'package:cosmetics_shop/models/constants.dart';
 import 'package:cosmetics_shop/templateLayer.dart';
 import 'package:cosmetics_shop/models/order.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:cosmetics_shop/models/cart.dart';
-import 'package:cosmetics_shop/models/accountDetails.dart';
 
 class OrderScreen extends StatefulWidget {
   final Order order;
@@ -92,8 +93,8 @@ class _OrderScreenState extends State<OrderScreen> {
   }
 
   void initState() {
-    loadAccountDetails();
     super.initState();
+    loadAccountDetails();
   }
 
   void displayMessage(Size screenSize, String fieldName) {
@@ -721,7 +722,7 @@ class _OrderScreenState extends State<OrderScreen> {
                 controlAffinity: ListTileControlAffinity.leading,
               ),
               GestureDetector(
-                onTap: () {
+                onTap: () async {
                   //send message
                   setState(() {
                     _focusNodeName.unfocus();
@@ -770,7 +771,8 @@ class _OrderScreenState extends State<OrderScreen> {
                       ),
                     );
 
-                    cartItems.clear();
+                    for (int i = 0; i < cart.length; i++)
+                      await deleteCartItem(cart[i].productID);
 
                     Navigator.push(
                       context,

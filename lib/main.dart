@@ -4,8 +4,15 @@ import 'package:cosmetics_shop/services/databaseHandler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-void main() async{
-  initDatabase();
+void main() async {
+  //precache sqflite dependencies
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await initDatabase();
+  
+  retrieveFavourites();
+  retrieveCart();
+  
   runApp(MyApp());
 }
 

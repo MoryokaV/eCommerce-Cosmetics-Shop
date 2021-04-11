@@ -25,11 +25,12 @@ class _SearchDialogState extends State<SearchDialog> {
 
   void toggleAntimations() {
     Timer.periodic(Duration(seconds: 5), (timer) {
-      setState(() {
-        showNamePrice = !showNamePrice;
-        if(showNamePrice)
-          retrieveValues();
-      });
+      if (mounted) {
+        setState(() {
+          showNamePrice = !showNamePrice;
+          if (showNamePrice) retrieveValues();
+        });
+      }
     });
   }
 

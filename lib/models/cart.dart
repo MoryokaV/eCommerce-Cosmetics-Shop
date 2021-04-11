@@ -13,4 +13,9 @@ class Cart {
       'productQuantity' : productQuantity,
     };
   }
+
+  Cart.fromMap(Map map){
+    productID = map["productID"];
+    productQuantity = map["productQuantity"];
+  }
 }

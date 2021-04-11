@@ -1,3 +1,4 @@
+import 'package:cosmetics_shop/services/databaseHandler.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cosmetics_shop/screens/product_screen.dart';
 import 'package:cosmetics_shop/models/categories.dart';
@@ -21,17 +22,22 @@ class CategoryScreen extends StatefulWidget {
 
 class _CategoryScreenState extends State<CategoryScreen> {
   List<Product> categoryProducts = [];
-  List<bool> fav = [];
+  List<bool> favIco = [];
 
-  void addToCart(int id) {
-    for (int i = 0; i < cartItems.length; i++) {
-      if (cartItems[i].productID == id) {
-        cartItems[i].productQuantity++;
+  void addToCart(int id) async {
+    for (int i = 0; i < cart.length; i++) {
+      if (cart[i].productID == id) {
+        await updateCartQuantity(
+          Cart(
+            productID: cart[i].productID,
+            productQuantity: cart[i].productQuantity++,
+          ),
+        );
         return;
       }
     }
 
-    cartItems.add(
+    await insertCartItem(
       Cart(
         productID: id,
         productQuantity: 1,
@@ -39,12 +45,13 @@ class _CategoryScreenState extends State<CategoryScreen> {
     );
   }
 
-  void addFavourites(Size screenSize, int id) {
-    favourites.add(
+  void addFavourites(Size screenSize, int id) async {
+    await insertFavouriteItem(
       Favourite(
         productID: id,
       ),
     );
+
     Fluttertoast.showToast(
       msg: addFavDialogTexts[Random().nextInt(addFavDialogTexts.length)],
       toastLength: Toast.LENGTH_SHORT,
@@ -56,57 +63,48 @@ class _CategoryScreenState extends State<CategoryScreen> {
     );
   }
 
-  void removeFavourites(int id) {
-    favourites.removeWhere(
-      (favourite) => favourite.productID == id,
+  void toggleFavourites(Size screenSize, int index, int id) async {
+    setState(
+      () => favIco[index] = !favIco[index],
     );
-  }
 
-  void toggleFavourites(Size screenSize, int index, int id) {
-    setState(() {
-      fav[index] = !fav[index];
-      fav[index] ? addFavourites(screenSize, id) : removeFavourites(id);
-    });
+    favIco[index] ? addFavourites(screenSize, id) : await deleteFavouriteItem(id);
   }
 
   void favouritesGathering() {
-    for (int i = 0; i < categoryProducts.length; i++) {
-      for (int j = 0; j < favourites.length; j++) {
-        if (favourites[j].productID == categoryProducts[i].id) {
-          fav[i] = true;
-          break;
+    setState(() {
+      for (int i = 0; i < categoryProducts.length; i++) {
+        for (int j = 0; j < favourites.length; j++) {
+          if (favourites[j].productID == categoryProducts[i].id) {
+            favIco[i] = true;
+            break;
+          }
         }
       }
-    }
+    });
   }
 
   void productsGathering() {
-    categoryProducts = [];
-    fav = [];
+    categoryProducts.clear();
+    favIco.clear();
+
     for (int i = 0; i < products.length; i++) {
       if (products[i].categoryID == widget.category.id) {
-        categoryProducts.add(
-          products[i],
-        );
-        fav.add(
-          false,
-        );
+        categoryProducts.add(products[i]);
+        favIco.add(false);
       }
     }
   }
 
   void initState() {
+    super.initState();
     productsGathering();
     favouritesGathering();
-
-    super.initState();
   }
 
   Future<Null> _onRefresh() async {
-    setState(() {
-      productsGathering();
-      favouritesGathering();
-    });
+    productsGathering();
+    favouritesGathering();
   }
 
   @override
@@ -188,7 +186,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                       backgroundColor: Colors.grey[200],
                                       child: IconButton(
                                         icon: Icon(FontAwesomeIcons.solidHeart),
-                                        color: fav[index]
+                                        color: favIco[index]
                                             ? Colors.red
                                             : Colors.grey[600],
                                         onPressed: () => toggleFavourites(
