@@ -90,7 +90,7 @@ class _AboutScreenState extends State<AboutScreen> {
                     ),
                   ),
                   Container(
-                    height: screenSize.width * 0.08,
+                    height: screenSize.width * 0.085,
                     width: screenSize.width * 0.18,
                     decoration: BoxDecoration(
                       //color: Colors.lightBlue[300],
@@ -126,11 +126,14 @@ class _AboutScreenState extends State<AboutScreen> {
                           ),
                         );
                       },
-                      child: Text(
-                        "FAQ",
-                        style: TextStyle(
-                          fontSize: screenSize.width * 0.04,
-                          color: primaryColor,
+                      child: FittedBox(
+                        fit: BoxFit.contain,
+                        child: Text(
+                          "FAQ",
+                          style: TextStyle(
+                            fontSize: screenSize.width * 0.04,
+                            color: primaryColor,
+                          ),
                         ),
                       ),
                     ),
