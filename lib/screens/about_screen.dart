@@ -1,5 +1,6 @@
 import 'package:cosmetics_shop/models/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 class AboutScreen extends StatefulWidget {
   @override
@@ -75,15 +76,66 @@ class _AboutScreenState extends State<AboutScreen> {
             ),
             Padding(
               padding: EdgeInsets.all(defaultPadding),
-              child: Text(
-                "App version vX.Y.Z",
-                softWrap: false,
-                overflow: TextOverflow.fade,
-                style: TextStyle(
-                  fontSize: screenSize.width * 0.05,
-                  fontFamily: "Arial",
-                  fontWeight: FontWeight.w400,
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    "App version v1.0.0",
+                    softWrap: false,
+                    overflow: TextOverflow.fade,
+                    style: TextStyle(
+                      fontSize: screenSize.width * 0.05,
+                      fontFamily: "Arial",
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  Container(
+                    height: screenSize.width * 0.08,
+                    width: screenSize.width * 0.18,
+                    decoration: BoxDecoration(
+                      //color: Colors.lightBlue[300],
+                      color: accentColor,
+                      borderRadius: BorderRadius.circular(15),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black38,
+                          offset: Offset(1, 1),
+                          blurRadius: 5,
+                        ),
+                      ],
+                    ),
+                    child: TextButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext dialogContext) =>
+                              CupertinoAlertDialog(
+                            title: Text("FAQ"),
+                            content: Text(
+                                "De ce comanda nu se plaseaza ? / De ce nu mi-am primit comanda?\n\t-> Asigurati-va ca ati permis aplicatiei sa trimita SMS-uri dupa ce datele personale au fost introduse! In caz contrar este nevoie sa oferiti permisiunea din setarile telefonului sau sa reinstalati aplicatia."),
+                            actions: [
+                              CupertinoDialogAction(
+                                isDefaultAction: true,
+                                child: Text("Close"),
+                                onPressed: () => Navigator.of(dialogContext,
+                                        rootNavigator: true)
+                                    .pop(),
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                      child: Text(
+                        "FAQ",
+                        style: TextStyle(
+                          fontSize: screenSize.width * 0.04,
+                          color: primaryColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             Padding(

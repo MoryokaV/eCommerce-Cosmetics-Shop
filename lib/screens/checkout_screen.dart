@@ -736,7 +736,7 @@ class _OrderScreenState extends State<OrderScreen> {
 
                     //print(user.name + " " + user.email + " " + user.phone.toString() + " " + user.address + " " + user.zipcode.toString());
 
-                    /*placeOrder(
+                    placeOrder(
                       widget.order.description,
                       widget.order.value.toString(),
                       fullName,
@@ -750,7 +750,7 @@ class _OrderScreenState extends State<OrderScreen> {
                       widget.order.number,
                       notes,
                       dateTime,
-                    );*/
+                    );
 
                     await insertOrder(
                       Order(
