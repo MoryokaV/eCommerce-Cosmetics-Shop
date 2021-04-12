@@ -28,9 +28,9 @@ final List<Product> products = [
     manufacter: "Gerovital",
     price: 50.00,
     imagePath: "assets/images/products/gerovitalH3.png",
-    shortDescription: "Face care cream to protect your beautiful skin.",
+    shortDescription: "Crema de fata menita sa iti protejeze tenul.",
     longDescription:
-        "Prin formula grasă, onctuasă, bogată în uleiuri, ceruri şi grăsimi naturale cu mare putere de reconstrucţie şi prin complexul anti-age, crema previne şi atenuează semnele îmbătrînirii tenului înainte și după menopauză.Crema este dedicată tenului matur, uscat sau ridat.",
+        "Crema este recomandata pentru îngrijirea pe timpul noptii, moment in care procesele de regenerare si nutrire sunt amplificate.  Are efect anti-age imediat si de durata, conţine ingredienti biomimetici (uleiuri, grasimi, ceruri naturale) cu mare putere de reconstrucţie a tenului matur.",
   ),
   Product(
     id: 2,
@@ -51,11 +51,11 @@ final List<Product> products = [
     price: 38.00,
     imagePath: "assets/images/products/mascaraKissDead.png",
     shortDescription:
-        "You can have the lashes you always wanted, in record time!",
+        "Ofera genelor tale cu 95% mai multa alungire si curbare!",
     longDescription:
-        "This mascara with 2 brushes gives you a greater depth of look and unlimited possibilities. Both brushes are fixed and help you polish the lashes from the base to the tips. Use the large toothbrush for the upper lashes and the thin one for the lower ones.",
+        "Are o periuta flexibila, din silicon, ce te ajuta sa rimelezi fiecare geana. Se aplica foarte usor, nu incarca inutil, iar rezistenta este de lunga durata. Cu varful periutei poti aplica mai multa cantitate pe gene, dupa care cu intreaga periuta separi si alungesti cu miscari in Zig-Zag. Intensitatea negrului este maxima si efectul oferit este inegalabil cu orice alt produs. Daca ai genele scurte si rare, acest rimel este perfect pentru tine.",
   ),
-  Product(    
+  Product(
     id: 4,
     name: "Techniques Blush",
     categoryID: 3,
@@ -63,9 +63,9 @@ final List<Product> products = [
     price: 51.00,
     imagePath: "assets/images/products/techniquesBlush.png",
     shortDescription:
-        "Contours and defines the cheekbones for an HD result, perfectly blurred. The oval shape of the brush allows perfect sculpting of the face, but also a light application of the powder.",
+        "Pensula pentru fard de obraz.",
     longDescription:
-        "-Creates a perfect look even in the worst light.-Synthetic taklon threads are handmade, thus creating incredibly soft brushes, 100% cruelty free.-The construction of the brushes allows their positioning standing on any flat surface.-The aluminum handle is very light and thus allows easy use.",
+        "Creaza un aspect perfect chiar si în cea mai slaba lumina. Firele sintetice de taklon sunt realizate manual, creand astfel perii incredibil de moi, 100% fara cruzime. Construcția periilor permite pozitionarea lor pe orice suprafata plana. Manerul din aluminiu este foarte usoara si astfel permite o utilizare usoara.",
   ),
   Product(
     id: 5,
@@ -75,9 +75,9 @@ final List<Product> products = [
     price: 71.00,
     imagePath: "assets/images/products/snailSecretKey.png",
     shortDescription:
-        "Cremă gel pentru fată cu o cantitate semnificativă de extract de de melc, ce oferă tenului tău un efect luminos.",
+        "Crema gel pentru fata cu o cantitate semnificativa de extract de de melc, ce ofera tenului tau un efect luminos.",
     longDescription:
-        "Este un produs ideal și pentru pielea matură,  armonizează și hrănește pielea, hidratează și reglează procesele de apărare, făcând-o mai fermă și flexibilă în același timp.",
+        "Este un produs ideal si pentru pielea matura,  armonizeaza si hraneste pielea, hidrateaza si regleaza procesele de aparare, facand-o mai ferma si flexibila în acelasi timp.",
   ),
   Product(
     id: 6,
@@ -86,8 +86,9 @@ final List<Product> products = [
     manufacter: "Sleek",
     price: 51.00,
     imagePath: "assets/images/products/sleekLipShot.png",
-    shortDescription: "################",
+    shortDescription:
+        "Bucura-te de explozia de culoare cremoasa si de pigmentii bogati care redau o definire perfecta buzelor tale.",
     longDescription:
-        "This product is highly pigmented and offers maximum coverage in a single application. Its ingredients intensely moisturize the lips. Lip Shot Gloss is easy to wear, non-sticky and looks like a mirror. Enjoy the creamy explosion and the rich pigments that give a perfect definition to your lips.",
+        "Acest produs este foarte pigmentat si ofera o acoperire maxima dintr-o singura aplicare. Ingredientele sale hidrateaza intens buzele. Gloss-ul Lip Shot este usor de purtat, nu este lipicios si prezinta un aspect de oglinda.",
   ),
 ];
