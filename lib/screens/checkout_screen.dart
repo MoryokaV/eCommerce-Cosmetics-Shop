@@ -737,19 +737,20 @@ class _OrderScreenState extends State<OrderScreen> {
                     //print(user.name + " " + user.email + " " + user.phone.toString() + " " + user.address + " " + user.zipcode.toString());
 
                     /*placeOrder(
-                        widget.order.description,
-                        widget.order.value.toString(),
-                        fullName,
-                        email,
-                        phoneNumber.toString(),
-                        address,
-                        destinationCity,
-                        zip.toString(),
-                        destinationCountry,
-                        shippingMethod,
-                        widget.order.number,
-                        notes,
-                        dateTime,);*/
+                      widget.order.description,
+                      widget.order.value.toString(),
+                      fullName,
+                      email,
+                      phoneNumber.toString(),
+                      address,
+                      destinationCity,
+                      zip.toString(),
+                      destinationCountry,
+                      shippingMethod,
+                      widget.order.number,
+                      notes,
+                      dateTime,
+                    );*/
 
                     await insertOrder(
                       Order(
