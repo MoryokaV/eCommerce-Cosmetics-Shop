@@ -168,18 +168,32 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                       ),
                                       height: screenSize.height * 0.075,
                                       width: screenSize.width * 0.525,
-                                      child: Text(
-                                        "\t\t" +
-                                            categoryProducts[index].name +
-                                            " - " +
-                                            categoryProducts[index]
-                                                .shortDescription,
-                                        overflow: TextOverflow.ellipsis,
+                                      child: RichText(
+                                        overflow: TextOverflow.fade,
                                         maxLines: 2,
-                                        style: TextStyle(
-                                          fontFamily: "Roboto-Light",
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: screenSize.width * 0.045,
+                                        softWrap: true,
+                                        text: TextSpan(
+                                          text: categoryProducts[index].name,
+                                          style: TextStyle(
+                                            color: Colors.black87,
+                                            fontFamily: "Calibri",
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: screenSize.height * 0.025,
+                                          ),
+                                          children: [
+                                            TextSpan(
+                                              text: " - " +
+                                                  categoryProducts[index]
+                                                      .shortDescription,
+                                              style: TextStyle(
+                                                color: Colors.black54,
+                                                fontFamily: "Calibri",
+                                                fontWeight: FontWeight.w300,
+                                                fontSize:
+                                                    screenSize.height * 0.0225,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ),
