@@ -45,7 +45,7 @@ Future<void> insertFavouriteItem(Favourite favourite) async {
     conflictAlgorithm: ConflictAlgorithm.replace,
   );
 
-  retrieveFavourites();
+  await retrieveFavourites();
 }
 
 Future<void> insertCartItem(Cart cart) async {
@@ -57,7 +57,7 @@ Future<void> insertCartItem(Cart cart) async {
     conflictAlgorithm: ConflictAlgorithm.replace,
   );
 
-  retrieveCart();
+  await retrieveCart();
 }
 
 Future<void> updateCartQuantity(Cart cartItem) async {
@@ -70,7 +70,7 @@ Future<void> updateCartQuantity(Cart cartItem) async {
     whereArgs: [cartItem.productID],
   );
 
-  retrieveCart();
+  await retrieveCart();
 }
 
 Future<void> deleteFavouriteItem(int id) async {
@@ -82,7 +82,7 @@ Future<void> deleteFavouriteItem(int id) async {
     whereArgs: [id],
   );
 
-  retrieveFavourites();
+  await retrieveFavourites();
 }
 
 Future<void> deleteCartItem(int id) async {
@@ -94,7 +94,7 @@ Future<void> deleteCartItem(int id) async {
     whereArgs: [id],
   );
 
-  retrieveCart();
+  await retrieveCart();
 }
 
 Future<void> retrieveFavourites() async {
@@ -122,7 +122,7 @@ Future<void> insertOrder(Order order) async {
     conflictAlgorithm: ConflictAlgorithm.replace,
   );
 
-  retrieveOrders();
+  await retrieveOrders();
 }
 
 Future<void> retrieveOrders() async {
@@ -148,7 +148,7 @@ Future<void> initUserDetails() async {
     conflictAlgorithm: ConflictAlgorithm.replace,
   );
 
-  retrieveUser();
+  await retrieveUser();
 }
 
 Future<void> updateUserDetails(AccountDetails details) async {
@@ -161,7 +161,7 @@ Future<void> updateUserDetails(AccountDetails details) async {
     whereArgs: [user.name],
   );
 
-  retrieveUser();
+  await retrieveUser();
 }
 
 Future<void> retrieveUser() async {

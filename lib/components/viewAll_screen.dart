@@ -29,7 +29,7 @@ class _ViewAllScreenState extends State<ViewAllScreen> {
 
   //void cartGathering() async => cartItems = await retrieveCart();
 
-  void addToCart(int id) async {
+  Future<void> addToCart(int id) async {
     for (int i = 0; i < cartItems.length; i++) {
       if (cartItems[i].productID == id) {
         await updateCartQuantity(
@@ -256,8 +256,9 @@ class _ViewAllScreenState extends State<ViewAllScreen> {
                                           actions: [
                                             CupertinoDialogAction(
                                               child: const Text("No"),
-                                              onPressed: () {
-                                                addToCart(products[index].id);
+                                              onPressed: () async {
+                                                await addToCart(
+                                                    products[index].id);
                                                 Navigator.of(dialogContext,
                                                         rootNavigator: true)
                                                     .pop();
@@ -265,8 +266,9 @@ class _ViewAllScreenState extends State<ViewAllScreen> {
                                             ),
                                             CupertinoDialogAction(
                                               child: const Text("Yes"),
-                                              onPressed: () {
-                                                addToCart(products[index].id);
+                                              onPressed: () async {
+                                                await addToCart(
+                                                    products[index].id);
                                                 Navigator.of(dialogContext,
                                                         rootNavigator: true)
                                                     .pop();

@@ -60,6 +60,11 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
     }
   }
 
+  void dispose() {
+    _arrowController.dispose();
+    super.dispose();
+  }
+
   String buildOrderDescription() {
     String desc = "";
 

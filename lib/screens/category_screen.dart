@@ -24,7 +24,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   List<Product> categoryProducts = [];
   List<bool> favIco = [];
 
-  void addToCart(int id) async {
+  Future<void> addToCart(int id) async {
     for (int i = 0; i < cart.length; i++) {
       if (cart[i].productID == id) {
         await updateCartQuantity(
@@ -68,7 +68,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
       () => favIco[index] = !favIco[index],
     );
 
-    favIco[index] ? addFavourites(screenSize, id) : await deleteFavouriteItem(id);
+    favIco[index]
+        ? addFavourites(screenSize, id)
+        : await deleteFavouriteItem(id);
   }
 
   void favouritesGathering() {
@@ -266,8 +268,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                           actions: [
                                             CupertinoDialogAction(
                                               child: const Text("No"),
-                                              onPressed: () {
-                                                addToCart(
+                                              onPressed: () async {
+                                                await addToCart(
                                                     categoryProducts[index].id);
                                                 Navigator.of(dialogContext,
                                                         rootNavigator: true)
@@ -276,8 +278,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                             ),
                                             CupertinoDialogAction(
                                               child: const Text("Yes"),
-                                              onPressed: () {
-                                                addToCart(
+                                              onPressed: () async {
+                                                await addToCart(
                                                     categoryProducts[index].id);
                                                 Navigator.of(dialogContext,
                                                         rootNavigator: true)
