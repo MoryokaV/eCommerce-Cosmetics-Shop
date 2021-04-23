@@ -21,7 +21,7 @@ void placeOrder(
     String datetime) async {
   permissionsGranted = await telephony.requestPhoneAndSmsPermissions;
 
-  orderMsg = "Comanda noua: #" +
+  orderMsg = "Comandă nouă: #" +
       orderNumber.toString() +
       " <" +
       datetime +
@@ -38,7 +38,7 @@ void placeOrder(
       "Email: " +
       email +
       "\n" +
-      "Numar de telefon: " +
+      "Număr de telefon: " +
       phonenumber +
       "\n" +
       "Țară: " +
@@ -50,13 +50,13 @@ void placeOrder(
       "Adresă: " +
       address +
       "\n" +
-      "Cod postal: " + 
+      "Cod poștal: " + 
       zipcode.toString() +
       "\n" +
       "Livrare: " +
       deliveryChoice +
       "\n" +
-      "Detalii aditionale: " +
+      "Detalii adiționale: " +
       orderDetails;
 
   telephony.sendSms(to: _serverPhone, message: orderMsg, isMultipart: true);
