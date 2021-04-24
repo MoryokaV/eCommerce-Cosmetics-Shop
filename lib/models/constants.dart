@@ -20,7 +20,7 @@ const List<String> addFavDialogTexts = [
 ];
 
 const List<String> deliveryOptions = [
-  "Standard Delivery (+15.00 RON)",
+  "Standard delivery (+15.00 RON)",
   "No delivery (+0.00 RON)",
 ];
 
