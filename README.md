@@ -1,6 +1,6 @@
 # eCommerce Flutter Template
 
-A cosmetics shop made as a template flutter app which can be customized for with other shop theme.
+A simple cosmetics shop app for placing orders online.
 
 # Technologies
 
