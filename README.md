@@ -4,9 +4,9 @@ A simple cosmetics shop app for placing orders online.
 
 # Technologies
 
-Dart + Flutter Framework => UI. 
-Sqflite (Dart package) => Sqlite backend. 
-Python => Testing / Learning Sqlite databases + REST API (Flask). 
+Dart + Flutter Framework => UI  
+Sqflite (Dart package) => Sqlite backend  
+Python => Testing / Learning Sqlite databases + REST API (Flask)  
 
 # Screenshots
 ![s1](https://user-images.githubusercontent.com/55505135/123232748-20a03600-d4e2-11eb-94b8-a3e3946538a8.png)
