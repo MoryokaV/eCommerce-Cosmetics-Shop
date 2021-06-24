@@ -1,4 +1,4 @@
-# eCommerce Flutter Template
+# eCommerce Cosmetics Shop
 
 A simple cosmetics shop app for placing orders online.
 
