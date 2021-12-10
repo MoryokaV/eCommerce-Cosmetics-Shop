@@ -1,7 +1,6 @@
 import 'package:cosmetics_shop/models/accountDetails.dart';
 import 'package:cosmetics_shop/screens/congrats_screen.dart';
 import 'package:cosmetics_shop/services/databaseHandler.dart';
-import 'package:cosmetics_shop/services/smsManager.dart';
 import 'package:cosmetics_shop/models/constants.dart';
 import 'package:cosmetics_shop/templateLayer.dart';
 import 'package:cosmetics_shop/models/order.dart';
@@ -734,9 +733,8 @@ class _OrderScreenState extends State<OrderScreen> {
                       );
                     }
 
-                    //print(user.name + " " + user.email + " " + user.phone.toString() + " " + user.address + " " + user.zipcode.toString());
-
-                    placeOrder(
+                    
+                    /*placeOrder(
                       widget.order.description,
                       widget.order.value.toString(),
                       fullName,
@@ -750,7 +748,7 @@ class _OrderScreenState extends State<OrderScreen> {
                       widget.order.number,
                       notes,
                       dateTime,
-                    );
+                    );*/
 
                     await insertOrder(
                       Order(
