@@ -72,7 +72,7 @@ class _CategoriesListState extends State<CategoriesList> {
                                   0.000155,
                               backgroundColor: primaryColor,
                               child: Image.asset(
-                                category.iconPath,
+                                category.icon,
                                 width: screenSize.width * 0.19,
                                 height: screenSize.height * 0.08,
                               ),

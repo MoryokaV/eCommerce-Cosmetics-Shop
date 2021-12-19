@@ -3,19 +3,21 @@ class Cart {
   int productQuantity;
 
   Cart({
-    this.productID,
-    this.productQuantity,
+    required this.productID,
+    required this.productQuantity,
   });
 
-  Map<String, dynamic> toMap(){
-    return{
-      'productID' : productID,
-      'productQuantity' : productQuantity,
+  Map<String, dynamic> toMap() {
+    return {
+      'productID': productID,
+      'productQuantity': productQuantity,
     };
   }
 
-  Cart.fromMap(Map map){
-    productID = map["productID"];
-    productQuantity = map["productQuantity"];
+  factory Cart.fromMap(Map map) {
+    return Cart(
+      productID: map["productID"],
+      productQuantity: map["productQuantity"],
+    );
   }
 }

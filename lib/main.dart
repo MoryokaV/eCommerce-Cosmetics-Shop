@@ -3,19 +3,13 @@ import 'package:cosmetics_shop/models/constants.dart';
 import 'package:cosmetics_shop/services/databaseHandler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:cosmetics_shop/models/user.dart';
 
 void main() async {
   //precache sqflite dependencies
   WidgetsFlutterBinding.ensureInitialized();
 
   await initDatabase();
-
-  retrieveFavourites();
-  retrieveCart();
-
-  retrieveOrders();
-
-  await initUserDetails();
 
   runApp(MyApp());
 }

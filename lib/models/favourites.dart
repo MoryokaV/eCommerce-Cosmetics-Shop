@@ -2,7 +2,7 @@ class Favourite {
   int productID;
 
   Favourite({
-    this.productID,
+    required this.productID,
   });
 
   Map<String, dynamic> toMap() {
@@ -11,7 +11,5 @@ class Favourite {
     };
   }
 
-  Favourite.fromMap(Map map){
-    productID = map["productID"];
-  }
+  factory Favourite.fromMap(Map map) => Favourite(productID: map['productID']);
 }

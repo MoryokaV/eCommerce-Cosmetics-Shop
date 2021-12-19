@@ -114,7 +114,7 @@ class _RecomendedItemsState extends State<RecomendedItems> {
                       height: screenSize.height / 5.95,
                       width: screenSize.width / 2.8,
                       child: Image.asset(
-                        product.imagePath,
+                        product.image,
                       ),
                       decoration: BoxDecoration(
                         color: backgroundAccent,

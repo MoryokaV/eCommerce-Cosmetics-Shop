@@ -4,19 +4,19 @@ class Product {
   int categoryID;
   String manufacter;
   double price;
-  String imagePath;
+  String image;
   String shortDescription;
   String longDescription;
 
   Product({
-    this.id,
-    this.name,
-    this.categoryID,
-    this.manufacter,
-    this.price,
-    this.imagePath,
-    this.shortDescription,
-    this.longDescription,
+    required this.id,
+    required this.name,
+    required this.categoryID,
+    required this.manufacter,
+    required this.price,
+    required this.image,
+    required this.shortDescription,
+    required this.longDescription,
   });
 }
 
@@ -27,7 +27,7 @@ final List<Product> products = [
     categoryID: 1,
     manufacter: "Gerovital",
     price: 50.00,
-    imagePath: "assets/images/products/gerovitalH3.png",
+    image: "assets/images/products/gerovitalH3.png",
     shortDescription: "Crema de fata menita sa iti protejeze tenul.",
     longDescription:
         "Crema este recomandata pentru îngrijirea pe timpul noptii, moment in care procesele de regenerare si nutrire sunt amplificate.  Are efect anti-age imediat si de durata, conţine ingredienti biomimetici (uleiuri, grasimi, ceruri naturale) cu mare putere de reconstrucţie a tenului matur.",
@@ -38,7 +38,7 @@ final List<Product> products = [
     categoryID: 2,
     manufacter: "Kiss",
     price: 42.00,
-    imagePath: "assets/images/products/kissHexaEyes.png",
+    image: "assets/images/products/kissHexaEyes.png",
     shortDescription: "Pigmented texture in a single application!",
     longDescription:
         "Nuantele din interior sunt perfect alese si formeaza un degrade cromatic. Nuantele deschise le poti aplica in interiorul pleoapei sau pe arcada, cele din mijloc sunt de tranzitie pentru a face trecerea intre culori sau pentru a estompa machiajul in pliu si exterior.",
@@ -49,7 +49,7 @@ final List<Product> products = [
     categoryID: 2,
     manufacter: "Mascara",
     price: 38.00,
-    imagePath: "assets/images/products/mascaraKissDead.png",
+    image: "assets/images/products/mascaraKissDead.png",
     shortDescription:
         "Ofera genelor tale cu 95% mai multa alungire si curbare!",
     longDescription:
@@ -61,7 +61,7 @@ final List<Product> products = [
     categoryID: 3,
     manufacter: "realTechniques",
     price: 51.00,
-    imagePath: "assets/images/products/techniquesBlush.png",
+    image: "assets/images/products/techniquesBlush.png",
     shortDescription:
         "Pensula pentru fard de obraz.",
     longDescription:
@@ -73,7 +73,7 @@ final List<Product> products = [
     categoryID: 1,
     manufacter: "Snail",
     price: 71.00,
-    imagePath: "assets/images/products/snailSecretKey.png",
+    image: "assets/images/products/snailSecretKey.png",
     shortDescription:
         "Crema gel pentru fata cu o cantitate semnificativa de extract de de melc, ce ofera tenului tau un efect luminos.",
     longDescription:
@@ -85,7 +85,7 @@ final List<Product> products = [
     categoryID: 4,
     manufacter: "Sleek",
     price: 51.00,
-    imagePath: "assets/images/products/sleekLipShot.png",
+    image: "assets/images/products/sleekLipShot.png",
     shortDescription:
         "Bucura-te de explozia de culoare cremoasa si de pigmentii bogati care redau o definire perfecta buzelor tale.",
     longDescription:

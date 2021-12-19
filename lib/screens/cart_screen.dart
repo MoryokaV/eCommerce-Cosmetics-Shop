@@ -13,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:math';
 
+import 'package:intl/intl.dart';
+
 class CartScreen extends StatefulWidget {
   @override
   _CartScreenState createState() => _CartScreenState();
@@ -23,6 +25,7 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
   List<bool> favIco = [];
   List<int> quantities = [];
   List<Product> cartProducts = [];
+  List<Order> orders = [];
 
   //order summary
   IconData summaryListIcon = Icons.keyboard_arrow_up;
@@ -30,34 +33,26 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
   String summaryTitle = "See Order Summary";
 
   //animation
-  AnimationController _arrowController;
-  Animation<double> _arrowAnimation;
+  late AnimationController _arrowController;
   double containerAnimationHeight = 0.06;
   double containerAnimationWidth = 0.155;
-  double listHeight;
+  double? listHeight;
+
+  final String dateTime = DateFormat("dd-MM-yyyy").format(DateTime.now());
+
+  bool isLoading = false;
 
   void initState() {
     super.initState();
 
-    productsGathering();
+    getProducts();
 
-    //improving speed by not initializing var without using them
-    if (cartProducts.length != 0) {
-      favouritesGathering();
-
-      //animation initializer
-      _arrowController = AnimationController(
-        duration: const Duration(
-          seconds: 2,
-        ),
-        vsync: this,
-      );
-      _arrowAnimation = CurvedAnimation(
-        parent: _arrowController,
-        curve: Curves.elasticOut,
-        reverseCurve: Curves.elasticIn,
-      );
-    }
+    _arrowController = AnimationController(
+      duration: const Duration(
+        seconds: 2,
+      ),
+      vsync: this,
+    );
   }
 
   void dispose() {
@@ -65,7 +60,36 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  String buildOrderDescription() {
+  void getProducts() async {
+    setState(() => isLoading = true);
+
+    List<Cart> cart = await retrieveCart();
+    List<Favourite> favourites = await retrieveFavourites();
+    orders = await retrieveOrders();
+    
+    cartProducts.clear();
+    quantities.clear();
+    favIco.clear();
+
+    for (int i = 0; i < cart.length; i++) {
+      cartProducts.add(products[cart[i].productID - 1]);
+      quantities.add(cart[i].productQuantity);
+      favIco.add(false);
+    }
+
+    for (int i = 0; i < cartProducts.length; i++) {
+      for (int j = 0; j < favourites.length; j++) {
+        if (favourites[j].productID == cartProducts[i].id) {
+          favIco[i] = true;
+          break;
+        }
+      }
+    }
+
+    setState(() => isLoading = false);
+  }
+
+  String getOrderDescription() {
     String desc = "";
 
     for (int i = 0; i < cartProducts.length; i++)
@@ -74,7 +98,7 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
     return desc;
   }
 
-  void addFavourites(int id, Size screenSize) async {
+  Future<void> addFavourites(int id, Size screenSize) async {
     await insertFavouriteItem(
       Favourite(
         productID: id,
@@ -92,326 +116,304 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
     );
   }
 
-  void favouritesGathering() {
-    for (int i = 0; i < cartProducts.length; i++) {
-      for (int j = 0; j < favourites.length; j++) {
-        if (favourites[j].productID == cartProducts[i].id) {
-          favIco[i] = true;
-          break;
-        }
-      }
-    }
-  }
-
-  void productsGathering() {
-    cartProducts.clear();
-    quantities.clear();
-    favIco.clear();
-
-    for (int i = 0; i < cart.length; i++) {
-      cartProducts.add(products[cart[i].productID - 1]);
-      quantities.add(cart[i].productQuantity);
-      favIco.add(false);
-    }
-  }
-
   void toggleFavourites(int index, Size screenSize) async {
-    setState(
-      () => favIco[index] = !favIco[index],
-    );
+    setState(() => favIco[index] = !favIco[index]);
 
     favIco[index]
-        ? addFavourites(cartProducts[index].id, screenSize)
+        ? await addFavourites(cartProducts[index].id, screenSize)
         : await deleteFavouriteItem(cartProducts[index].id);
   }
 
   Future<Null> refreshPage() async {
     setState(() {
-      productsGathering();
-      favouritesGathering();
+      getProducts();
       containerAnimationHeight = 0.06;
       containerAnimationWidth = 0.155;
     });
   }
 
   Widget buildCartList(BuildContext context, Size screenSize) {
-    if (cartProducts.length != 0) {
-      return ListView.builder(
-        physics: ScrollPhysics(),
-        shrinkWrap: true,
-        scrollDirection: Axis.vertical,
-        itemCount: cartProducts.length,
-        itemBuilder: (BuildContext context, int index) {
-          return GestureDetector(
-            onTap: () => Navigator.push(
-              context,
-              CupertinoPageRoute(
-                builder: (_) => ProductScreen(
-                  product: cartProducts[index],
-                ),
+    return ListView.builder(
+      physics: ScrollPhysics(),
+      shrinkWrap: true,
+      scrollDirection: Axis.vertical,
+      itemCount: cartProducts.length,
+      itemBuilder: (BuildContext context, int index) {
+        return GestureDetector(
+          onTap: () => Navigator.push(
+            context,
+            CupertinoPageRoute(
+              builder: (_) => ProductScreen(
+                product: cartProducts[index],
               ),
             ),
-            child: Container(
-              margin: EdgeInsets.only(
-                top: defaultPadding / 2,
-                bottom: defaultPadding / 2,
-              ),
-              height: screenSize.height * 0.25,
-              width: screenSize.width,
-              decoration: BoxDecoration(
-                color: primaryColor,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black54,
-                    offset: Offset(0, 0),
-                    blurRadius: 5,
-                  ),
-                ],
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    width: screenSize.width * 0.35,
-                    height: screenSize.height * 0.35,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        right: BorderSide(
-                          width: 0.5,
-                          color: Colors.black38,
-                        ),
+          ),
+          child: Container(
+            margin: EdgeInsets.only(
+              top: defaultPadding / 2,
+              bottom: defaultPadding / 2,
+            ),
+            height: screenSize.height * 0.25,
+            width: screenSize.width,
+            decoration: BoxDecoration(
+              color: primaryColor,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black54,
+                  offset: Offset(0, 0),
+                  blurRadius: 5,
+                ),
+              ],
+            ),
+            child: Row(
+              children: [
+                Container(
+                  width: screenSize.width * 0.35,
+                  height: screenSize.height * 0.35,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      right: BorderSide(
+                        width: 0.5,
+                        color: Colors.black38,
                       ),
                     ),
-                    child: Image.asset(
-                      cartProducts[index].imagePath,
-                    ),
                   ),
-                  Column(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(
-                          left: defaultPadding / 2,
-                          top: 4,
-                          bottom: 5,
-                          right: defaultPadding / 4,
-                        ),
-                        width: screenSize.width * 0.65,
-                        height: screenSize.height * 0.125,
-                        child: Center(
-                          child: RichText(
-                            overflow: TextOverflow.fade,
-                            text: TextSpan(
-                              text: "\t\t" + cartProducts[index].name,
-                              style: TextStyle(
-                                fontFamily: "Century-Gothic",
-                                fontWeight: FontWeight.w900,
-                                fontSize: screenSize.width * 0.045,
-                                color: accentColor,
-                              ),
-                              children: <TextSpan>[
-                                TextSpan(
-                                  text: " - " +
-                                      cartProducts[index].shortDescription,
-                                  style: TextStyle(
-                                    fontFamily: "Century-Gothic",
-                                    fontSize: screenSize.width * 0.037,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              width: 0.5,
-                              color: Colors.black38,
-                            ),
-                          ),
-                        ),
+                  child: Image.asset(
+                    cartProducts[index].image,
+                  ),
+                ),
+                Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(
+                        left: defaultPadding / 2,
+                        top: 4,
+                        bottom: 5,
+                        right: defaultPadding / 4,
                       ),
-                      Container(
-                        width: screenSize.width * 0.65,
-                        height: screenSize.height * 0.05,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Row(
-                              children: [
-                                IconButton(
-                                  icon: favIco[index] == true
-                                      ? Icon(FontAwesomeIcons.solidHeart)
-                                      : Icon(FontAwesomeIcons.heart),
-                                  onPressed: () =>
-                                      toggleFavourites(index, screenSize),
-                                  color: Colors.red,
-                                  iconSize: screenSize.width * 0.0575,
-                                  padding: EdgeInsets.all(0),
-                                ),
-                                Text(
-                                  "Favourites",
-                                  style: TextStyle(
-                                    fontFamily: "Arial",
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black54,
-                                  ),
-                                ),
-                              ],
+                      width: screenSize.width * 0.65,
+                      height: screenSize.height * 0.125,
+                      child: Center(
+                        child: RichText(
+                          overflow: TextOverflow.fade,
+                          text: TextSpan(
+                            text: "\t\t" + cartProducts[index].name,
+                            style: TextStyle(
+                              fontFamily: "Century-Gothic",
+                              fontWeight: FontWeight.w900,
+                              fontSize: screenSize.width * 0.045,
+                              color: accentColor,
                             ),
-                            Row(
-                              children: [
-                                IconButton(
-                                  icon: Icon(Icons.delete),
-                                  onPressed: () {
-                                    setState(() {
-                                      deleteCartItem(cartProducts[index].id);
-                                      productsGathering();
-                                      favouritesGathering();
-                                    });
-                                  },
-                                  color: Colors.grey,
-                                  iconSize: screenSize.width * 0.0575,
-                                  padding: EdgeInsets.all(0),
-                                ),
-                                Text(
-                                  "Remove",
-                                  style: TextStyle(
-                                    fontFamily: "Arial",
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black54,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              width: 0.5,
-                              color: Colors.black38,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: screenSize.width * 0.325,
-                            height: screenSize.height * 0.075,
-                            decoration: BoxDecoration(
-                              border: Border(
-                                right: BorderSide(
-                                  width: screenSize.height * 0.001,
-                                  color: Colors.black38,
-                                ),
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                DropdownButton(
-                                  value: quantities[index].toString(),
-                                  icon: Icon(
-                                    Icons.arrow_drop_down,
-                                    size: screenSize.width * 0.075,
-                                  ),
-                                  elevation: 16,
-                                  underline: SizedBox(),
-                                  onChanged: (String newValue) async {
-                                    setState(() {
-                                      quantities[index] = int.parse(newValue);
-                                    });
-                                    await updateCartQuantity(
-                                      Cart(
-                                        productID: cartProducts[index].id,
-                                        productQuantity: quantities[index],
-                                      ),
-                                    );
-                                  },
-                                  items: <String>['1', '2', '3', '4', '5']
-                                      .map<DropdownMenuItem<String>>(
-                                          (String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(
-                                        value,
-                                        style: TextStyle(
-                                          fontFamily: "Arial",
-                                          fontSize: screenSize.width * 0.045,
-                                        ),
-                                      ),
-                                    );
-                                  }).toList(),
-                                ),
-                                //hint text for the drop down
-                                Text(
-                                  " buc.",
-                                  style: TextStyle(
-                                    fontFamily: "Arial",
-                                    fontSize: screenSize.width * 0.045,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            width: screenSize.width * 0.325,
-                            height: screenSize.height * 0.075,
-                            child: Center(
-                              child: Text(
-                                (cartProducts[index].price * quantities[index])
-                                        .toString() +
-                                    " RON",
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: " - " +
+                                    cartProducts[index].shortDescription,
                                 style: TextStyle(
-                                  color: Colors.black54,
-                                  fontWeight: FontWeight.w700,
-                                  fontFamily: "Roboto-Medium",
-                                  fontSize: screenSize.width * 0.045,
+                                  fontFamily: "Century-Gothic",
+                                  fontSize: screenSize.width * 0.037,
+                                  color: Colors.black,
                                 ),
                               ),
-                            ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            width: 0.5,
+                            color: Colors.black38,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: screenSize.width * 0.65,
+                      height: screenSize.height * 0.05,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Row(
+                            children: [
+                              IconButton(
+                                icon: favIco[index] == true
+                                    ? Icon(FontAwesomeIcons.solidHeart)
+                                    : Icon(FontAwesomeIcons.heart),
+                                onPressed: () =>
+                                    toggleFavourites(index, screenSize),
+                                color: Colors.red,
+                                iconSize: screenSize.width * 0.0575,
+                                padding: EdgeInsets.all(0),
+                              ),
+                              Text(
+                                "Favourites",
+                                style: TextStyle(
+                                  fontFamily: "Arial",
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black54,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.delete),
+                                onPressed: () {
+                                  setState(() {
+                                    deleteCartItem(cartProducts[index].id);
+                                    getProducts();
+                                  });
+                                },
+                                color: Colors.grey,
+                                iconSize: screenSize.width * 0.0575,
+                                padding: EdgeInsets.all(0),
+                              ),
+                              Text(
+                                "Remove",
+                                style: TextStyle(
+                                  fontFamily: "Arial",
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black54,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                ],
-              ),
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            width: 0.5,
+                            color: Colors.black38,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: screenSize.width * 0.325,
+                          height: screenSize.height * 0.075,
+                          decoration: BoxDecoration(
+                            border: Border(
+                              right: BorderSide(
+                                width: screenSize.height * 0.001,
+                                color: Colors.black38,
+                              ),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              DropdownButton(
+                                value: quantities[index].toString(),
+                                icon: Icon(
+                                  Icons.arrow_drop_down,
+                                  size: screenSize.width * 0.075,
+                                ),
+                                elevation: 16,
+                                underline: SizedBox(),
+                                onChanged: (String? newValue) async {
+                                  setState(() {
+                                    if (newValue != null)
+                                      quantities[index] = int.parse(newValue);
+                                  });
+                                  await updateCartQuantity(
+                                    Cart(
+                                      productID: cartProducts[index].id,
+                                      productQuantity: quantities[index],
+                                    ),
+                                  );
+                                },
+                                items: <String>[
+                                  '1',
+                                  '2',
+                                  '3',
+                                  '4',
+                                  '5'
+                                ].map<DropdownMenuItem<String>>((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(
+                                      value,
+                                      style: TextStyle(
+                                        fontFamily: "Arial",
+                                        fontSize: screenSize.width * 0.045,
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                              //hint text for the drop down
+                              Text(
+                                " buc.",
+                                style: TextStyle(
+                                  fontFamily: "Arial",
+                                  fontSize: screenSize.width * 0.045,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: screenSize.width * 0.325,
+                          height: screenSize.height * 0.075,
+                          child: Center(
+                            child: Text(
+                              (cartProducts[index].price * quantities[index])
+                                      .toString() +
+                                  " RON",
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontWeight: FontWeight.w700,
+                                fontFamily: "Roboto-Medium",
+                                fontSize: screenSize.width * 0.045,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
             ),
-          );
-        },
-      );
-    } else {
-      return Container(
-        margin: EdgeInsets.all(
-          defaultPadding / 2,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              "assets/images/misc/shopping_ic.png",
+          ),
+        );
+      },
+    );
+  }
+
+  Widget buildEmptyCart(Size screenSize) {
+    return Container(
+      margin: EdgeInsets.all(
+        defaultPadding / 2,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            "assets/images/misc/shopping_ic.png",
+          ),
+          SizedBox(
+            height: screenSize.height * 0.025,
+          ),
+          Text(
+            "Continue searching until you find the product that interests you!",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontFamily: "Arial",
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: accentColor,
             ),
-            SizedBox(
-              height: screenSize.height * 0.025,
-            ),
-            Text(
-              "Continue searching until you find the product that interests you!",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: "Arial",
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: accentColor,
-              ),
-            ),
-          ],
-        ),
-      );
-    }
+          ),
+        ],
+      ),
+    );
   }
 
   Widget buildOrderDetails(BuildContext context, Size screenSize) {
@@ -457,7 +459,11 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                     child: Row(
                       children: [
                         RotationTransition(
-                          turns: _arrowAnimation,
+                          turns: CurvedAnimation(
+                            parent: _arrowController,
+                            curve: Curves.elasticOut,
+                            reverseCurve: Curves.elasticIn,
+                          ),
                           child: Padding(
                             padding: EdgeInsets.only(
                               right: defaultPadding / 6,
@@ -505,12 +511,13 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                       context,
                       CupertinoPageRoute(
                         builder: (_) => OrderScreen(
-                          order: new Order(
+                          order: Order(
                             number: orders.length != 0
                                 ? orders[orders.length - 1].number + 1
                                 : 1,
                             value: calcPrice(),
-                            description: buildOrderDescription(),
+                            description: getOrderDescription(),
+                            date: dateTime,
                           ),
                         ),
                       ),
@@ -704,19 +711,22 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
       appBar: buildAppBar(screenSize),
       body: RefreshIndicator(
         onRefresh: refreshPage,
-        child: ListView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          children: [
-            buildCartList(context, screenSize),
-            if (cartProducts.length != 0)
-              buildOrderDetails(context, screenSize),
-          ],
-        ),
+        child: isLoading
+            ? Center(child: CircularProgressIndicator())
+            : cartProducts.length == 0
+                ? buildEmptyCart(screenSize)
+                : ListView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    children: [
+                      buildCartList(context, screenSize),
+                      buildOrderDetails(context, screenSize),
+                    ],
+                  ),
       ),
     );
   }
 
-  Widget buildAppBar(Size screenSize) {
+  PreferredSizeWidget buildAppBar(Size screenSize) {
     return AppBar(
       backgroundColor: accentColor,
       automaticallyImplyLeading: false,

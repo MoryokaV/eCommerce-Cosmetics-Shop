@@ -9,6 +9,22 @@ class OrdersHistoryScreen extends StatefulWidget {
 }
 
 class _OrdersHistoryScreenState extends State<OrdersHistoryScreen> {
+  late List<Order> orders;
+  bool isLoading = false;
+
+  void initState() {
+    super.initState();
+    getOrders();
+  }
+
+  void getOrders() async {
+    setState(() => isLoading = true);
+
+    orders = await retrieveOrders();
+
+    setState(() => isLoading = false);
+  }
+
   Widget buildOrdersList(Size screenSize) {
     return ListView.builder(
       scrollDirection: Axis.vertical,
@@ -54,7 +70,7 @@ class _OrdersHistoryScreenState extends State<OrdersHistoryScreen> {
                     ),
                     Spacer(),
                     Text(
-                      order.dateTime,
+                      order.date,
                       style: TextStyle(
                         fontFamily: "Calibri",
                         fontSize: screenSize.width * 0.055,
@@ -71,9 +87,7 @@ class _OrdersHistoryScreenState extends State<OrdersHistoryScreen> {
                   ],
                 ),
                 Padding(
-                  padding: EdgeInsets.only(
-                    top: defaultPadding / 4,
-                  ),
+                  padding: EdgeInsets.only(top: defaultPadding / 4),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -104,35 +118,40 @@ class _OrdersHistoryScreenState extends State<OrdersHistoryScreen> {
           height: screenSize.height * 0.55,
         ),
         SizedBox(
-          height: screenSize.height * 0.2,
+          height: screenSize.height * 0.15,
         ),
-        Container(
-          height: screenSize.height * 0.0625,
-          width: screenSize.width * 0.75,
-          child: TextButton(
-            child: Text(
-              "‹ Main Menu",
-              style: TextStyle(
-                color: primaryColor,
-                fontWeight: FontWeight.w600,
-                fontSize: screenSize.height * 0.035,
-              ),
-            ),
-            onPressed: () => Navigator.pop(context),
-          ),
-          decoration: BoxDecoration(
-            color: accentColor,
-            borderRadius: BorderRadius.circular(36),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black38,
-                blurRadius: 5,
-                offset: Offset(0, 1),
-              ),
-            ],
-          ),
-        ),
+        backButton(screenSize, 0),
       ],
+    );
+  }
+
+  Widget backButton(Size screenSize, double pad) {
+    return Container(
+      height: screenSize.height * 0.06,
+      width: screenSize.width * 0.65,
+      margin: EdgeInsets.all(pad),
+      child: TextButton(
+        child: Text(
+          "‹ Main Menu",
+          style: TextStyle(
+            color: primaryColor,
+            fontWeight: FontWeight.w600,
+            fontSize: screenSize.height * 0.03,
+          ),
+        ),
+        onPressed: () => Navigator.pop(context),
+      ),
+      decoration: BoxDecoration(
+        color: accentColor,
+        borderRadius: BorderRadius.circular(36),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black38,
+            blurRadius: 5,
+            offset: Offset(0, 1),
+          ),
+        ],
+      ),
     );
   }
 
@@ -142,47 +161,49 @@ class _OrdersHistoryScreenState extends State<OrdersHistoryScreen> {
 
     return Scaffold(
       appBar: buildAppBar(context, screenSize),
-      body: ListView(
-        scrollDirection: Axis.vertical,
-        children: [
-          orders.length != 0
-              ? buildOrdersList(screenSize)
-              : buildPopUpMessage(screenSize),
-          if (orders.length != 0)
-            Container(
-              height: screenSize.height * 0.065,
-              margin: EdgeInsets.all(
-                defaultPadding,
-              ),
-              child: TextButton(
-                child: Text(
-                  "‹ Main Menu",
-                  style: TextStyle(
-                    color: primaryColor,
-                    fontWeight: FontWeight.w600,
-                    fontSize: screenSize.height * 0.035,
-                  ),
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : orders.length == 0
+              ? buildPopUpMessage(screenSize)
+              : ListView(
+                  scrollDirection: Axis.vertical,
+                  children: [
+                    buildOrdersList(screenSize),
+                    backButton(screenSize, defaultPadding * 2),
+                    /*Container(
+                      height: screenSize.height * 0.065,
+                      margin: EdgeInsets.all(
+                        defaultPadding,
+                      ),
+                      child: TextButton(
+                        child: Text(
+                          "‹ Main Menu",
+                          style: TextStyle(
+                            color: primaryColor,
+                            fontWeight: FontWeight.w600,
+                            fontSize: screenSize.height * 0.035,
+                          ),
+                        ),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                      decoration: BoxDecoration(
+                        color: accentColor,
+                        borderRadius: BorderRadius.circular(36),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black38,
+                            blurRadius: 5,
+                            offset: Offset(0, 1),
+                          ),
+                        ],
+                      ),
+                    ),*/
+                  ],
                 ),
-                onPressed: () => Navigator.pop(context),
-              ),
-              decoration: BoxDecoration(
-                color: accentColor,
-                borderRadius: BorderRadius.circular(36),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black38,
-                    blurRadius: 5,
-                    offset: Offset(0, 1),
-                  ),
-                ],
-              ),
-            ),
-        ],
-      ),
     );
   }
 
-  Widget buildAppBar(BuildContext context, Size screenSize) {
+  PreferredSizeWidget buildAppBar(BuildContext context, Size screenSize) {
     return AppBar(
       automaticallyImplyLeading: false,
       backgroundColor: accentColor,

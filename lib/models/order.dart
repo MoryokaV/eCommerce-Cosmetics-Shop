@@ -2,23 +2,30 @@ class Order {
   int number;
   double value;
   String description;
-  String dateTime;
+  String date;
 
-  Order({this.number, this.value, this.description, this.dateTime});
+  Order({
+    required this.number,
+    required this.value,
+    required this.description,
+    required this.date,
+  });
 
   Map<String, dynamic> toMap() {
     return {
       'number': number,
       'value': value,
       'description': description,
-      'dateTime': dateTime,
+      'date': date,
     };
   }
 
-  Order.fromMap(Map map) {
-    number = map['number'];
-    value = map['value'];
-    description = map['description'];
-    dateTime = map['dateTime'];
+  factory Order.fromMap(Map map) {
+    return Order(
+      number: map['number'],
+      value: map['value'],
+      description: map['description'],
+      date: map['date'],
+    );
   }
 }

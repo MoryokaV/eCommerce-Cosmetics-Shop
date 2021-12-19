@@ -13,7 +13,9 @@ import 'dart:math';
 class ProductScreen extends StatefulWidget {
   final Product product;
 
-  ProductScreen({this.product});
+  ProductScreen({
+    required this.product,
+  });
 
   @override
   _ProductScreenState createState() => _ProductScreenState();
@@ -23,15 +25,16 @@ class _ProductScreenState extends State<ProductScreen> {
   bool fav = false;
   int quantity = 1;
 
+  void initState() {
+    super.initState();
+    checkFavourite();
+  }
+
   Future<void> addToCart(int id) async {
+    List<Cart> cart = await retrieveCart();
+
     for (int i = 0; i < cart.length; i++) {
       if (cart[i].productID == id) {
-        await updateCartQuantity(
-          Cart(
-            productID: id,
-            productQuantity: cart[i].productQuantity + 1,
-          ),
-        );
         return;
       }
     }
@@ -45,31 +48,27 @@ class _ProductScreenState extends State<ProductScreen> {
   }
 
   void addQuantity() {
-    setState(() {
-      if (quantity < 5) quantity++;
-    });
+    if (quantity < 5) setState(() => quantity++);
   }
 
   void removeQuantity() {
-    setState(() {
-      if (quantity > 1) quantity--;
-    });
+    if (quantity > 1) setState(() => quantity--);
   }
 
-  void initState() {
-    super.initState();
-    checkFavourite();
-  }
+  Future<void> checkFavourite() async {
+    List<Favourite> favourites = await retrieveFavourites();
 
-  void checkFavourite() {
     for (int i = 0; i < favourites.length; i++) {
       if (favourites[i].productID == widget.product.id) {
-        fav = true;
+        setState(() {
+          fav = true;
+        });
+        break;
       }
     }
   }
 
-  void addFavourites(Size screenSize) async {
+  Future<void> addFavourites(Size screenSize) async {
     await insertFavouriteItem(
       Favourite(
         productID: widget.product.id,
@@ -88,12 +87,10 @@ class _ProductScreenState extends State<ProductScreen> {
   }
 
   void toggleFavourite(Size screenSize) async {
-    setState(
-      () => fav = !fav,
-    );
+    setState(() => fav = !fav);
 
     fav
-        ? addFavourites(screenSize)
+        ? await addFavourites(screenSize)
         : await deleteFavouriteItem(widget.product.id);
   }
 
@@ -253,7 +250,7 @@ class _ProductScreenState extends State<ProductScreen> {
                     bottom: 0,
                     right: defaultPadding / 2,
                     child: Image.asset(
-                      widget.product.imagePath,
+                      widget.product.image,
                       height: screenSize.height * 0.40,
                       width: screenSize.width * 0.70,
                       fit: BoxFit.contain,

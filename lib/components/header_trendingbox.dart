@@ -13,7 +13,7 @@ class _SearchDialogState extends State<SearchDialog> {
   bool showNamePrice = true;
   String name = "";
   String price = "";
-  List list;
+  List list = [];
 
   List getProduct() {
     int index = Random().nextInt(products.length);

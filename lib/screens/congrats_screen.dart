@@ -7,7 +7,9 @@ import 'dart:io';
 class CongratsScreen extends StatefulWidget {
   final int number;
 
-  CongratsScreen({@required this.number});
+  CongratsScreen({
+    required this.number,
+  });
 
   @override
   _CongratsScreenState createState() => _CongratsScreenState();
@@ -123,7 +125,7 @@ class _CongratsScreenState extends State<CongratsScreen> {
     );
   }
 
-  Widget buildAppBar(Size screenSize) {
+  PreferredSizeWidget buildAppBar(Size screenSize) {
     return AppBar(
       backgroundColor: accentColor,
       automaticallyImplyLeading: false,

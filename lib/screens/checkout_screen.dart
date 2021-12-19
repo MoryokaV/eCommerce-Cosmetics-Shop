@@ -1,4 +1,5 @@
-import 'package:cosmetics_shop/models/accountDetails.dart';
+import 'package:cosmetics_shop/models/cart.dart';
+import 'package:cosmetics_shop/models/user.dart';
 import 'package:cosmetics_shop/screens/congrats_screen.dart';
 import 'package:cosmetics_shop/services/databaseHandler.dart';
 import 'package:cosmetics_shop/models/constants.dart';
@@ -7,12 +8,13 @@ import 'package:cosmetics_shop/models/order.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class OrderScreen extends StatefulWidget {
   final Order order;
 
-  OrderScreen({@required this.order});
+  OrderScreen({
+    required this.order,
+  });
 
   @override
   _OrderScreenState createState() => _OrderScreenState();
@@ -28,10 +30,10 @@ class _OrderScreenState extends State<OrderScreen> {
 
   String fullName = "";
   String email = "";
-  String phoneNumber;
+  String phoneNumber = "";
   String address = "";
   String notes = "";
-  String zip;
+  String zip = "";
 
   TextEditingController _controllerName = new TextEditingController();
   TextEditingController _controllerAddress = new TextEditingController();
@@ -57,32 +59,25 @@ class _OrderScreenState extends State<OrderScreen> {
   final validEmail = RegExp(
       r"^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$");
 
-  static final DateTime now = DateTime.now();
-  static final DateFormat formatter = DateFormat("dd-MM-yyyy");
-  final String dateTime = formatter.format(now);
-
-  void loadAccountDetails() {
-    setState(() {
-      fullName = user.name;
-      _controllerName.text = fullName;
-
-      email = user.email;
-      _controllerEmail.text = email;
-
-      phoneNumber = user.phone;
-      _controllerPhone.text = phoneNumber;
-
-      address = user.address;
-      _controllerAddress.text = address;
-
-      zip = user.zipcode;
-      _controllerZip.text = zip;
-    });
-  }
+  bool isLoading = false;
 
   void initState() {
     super.initState();
     loadAccountDetails();
+  }
+
+  Future<void> loadAccountDetails() async {
+    setState(() => isLoading = true);
+
+    User user = await retrieveUser();
+
+    _controllerName.text = fullName = user.name;
+    _controllerEmail.text = email = user.email;
+    _controllerPhone.text = phoneNumber = user.phone;
+    _controllerAddress.text = address = user.address;
+    _controllerZip.text = zip = user.zipcode;
+
+    setState(() => isLoading = false);
   }
 
   void displayMessage(Size screenSize, String fieldName) {
@@ -98,19 +93,12 @@ class _OrderScreenState extends State<OrderScreen> {
   }
 
   void extractControllers() {
-    setState(() {
-      fullName = _controllerName.text;
-
-      email = _controllerEmail.text;
-
-      phoneNumber = _controllerPhone.text;
-
-      address = _controllerAddress.text;
-
-      notes = _controllerDetails.text;
-
-      zip = _controllerZip.text;
-    });
+    fullName = _controllerName.text;
+    email = _controllerEmail.text;
+    phoneNumber = _controllerPhone.text;
+    address = _controllerAddress.text;
+    notes = _controllerDetails.text;
+    zip = _controllerZip.text;
   }
 
   bool checkForCorrectDetails(Size screenSize) {
@@ -154,9 +142,6 @@ class _OrderScreenState extends State<OrderScreen> {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
 
-    var textStyle = TextStyle(
-      fontSize: screenSize.height * 0.025,
-    );
     return Scaffold(
       appBar: buildAppBar(screenSize),
       body: GestureDetector(
@@ -173,9 +158,7 @@ class _OrderScreenState extends State<OrderScreen> {
           child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.all(
-                  defaultPadding / 1.25,
-                ),
+                padding: EdgeInsets.all(defaultPadding / 1.25),
                 child: Row(
                   children: [
                     Text(
@@ -421,9 +404,9 @@ class _OrderScreenState extends State<OrderScreen> {
                               Icons.arrow_drop_down,
                               size: screenSize.width * 0.075,
                             ),
-                            onChanged: (String value) {
+                            onChanged: (String? value) {
                               setState(() {
-                                destinationCity = value;
+                                if (value != null) destinationCity = value;
                               });
                             },
                             items: destinationCities
@@ -541,9 +524,9 @@ class _OrderScreenState extends State<OrderScreen> {
                         Icons.arrow_drop_down,
                         size: screenSize.width * 0.075,
                       ),
-                      onChanged: (String value) {
+                      onChanged: (String? value) {
                         setState(() {
-                          destinationCountry = value;
+                          if (value != null) destinationCountry = value;
                         });
                       },
                       items: destinationCountries
@@ -613,9 +596,9 @@ class _OrderScreenState extends State<OrderScreen> {
                         Icons.arrow_drop_down,
                         size: screenSize.width * 0.075,
                       ),
-                      onChanged: (String value) {
+                      onChanged: (String? value) {
                         setState(() {
-                          shippingMethod = value;
+                          if (value != null) shippingMethod = value;
                         });
                       },
                       items: deliveryOptions
@@ -655,11 +638,11 @@ class _OrderScreenState extends State<OrderScreen> {
                       FocusScope.of(context).unfocus();
                     },
                     controller: _controllerDetails,
-                    style: textStyle,
+                    style: TextStyle(fontSize: screenSize.height * 0.025),
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                          color: Colors.grey[400],
+                          color: Colors.grey.shade400,
                         ),
                         borderRadius: BorderRadius.all(
                           Radius.circular(8),
@@ -698,9 +681,9 @@ class _OrderScreenState extends State<OrderScreen> {
                   ),
                 ),
                 value: saveDetails,
-                onChanged: (bool newValue) {
+                onChanged: (bool? newValue) {
                   setState(() {
-                    saveDetails = newValue;
+                    if (newValue != null) saveDetails = newValue;
                   });
                 },
                 controlAffinity: ListTileControlAffinity.leading,
@@ -722,8 +705,8 @@ class _OrderScreenState extends State<OrderScreen> {
                     }
 
                     if (saveDetails) {
-                      updateUserDetails(
-                        AccountDetails(
+                      await updateUser(
+                        User(
                           name: fullName,
                           email: email,
                           phone: phoneNumber,
@@ -733,31 +716,9 @@ class _OrderScreenState extends State<OrderScreen> {
                       );
                     }
 
-                    
-                    /*placeOrder(
-                      widget.order.description,
-                      widget.order.value.toString(),
-                      fullName,
-                      email,
-                      phoneNumber.toString(),
-                      address,
-                      destinationCity,
-                      zip.toString(),
-                      destinationCountry,
-                      shippingMethod,
-                      widget.order.number,
-                      notes,
-                      dateTime,
-                    );*/
+                    await insertOrder(widget.order);
 
-                    await insertOrder(
-                      Order(
-                        number: widget.order.number,
-                        value: widget.order.value,
-                        description: widget.order.description,
-                        dateTime: dateTime,
-                      ),
-                    );
+                    List<Cart> cart = await retrieveCart();
 
                     for (int i = 0; i < cart.length; i++)
                       await deleteCartItem(cart[i].productID);
@@ -811,7 +772,7 @@ class _OrderScreenState extends State<OrderScreen> {
     );
   }
 
-  Widget buildAppBar(Size screenSize) {
+  PreferredSizeWidget buildAppBar(Size screenSize) {
     return AppBar(
       backgroundColor: accentColor,
       automaticallyImplyLeading: false,
