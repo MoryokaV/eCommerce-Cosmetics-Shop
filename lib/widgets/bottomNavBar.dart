@@ -1,37 +1,34 @@
-import 'package:cosmetics_shop/screens/account_screen.dart';
-import 'package:cosmetics_shop/models/constants.dart';
-import 'package:cosmetics_shop/screens/favourites_screen.dart';
-import 'package:cosmetics_shop/screens/home_screen.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cosmetics_shop/screens/account/account_screen.dart';
+import 'package:cosmetics_shop/constants.dart';
+import 'package:cosmetics_shop/screens/favourites/favourites_screen.dart';
+import 'package:cosmetics_shop/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class TemplateLayer extends StatefulWidget {
+class BottomNavBar extends StatefulWidget {
   @override
-  _TemplateLayer createState() => _TemplateLayer();
+  _BottomNavBar createState() => _BottomNavBar();
 }
 
-class _TemplateLayer extends State<TemplateLayer> {
-  int _selectedPage = 0;
+class _BottomNavBar extends State<BottomNavBar> {
+  int _currentPage = 0;
 
-  static List<Widget> screens = <Widget>[
+  List<Widget> screens = [
     HomeScreen(),
     FavouritesScreen(),
     AccountScreen(),
   ];
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedPage = index;
-    });
+    setState(() => _currentPage = index);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: _selectedPage == 0 ? buildAppBar() : null,
-      body: screens[_selectedPage],
+      appBar: _currentPage == 0 ? buildAppBar() : null,
+      body: screens[_currentPage],
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
@@ -47,7 +44,7 @@ class _TemplateLayer extends State<TemplateLayer> {
             label: "Account",
           ),
         ],
-        currentIndex: _selectedPage,
+        currentIndex: _currentPage,
         selectedItemColor: accentColor,
         onTap: _onItemTapped,
       ),

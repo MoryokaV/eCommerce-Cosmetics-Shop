@@ -1,6 +1,7 @@
-import 'package:cosmetics_shop/screens/viewAll_screen.dart';
-import 'package:cosmetics_shop/models/constants.dart';
-import 'package:cosmetics_shop/screens/product_screen.dart';
+import 'package:cosmetics_shop/models/categories.dart';
+import 'package:cosmetics_shop/screens/category/category_screen.dart';
+import 'package:cosmetics_shop/constants.dart';
+import 'package:cosmetics_shop/screens/product/product_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cosmetics_shop/models/products.dart';
@@ -51,7 +52,13 @@ class _RecomendedItemsState extends State<RecomendedItems> {
                       Navigator.push(
                         context,
                         CupertinoPageRoute(
-                          builder: (_) => ViewAllScreen(),
+                          builder: (_) => CategoryScreen(
+                            category: Category(
+                              icon: "",
+                              id: 0,
+                              name: "All products",
+                            ),
+                          ),
                         ),
                       );
                     },

@@ -1,8 +1,8 @@
 import 'package:cosmetics_shop/models/favourites.dart';
+import 'package:cosmetics_shop/screens/product/product_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cosmetics_shop/services/databaseHandler.dart';
-import 'package:cosmetics_shop/screens/product_screen.dart';
-import 'package:cosmetics_shop/models/constants.dart';
+import 'package:cosmetics_shop/constants.dart';
 import 'package:cosmetics_shop/models/products.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +15,7 @@ class FavouritesScreen extends StatefulWidget {
 
 class _FavouritesScreenState extends State<FavouritesScreen>
     with TickerProviderStateMixin {
+      
   late AnimationController controller;
   bool containerVisibility = true;
 
@@ -51,15 +52,12 @@ class _FavouritesScreenState extends State<FavouritesScreen>
       containerVisibility = false;
     });
 
-    Timer(
-      Duration(milliseconds: 750),
-      () {
-        setState(() {
-          favProducts.remove(favProducts[index]);
-          containerVisibility = true;
-        });
-      },
-    );
+    Timer(Duration(milliseconds: 750), () {
+      setState(() {
+        favProducts.remove(favProducts[index]);
+        containerVisibility = true;
+      });
+    });
   }
 
   Future<Null> refreshPage() async {
@@ -103,8 +101,8 @@ class _FavouritesScreenState extends State<FavouritesScreen>
                           decoration: BoxDecoration(
                             color: backgroundAccent,
                             borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(defaultPadding),
-                              bottomLeft: Radius.circular(defaultPadding),
+                              topLeft: Radius.circular(20),
+                              bottomLeft: Radius.circular(20),
                             ),
                             boxShadow: [
                               BoxShadow(
@@ -178,7 +176,7 @@ class _FavouritesScreenState extends State<FavouritesScreen>
                       ],
                     ),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(defaultPadding),
+                      borderRadius: BorderRadius.circular(20),
                       color: Colors.white,
                       boxShadow: [
                         BoxShadow(

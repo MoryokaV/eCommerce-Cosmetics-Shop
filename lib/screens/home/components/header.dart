@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cosmetics_shop/models/constants.dart';
+import 'package:cosmetics_shop/constants.dart';
 import 'package:cosmetics_shop/models/products.dart';
 import 'dart:async';
 import 'dart:math';
@@ -58,7 +58,7 @@ class _SearchDialogState extends State<SearchDialog> {
           ),
           height: screenSize.height * 0.175,
           child: Stack(
-            children: <Widget>[
+            children: [
               Container(
                 height: screenSize.height * 0.15,
                 width: screenSize.width,

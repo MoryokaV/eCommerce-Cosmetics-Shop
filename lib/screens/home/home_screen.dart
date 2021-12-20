@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:cosmetics_shop/components/header_trendingbox.dart';
-import 'package:cosmetics_shop/components/recomended_items.dart';
-import 'package:cosmetics_shop/components/categories_selector.dart';
+import 'package:cosmetics_shop/screens/home/components/header.dart';
+import 'package:cosmetics_shop/screens/home/components/recommendations.dart';
+import 'package:cosmetics_shop/screens/home/components/categories_list.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -13,7 +13,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: <Widget>[
+      children: [
         SearchDialog(),
         RecomendedItems(),
         CategoriesList(),

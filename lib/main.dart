@@ -1,9 +1,8 @@
-import 'package:cosmetics_shop/screens/splash_screen.dart';
-import 'package:cosmetics_shop/models/constants.dart';
+import 'package:cosmetics_shop/screens/splash/splash_screen.dart';
+import 'package:cosmetics_shop/constants.dart';
 import 'package:cosmetics_shop/services/databaseHandler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:cosmetics_shop/models/user.dart';
 
 void main() async {
   //precache sqflite dependencies
@@ -26,10 +25,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: "Roboto-Regular",
-        primaryColor: primaryColor,
-        accentColor: accentColor,
         scaffoldBackgroundColor: backgroundColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          secondary: accentColor,
+          primary: primaryColor,
+        ),
       ),
       home: SplashScreen(),
     );

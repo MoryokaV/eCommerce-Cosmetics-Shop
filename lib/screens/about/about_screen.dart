@@ -1,4 +1,4 @@
-import 'package:cosmetics_shop/models/constants.dart';
+import 'package:cosmetics_shop/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -86,14 +86,13 @@ class _AboutScreenState extends State<AboutScreen> {
                     style: TextStyle(
                       fontSize: screenSize.width * 0.05,
                       fontFamily: "Arial",
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.w200,
                     ),
                   ),
                   Container(
                     height: screenSize.width * 0.085,
                     width: screenSize.width * 0.18,
                     decoration: BoxDecoration(
-                      //color: Colors.lightBlue[300],
                       color: accentColor,
                       borderRadius: BorderRadius.circular(15),
                       boxShadow: [
@@ -113,7 +112,7 @@ class _AboutScreenState extends State<AboutScreen> {
                               CupertinoAlertDialog(
                             title: Text("FAQ"),
                             content: Text(
-                                "De ce comanda nu se plaseaza ? / De ce nu mi-am primit comanda?\n\t-> Asigurati-va ca ati permis aplicatiei sa trimita SMS-uri dupa ce datele personale au fost introduse! In caz contrar este nevoie sa oferiti permisiunea din setarile telefonului sau sa reinstalati aplicatia."),
+                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam felis est, placerat eget erat fringilla, vestibulum ullamcorper sapien. Nam nec volutpat lorem."),
                             actions: [
                               CupertinoDialogAction(
                                 isDefaultAction: true,

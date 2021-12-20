@@ -1,5 +1,5 @@
-import 'package:cosmetics_shop/models/constants.dart';
-import 'package:cosmetics_shop/templateLayer.dart';
+import 'package:cosmetics_shop/constants.dart';
+import 'package:cosmetics_shop/widgets/bottomNavBar.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -13,21 +13,23 @@ class _SplashScreenState extends State<SplashScreen> {
   double panelHeight = 0;
 
   void initState() {
+    super.initState();
+    
     Timer(Duration(milliseconds: 10), () {
       setState(() {
         panelHeight = MediaQuery.of(context).size.height;
         panelWidth = MediaQuery.of(context).size.width;
       });
     });
+
     Timer(Duration(milliseconds: 2150), () {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (_) => TemplateLayer(),
+          builder: (_) => BottomNavBar(),
         ),
       );
     });
-    super.initState();
   }
 
   @override

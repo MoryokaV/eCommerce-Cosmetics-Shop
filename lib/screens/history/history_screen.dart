@@ -1,14 +1,14 @@
 import 'package:cosmetics_shop/services/databaseHandler.dart';
-import 'package:cosmetics_shop/models/constants.dart';
+import 'package:cosmetics_shop/constants.dart';
 import 'package:cosmetics_shop/models/order.dart';
 import 'package:flutter/material.dart';
 
-class OrdersHistoryScreen extends StatefulWidget {
+class HistoryScreen extends StatefulWidget {
   @override
-  _OrdersHistoryScreenState createState() => _OrdersHistoryScreenState();
+  _HistoryScreen createState() => _HistoryScreen();
 }
 
-class _OrdersHistoryScreenState extends State<OrdersHistoryScreen> {
+class _HistoryScreen extends State<HistoryScreen> {
   late List<Order> orders;
   bool isLoading = false;
 

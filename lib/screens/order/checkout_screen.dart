@@ -1,9 +1,9 @@
 import 'package:cosmetics_shop/models/cart.dart';
 import 'package:cosmetics_shop/models/user.dart';
-import 'package:cosmetics_shop/screens/congrats_screen.dart';
+import 'package:cosmetics_shop/screens/order/congrats_screen.dart';
 import 'package:cosmetics_shop/services/databaseHandler.dart';
-import 'package:cosmetics_shop/models/constants.dart';
-import 'package:cosmetics_shop/templateLayer.dart';
+import 'package:cosmetics_shop/constants.dart';
+import 'package:cosmetics_shop/widgets/bottomNavBar.dart';
 import 'package:cosmetics_shop/models/order.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/cupertino.dart';
@@ -803,7 +803,7 @@ class _OrderScreenState extends State<OrderScreen> {
             onPressed: () => Navigator.push(
               context,
               CupertinoPageRoute(
-                builder: (_) => TemplateLayer(),
+                builder: (_) => BottomNavBar(),
               ),
             ),
           ),

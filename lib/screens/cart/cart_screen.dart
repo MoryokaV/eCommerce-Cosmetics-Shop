@@ -1,12 +1,12 @@
 import 'package:cosmetics_shop/models/order.dart';
+import 'package:cosmetics_shop/screens/product/product_screen.dart';
 import 'package:cosmetics_shop/services/databaseHandler.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:cosmetics_shop/screens/product_screen.dart';
 import 'package:cosmetics_shop/models/favourites.dart';
-import 'package:cosmetics_shop/screens/checkout_screen.dart';
+import 'package:cosmetics_shop/screens/order/checkout_screen.dart';
 import 'package:cosmetics_shop/models/products.dart';
-import 'package:cosmetics_shop/models/constants.dart';
+import 'package:cosmetics_shop/constants.dart';
 import 'package:cosmetics_shop/models/cart.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
@@ -66,7 +66,7 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
     List<Cart> cart = await retrieveCart();
     List<Favourite> favourites = await retrieveFavourites();
     orders = await retrieveOrders();
-    
+
     cartProducts.clear();
     quantities.clear();
     favIco.clear();
@@ -551,11 +551,10 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                           decoration: BoxDecoration(
                             color: backgroundAccent,
                             borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(defaultPadding / 2),
-                              bottomLeft: Radius.circular(defaultPadding / 2),
-                              topRight: Radius.circular(defaultPadding / 2),
-                              bottomRight:
-                                  Radius.circular(defaultPadding * 1.5),
+                              topLeft: Radius.circular(20 / 2),
+                              bottomLeft: Radius.circular(20 / 2),
+                              topRight: Radius.circular(20 / 2),
+                              bottomRight: Radius.circular(20 * 1.5),
                             ),
                           ),
                         ),

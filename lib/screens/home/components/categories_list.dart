@@ -1,5 +1,5 @@
-import 'package:cosmetics_shop/screens/category_screen.dart';
-import 'package:cosmetics_shop/models/constants.dart';
+import 'package:cosmetics_shop/screens/category/category_screen.dart';
+import 'package:cosmetics_shop/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cosmetics_shop/models/categories.dart';

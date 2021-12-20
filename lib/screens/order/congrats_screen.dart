@@ -1,5 +1,5 @@
-import 'package:cosmetics_shop/models/constants.dart';
-import 'package:cosmetics_shop/templateLayer.dart';
+import 'package:cosmetics_shop/constants.dart';
+import 'package:cosmetics_shop/widgets/bottomNavBar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
@@ -83,7 +83,7 @@ class _CongratsScreenState extends State<CongratsScreen> {
                   Navigator.push(
                     context,
                     CupertinoPageRoute(
-                      builder: (_) => TemplateLayer(),
+                      builder: (_) => BottomNavBar(),
                     ),
                   );
                 },
@@ -156,7 +156,7 @@ class _CongratsScreenState extends State<CongratsScreen> {
             onPressed: () => Navigator.push(
               context,
               CupertinoPageRoute(
-                builder: (_) => TemplateLayer(),
+                builder: (_) => BottomNavBar(),
               ),
             ),
           ),

@@ -1,8 +1,8 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cosmetics_shop/models/favourites.dart';
 import 'package:cosmetics_shop/models/products.dart';
-import 'package:cosmetics_shop/screens/cart_screen.dart';
-import 'package:cosmetics_shop/models/constants.dart';
+import 'package:cosmetics_shop/screens/cart/cart_screen.dart';
+import 'package:cosmetics_shop/constants.dart';
 import 'package:cosmetics_shop/models/cart.dart';
 import 'package:cosmetics_shop/services/databaseHandler.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -104,7 +104,7 @@ class _ProductScreenState extends State<ProductScreen> {
             Container(
               height: screenSize.height * 0.6,
               child: Stack(
-                children: <Widget>[
+                children: [
                   Container(
                     margin: EdgeInsets.only(
                       left: defaultPadding * 3.5,
@@ -290,7 +290,7 @@ class _ProductScreenState extends State<ProductScreen> {
                       bottom: defaultPadding / 4,
                     ),
                     child: Container(
-                      height: screenSize.height * 0.15,
+                      height: screenSize.height * 0.125,
                       child: SingleChildScrollView(
                         scrollDirection: Axis.vertical,
                         child: Text(

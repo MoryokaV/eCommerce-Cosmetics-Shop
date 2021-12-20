@@ -1,11 +1,11 @@
+import 'package:cosmetics_shop/screens/product/product_screen.dart';
 import 'package:cosmetics_shop/services/databaseHandler.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:cosmetics_shop/screens/product_screen.dart';
 import 'package:cosmetics_shop/models/categories.dart';
 import 'package:cosmetics_shop/models/favourites.dart';
 import 'package:cosmetics_shop/models/products.dart';
-import 'package:cosmetics_shop/screens/cart_screen.dart';
-import 'package:cosmetics_shop/models/constants.dart';
+import 'package:cosmetics_shop/screens/cart/cart_screen.dart';
+import 'package:cosmetics_shop/constants.dart';
 import 'package:cosmetics_shop/models/cart.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,7 +24,7 @@ class CategoryScreen extends StatefulWidget {
 
 class _CategoryScreenState extends State<CategoryScreen> {
   List<Product> categoryProducts = [];
-  List<bool> favIco = [];
+  List<bool> favIcon = [];
   bool isLoading = false;
 
   Future<void> addToCart(int id) async {
@@ -64,10 +64,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   void toggleFavourites(Size screenSize, int index, int id) async {
     setState(
-      () => favIco[index] = !favIco[index],
+      () => favIcon[index] = !favIcon[index],
     );
 
-    favIco[index]
+    favIcon[index]
         ? await addFavourites(screenSize, id)
         : await deleteFavouriteItem(id);
   }
@@ -80,7 +80,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
     for (int i = 0; i < categoryProducts.length; i++) {
       for (int j = 0; j < favourites.length; j++) {
         if (favourites[j].productID == categoryProducts[i].id) {
-          favIco[i] = true;
+          favIcon[i] = true;
           break;
         }
       }
@@ -91,12 +91,18 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   void productsGathering() {
     categoryProducts.clear();
-    favIco.clear();
+    favIcon.clear();
 
-    for (int i = 0; i < products.length; i++) {
-      if (products[i].categoryID == widget.category.id) {
-        categoryProducts.add(products[i]);
-        favIco.add(false);
+    if (widget.category.name == "All products") {
+      categoryProducts = products;
+      for(int i = 0; i < products.length; i++)
+        favIcon.add(false);
+    } else {
+      for (int i = 0; i < products.length; i++) {
+        if (products[i].categoryID == widget.category.id) {
+          categoryProducts.add(products[i]);
+          favIcon.add(false);
+        }
       }
     }
   }
@@ -213,7 +219,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                             child: IconButton(
                                               icon: Icon(
                                                   FontAwesomeIcons.solidHeart),
-                                              color: favIco[index]
+                                              color: favIcon[index]
                                                   ? Colors.red
                                                   : Colors.grey[600],
                                               onPressed: () => toggleFavourites(
