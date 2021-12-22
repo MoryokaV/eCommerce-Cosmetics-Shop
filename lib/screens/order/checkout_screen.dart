@@ -59,7 +59,7 @@ class _OrderScreenState extends State<OrderScreen> {
   final validEmail = RegExp(
       r"^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$");
 
-  bool isLoading = false;
+  bool isLoading = true;
 
   void initState() {
     super.initState();
@@ -67,8 +67,6 @@ class _OrderScreenState extends State<OrderScreen> {
   }
 
   Future<void> loadAccountDetails() async {
-    setState(() => isLoading = true);
-
     User user = await retrieveUser();
 
     _controllerName.text = fullName = user.name;
@@ -158,7 +156,7 @@ class _OrderScreenState extends State<OrderScreen> {
           child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.all(defaultPadding / 1.25),
+                padding: EdgeInsets.all(kDefaultPadding),
                 child: Row(
                   children: [
                     Text(
@@ -166,7 +164,6 @@ class _OrderScreenState extends State<OrderScreen> {
                       style: TextStyle(
                         fontSize: screenSize.width * 0.085,
                         color: Colors.black54,
-                        fontFamily: "Robot-Black",
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -176,16 +173,14 @@ class _OrderScreenState extends State<OrderScreen> {
               Container(
                 height: screenSize.height * 0.08,
                 width: screenSize.width * 0.9,
-                margin: EdgeInsets.only(
-                  top: defaultPadding / 1.5,
-                ),
+                margin: EdgeInsets.only(top: kDefaultPadding / 2),
                 padding: EdgeInsets.only(
-                  left: defaultPadding / 1.5,
-                  right: defaultPadding / 1.5,
-                  bottom: defaultPadding / 4,
+                  left: kDefaultPadding,
+                  right: kDefaultPadding,
+                  bottom: kDefaultPadding / 4,
                 ),
                 decoration: BoxDecoration(
-                  color: primaryColor,
+                  color: kPrimaryColor,
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
@@ -209,9 +204,6 @@ class _OrderScreenState extends State<OrderScreen> {
                         fontFamily: "Arial",
                         fontSize:
                             screenSize.width * screenSize.height * 0.00005,
-                        color: _focusNodeName.hasFocus
-                            ? Colors.black54
-                            : Colors.black54,
                       ),
                     ),
                   ),
@@ -220,16 +212,14 @@ class _OrderScreenState extends State<OrderScreen> {
               Container(
                 height: screenSize.height * 0.08,
                 width: screenSize.width * 0.9,
-                margin: EdgeInsets.only(
-                  top: defaultPadding / 1.5,
-                ),
+                margin: EdgeInsets.only(top: kDefaultPadding / 2),
                 padding: EdgeInsets.only(
-                  left: defaultPadding / 1.5,
-                  right: defaultPadding / 1.5,
-                  bottom: defaultPadding / 4,
+                  left: kDefaultPadding,
+                  right: kDefaultPadding,
+                  bottom: kDefaultPadding / 4,
                 ),
                 decoration: BoxDecoration(
-                  color: primaryColor,
+                  color: kPrimaryColor,
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
@@ -253,9 +243,6 @@ class _OrderScreenState extends State<OrderScreen> {
                         fontFamily: "Arial",
                         fontSize:
                             screenSize.width * screenSize.height * 0.00005,
-                        color: _focusNodeZip.hasFocus
-                            ? Colors.black54
-                            : Colors.black54,
                       ),
                     ),
                   ),
@@ -264,16 +251,14 @@ class _OrderScreenState extends State<OrderScreen> {
               Container(
                 height: screenSize.height * 0.08,
                 width: screenSize.width * 0.9,
-                margin: EdgeInsets.only(
-                  top: defaultPadding / 1.5,
-                ),
+                margin: EdgeInsets.only(top: kDefaultPadding / 2),
                 padding: EdgeInsets.only(
-                  left: defaultPadding / 1.5,
-                  right: defaultPadding / 1.5,
-                  bottom: defaultPadding / 4,
+                  left: kDefaultPadding,
+                  right: kDefaultPadding,
+                  bottom: kDefaultPadding / 4,
                 ),
                 decoration: BoxDecoration(
-                  color: primaryColor,
+                  color: kPrimaryColor,
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
@@ -298,9 +283,6 @@ class _OrderScreenState extends State<OrderScreen> {
                         fontFamily: "Arial",
                         fontSize:
                             screenSize.width * screenSize.height * 0.00005,
-                        color: _focusNodeZip.hasFocus
-                            ? Colors.black54
-                            : Colors.black54,
                       ),
                     ),
                   ),
@@ -309,16 +291,14 @@ class _OrderScreenState extends State<OrderScreen> {
               Container(
                 height: screenSize.height * 0.08,
                 width: screenSize.width * 0.9,
-                margin: EdgeInsets.only(
-                  top: defaultPadding / 1.5,
-                ),
+                margin: EdgeInsets.only(top: kDefaultPadding / 2),
                 padding: EdgeInsets.only(
-                  left: defaultPadding / 1.5,
-                  right: defaultPadding / 1.5,
-                  bottom: defaultPadding / 4,
+                  left: kDefaultPadding,
+                  right: kDefaultPadding,
+                  bottom: kDefaultPadding / 4,
                 ),
                 decoration: BoxDecoration(
-                  color: primaryColor,
+                  color: kPrimaryColor,
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
@@ -342,9 +322,6 @@ class _OrderScreenState extends State<OrderScreen> {
                         fontFamily: "Arial",
                         fontSize:
                             screenSize.width * screenSize.height * 0.00005,
-                        color: _focusNodeAddress.hasFocus
-                            ? Colors.black54
-                            : Colors.black54,
                       ),
                     ),
                   ),
@@ -354,7 +331,7 @@ class _OrderScreenState extends State<OrderScreen> {
                 height: screenSize.height * 0.115,
                 width: screenSize.width * 0.9,
                 margin: EdgeInsets.only(
-                  top: defaultPadding / 1.5,
+                  top: kDefaultPadding / 1.5,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -362,11 +339,11 @@ class _OrderScreenState extends State<OrderScreen> {
                     Container(
                       width: screenSize.width * 0.425,
                       padding: EdgeInsets.only(
-                        left: defaultPadding / 1.5,
-                        right: defaultPadding / 1.5,
+                        left: kDefaultPadding / 1.5,
+                        right: kDefaultPadding / 1.5,
                       ),
                       decoration: BoxDecoration(
-                        color: primaryColor,
+                        color: kPrimaryColor,
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: [
                           BoxShadow(
@@ -382,7 +359,7 @@ class _OrderScreenState extends State<OrderScreen> {
                         children: [
                           Padding(
                             padding: EdgeInsets.only(
-                              top: defaultPadding / 4,
+                              top: kDefaultPadding / 4,
                               bottom: 0,
                             ),
                             child: Text(
@@ -428,46 +405,40 @@ class _OrderScreenState extends State<OrderScreen> {
                         ],
                       ),
                     ),
-                    Container(
-                      width: screenSize.width * 0.425,
-                      margin: EdgeInsets.only(
-                        top: defaultPadding / 1.5,
-                      ),
-                      padding: EdgeInsets.only(
-                        left: defaultPadding / 1.5,
-                        right: defaultPadding / 1.5,
-                        bottom: defaultPadding / 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: primaryColor,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black54,
-                            blurRadius: 6,
-                            offset: Offset(-1, 1),
-                          ),
-                        ],
-                      ),
-                      child: Center(
-                        child: TextField(
-                          keyboardType: TextInputType.number,
-                          focusNode: _focusNodeZip,
-                          onSubmitted: (String newValue) {
-                            zip = newValue;
-                            FocusScope.of(context).unfocus();
-                          },
-                          controller: _controllerZip,
-                          decoration: InputDecoration(
-                            labelText: "* Zip Code",
-                            labelStyle: TextStyle(
-                              fontFamily: "Arial",
-                              fontSize: screenSize.width *
-                                  screenSize.height *
-                                  0.00005,
-                              color: _focusNodeZip.hasFocus
-                                  ? Colors.black54
-                                  : Colors.black54,
+                    Expanded(
+                      child: Container(
+                        height: screenSize.height * 0.115,
+                        margin: EdgeInsets.only(left: kDefaultPadding),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                        decoration: BoxDecoration(
+                          color: kPrimaryColor,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black54,
+                              blurRadius: 6,
+                              offset: Offset(-1, 1),
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: TextField(
+                            keyboardType: TextInputType.number,
+                            focusNode: _focusNodeZip,
+                            onSubmitted: (String newValue) {
+                              zip = newValue;
+                              FocusScope.of(context).unfocus();
+                            },
+                            controller: _controllerZip,
+                            decoration: InputDecoration(
+                              labelText: "* Zip Code",
+                              labelStyle: TextStyle(
+                                fontFamily: "Arial",
+                                fontSize: screenSize.width *
+                                    screenSize.height *
+                                    0.00005,
+                              ),
                             ),
                           ),
                         ),
@@ -480,14 +451,14 @@ class _OrderScreenState extends State<OrderScreen> {
                 height: screenSize.height * 0.115,
                 width: screenSize.width * 0.9,
                 margin: EdgeInsets.only(
-                  top: defaultPadding / 1.5,
+                  top: kDefaultPadding / 1.5,
                 ),
                 padding: EdgeInsets.only(
-                  left: defaultPadding / 1.5,
-                  right: defaultPadding / 1.5,
+                  left: kDefaultPadding / 1.5,
+                  right: kDefaultPadding / 1.5,
                 ),
                 decoration: BoxDecoration(
-                  color: primaryColor,
+                  color: kPrimaryColor,
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
@@ -503,7 +474,7 @@ class _OrderScreenState extends State<OrderScreen> {
                   children: [
                     Padding(
                       padding: EdgeInsets.only(
-                        top: defaultPadding / 4,
+                        top: kDefaultPadding / 4,
                         bottom: 0,
                       ),
                       child: Text(
@@ -552,14 +523,14 @@ class _OrderScreenState extends State<OrderScreen> {
                 height: screenSize.height * 0.115,
                 width: screenSize.width * 0.9,
                 margin: EdgeInsets.only(
-                  top: defaultPadding / 1.5,
+                  top: kDefaultPadding / 1.5,
                 ),
                 padding: EdgeInsets.only(
-                  left: defaultPadding / 1.5,
-                  right: defaultPadding / 1.5,
+                  left: kDefaultPadding / 1.5,
+                  right: kDefaultPadding / 1.5,
                 ),
                 decoration: BoxDecoration(
-                  color: primaryColor,
+                  color: kPrimaryColor,
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
@@ -575,7 +546,7 @@ class _OrderScreenState extends State<OrderScreen> {
                   children: [
                     Padding(
                       padding: EdgeInsets.only(
-                        top: defaultPadding / 4,
+                        top: kDefaultPadding / 4,
                         bottom: 0,
                       ),
                       child: Text(
@@ -623,13 +594,8 @@ class _OrderScreenState extends State<OrderScreen> {
               Container(
                 height: screenSize.height * 0.1,
                 width: screenSize.width * 0.9,
-                margin: EdgeInsets.only(
-                  top: defaultPadding / 1.5,
-                ),
-                padding: EdgeInsets.only(
-                  left: defaultPadding / 2,
-                  right: defaultPadding / 2,
-                ),
+                margin: EdgeInsets.only(top: kDefaultPadding / 2),
+                padding: EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
                 child: Center(
                   child: TextField(
                     focusNode: _focusNodeDetails,
@@ -660,7 +626,7 @@ class _OrderScreenState extends State<OrderScreen> {
                   ),
                 ),
                 decoration: BoxDecoration(
-                  color: primaryColor,
+                  color: kPrimaryColor,
                   borderRadius: BorderRadius.circular(8),
                   boxShadow: [
                     BoxShadow(
@@ -735,8 +701,8 @@ class _OrderScreenState extends State<OrderScreen> {
                 },
                 child: Container(
                   margin: EdgeInsets.only(
-                    top: defaultPadding / 2,
-                    bottom: defaultPadding,
+                    top: kDefaultPadding / 2,
+                    bottom: kDefaultPadding,
                   ),
                   height: screenSize.height * 0.07,
                   width: screenSize.width * 0.7,
@@ -744,17 +710,17 @@ class _OrderScreenState extends State<OrderScreen> {
                     child: Text(
                       "Buy",
                       style: TextStyle(
-                        fontFamily: "Roboto-Bold",
+                        fontWeight: FontWeight.bold,
                         fontSize: screenSize.width * 0.06,
-                        color: primaryColor,
+                        color: kPrimaryColor,
                       ),
                     ),
                   ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(
-                      defaultPadding * 2,
+                      kDefaultPadding * 2,
                     ),
-                    color: accentColor,
+                    color: kAccentColor,
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black45,
@@ -774,7 +740,7 @@ class _OrderScreenState extends State<OrderScreen> {
 
   PreferredSizeWidget buildAppBar(Size screenSize) {
     return AppBar(
-      backgroundColor: accentColor,
+      backgroundColor: kAccentColor,
       automaticallyImplyLeading: false,
       titleSpacing: 0,
       elevation: 5,
@@ -784,14 +750,14 @@ class _OrderScreenState extends State<OrderScreen> {
           IconButton(
             icon: Icon(Icons.arrow_back_ios),
             iconSize: screenSize.width * 0.06,
-            color: primaryColor,
+            color: kPrimaryColor,
             onPressed: () => Navigator.pop(context),
           ),
           Text(
             "Checkout",
             style: TextStyle(
               fontFamily: "Roboto-Medium",
-              color: primaryColor,
+              color: kPrimaryColor,
               fontWeight: FontWeight.w700,
               fontSize: screenSize.width * 0.055,
             ),
@@ -799,7 +765,7 @@ class _OrderScreenState extends State<OrderScreen> {
           IconButton(
             icon: Icon(Icons.home),
             iconSize: screenSize.width * 0.06,
-            color: primaryColor,
+            color: kPrimaryColor,
             onPressed: () => Navigator.push(
               context,
               CupertinoPageRoute(

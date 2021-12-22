@@ -4,150 +4,129 @@ import 'package:cosmetics_shop/models/products.dart';
 import 'dart:async';
 import 'dart:math';
 
-class SearchDialog extends StatefulWidget {
+class Header extends StatefulWidget {
   @override
-  _SearchDialogState createState() => _SearchDialogState();
+  _HeaderState createState() => _HeaderState();
 }
 
-class _SearchDialogState extends State<SearchDialog> {
-  bool showNamePrice = true;
+class _HeaderState extends State<Header> {
+  bool showName = true;
   String name = "";
   String price = "";
-  List list = [];
 
-  List getProduct() {
+  void getProduct() {
     int index = Random().nextInt(products.length);
-    return [
-      products[index].name,
-      "Only " + products[index].price.toString() + " RON"
-    ];
+
+    name = products[index].name;
+    price = "Only " + products[index].price.toString() + " RON";
   }
 
   void toggleAntimations() {
     Timer.periodic(Duration(seconds: 5), (timer) {
       if (mounted) {
         setState(() {
-          showNamePrice = !showNamePrice;
-          if (showNamePrice) retrieveValues();
+          showName = !showName;
+          if (showName) getProduct();
         });
       }
     });
   }
 
-  void retrieveValues() {
-    list = getProduct();
-
-    name = list[0];
-    price = list[1];
-  }
-
   void initState() {
     super.initState();
-    retrieveValues();
+    getProduct();
     toggleAntimations();
   }
 
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    return Column(
-      children: [
-        Container(
-          margin: EdgeInsets.only(
-            bottom: defaultPadding / 1.5,
-          ),
-          height: screenSize.height * 0.175,
-          child: Stack(
-            children: [
-              Container(
-                height: screenSize.height * 0.15,
-                width: screenSize.width,
-                padding: EdgeInsets.only(
-                  top: defaultPadding / 4,
-                  left: defaultPadding / 1.5,
-                ),
-                child: SingleChildScrollView(
-                  child: Text(
-                    "\t Hi, what do you buy today?",
-                    style: TextStyle(
-                      fontSize: screenSize.width * 0.0625,
-                      fontWeight: FontWeight.w600,
-                      color: primaryColor,
-                    ),
-                  ),
-                ),
-                decoration: BoxDecoration(
-                  color: accentColor,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(36.0),
-                    bottomRight: Radius.circular(36.0),
-                  ),
-                ),
+
+    return Container(
+      margin: EdgeInsets.only(bottom: kDefaultPadding / 2),
+      height: screenSize.height * 0.175,
+      child: Stack(
+        children: [
+          Container(
+            height: screenSize.height * 0.15,
+            width: screenSize.width,
+            padding: EdgeInsets.only(
+              top: kDefaultPadding / 2,
+              left: kDefaultPadding,
+            ),
+            child: Text(
+              "Hi, what do you buy today?",
+              style: TextStyle(
+                fontSize: screenSize.width * 0.0625,
+                fontWeight: FontWeight.w300,
+                color: kPrimaryColor,
               ),
-              Positioned(
-                bottom: defaultPadding / 4,
-                right: 0,
-                left: 0,
-                child: Container(
-                    alignment: Alignment.center,
-                    margin:
-                        EdgeInsets.symmetric(horizontal: defaultPadding - 5),
-                    padding:
-                        EdgeInsets.symmetric(horizontal: defaultPadding - 5),
-                    height: screenSize.height * 0.055,
-                    decoration: BoxDecoration(
-                      color: primaryColor,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black38,
-                          offset: Offset(0, 10),
-                          blurRadius: 25,
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        AnimatedCrossFade(
-                          firstChild: Text(
-                            name,
-                            style: TextStyle(
-                              fontFamily: "Arial",
-                              fontWeight: FontWeight.w600,
-                              fontSize: screenSize.height * 0.03,
-                              color: accentColor,
-                            ),
-                          ),
-                          secondChild: Text(
-                            price,
-                            style: TextStyle(
-                              fontFamily: "Arial",
-                              fontWeight: FontWeight.w500,
-                              fontSize: screenSize.height * 0.025,
-                              color: Colors.green[600],
-                            ),
-                          ),
-                          crossFadeState: showNamePrice
-                              ? CrossFadeState.showFirst
-                              : CrossFadeState.showSecond,
-                          firstCurve: Curves.easeOut,
-                          secondCurve: Curves.easeIn,
-                          sizeCurve: Curves.bounceOut,
-                          duration: Duration(seconds: 1),
-                        ),
-                        Icon(
-                          Icons.trending_up_rounded,
-                          color: accentColor,
-                          size: screenSize.height * 0.035,
-                        ),
-                      ],
-                    )),
-              )
-            ],
+            ),
+            decoration: BoxDecoration(
+              color: kAccentColor,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(36),
+                bottomRight: Radius.circular(36),
+              ),
+            ),
           ),
-        ),
-      ],
+          Positioned(
+            bottom: 5,
+            right: 0,
+            left: 0,
+            child: Container(
+              alignment: Alignment.center,
+              height: screenSize.height * 0.055,
+              margin: EdgeInsets.symmetric(horizontal: kDefaultPadding),
+              padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
+              decoration: BoxDecoration(
+                color: kPrimaryColor,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black38,
+                    offset: Offset(0, 4),
+                    blurRadius: 15,
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  AnimatedCrossFade(
+                    firstChild: Text(
+                      name,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6!
+                          .copyWith(color: kAccentColor),
+                    ),
+                    secondChild: Text(
+                      price,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6!
+                          .copyWith(color: Colors.green[600]),
+                    ),
+                    crossFadeState: showName
+                        ? CrossFadeState.showFirst
+                        : CrossFadeState.showSecond,
+                    firstCurve: Curves.easeOut,
+                    secondCurve: Curves.easeIn,
+                    sizeCurve: Curves.decelerate,
+                    duration: Duration(seconds: 1),
+                  ),
+                  Icon(
+                    Icons.trending_up_rounded,
+                    color: kAccentColor,
+                    size: 30,
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

@@ -25,11 +25,11 @@ class NavButton extends StatelessWidget {
         ),
       ),
       child: Container(
-        margin: EdgeInsets.only(top: defaultPadding / 1.5),
+        margin: EdgeInsets.only(top: kDefaultPadding / 1.5),
         height: screenSize.height * 0.155,
         width: screenSize.width * 0.9,
         decoration: BoxDecoration(
-          color: backgroundAccent,
+          color: kBgAccent,
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
@@ -43,10 +43,10 @@ class NavButton extends StatelessWidget {
           children: [
             Container(
               margin: EdgeInsets.only(
-                bottom: defaultPadding,
-                top: defaultPadding,
-                left: defaultPadding / 2,
-                right: defaultPadding / 2,
+                bottom: kDefaultPadding,
+                top: kDefaultPadding,
+                left: kDefaultPadding / 2,
+                right: kDefaultPadding / 2,
               ),
               height: screenSize.height * 0.12,
               width: screenSize.width * 0.22,

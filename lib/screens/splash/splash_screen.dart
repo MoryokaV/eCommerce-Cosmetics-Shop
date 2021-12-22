@@ -14,7 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void initState() {
     super.initState();
-    
+
     Timer(Duration(milliseconds: 10), () {
       setState(() {
         panelHeight = MediaQuery.of(context).size.height;
@@ -34,8 +34,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
-
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -54,8 +52,8 @@ class _SplashScreenState extends State<SplashScreen> {
                     end: Alignment.bottomRight,
                     stops: [0.25, 1],
                     colors: [
-                      backgroundAccent,
-                      primaryColor,
+                      kBgAccent,
+                      kPrimaryColor,
                     ],
                   ),
                 ),
@@ -65,35 +63,35 @@ class _SplashScreenState extends State<SplashScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  "Cosmetics Shop",
-                  style: TextStyle(
-                    fontSize: screenSize.width * 0.1,
-                    color: accentColor,
-                    fontFamily: "Arial",
-                    fontWeight: FontWeight.bold,
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: 300,
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      "assets/images/launcher_ic.png",
-                      height: screenSize.height * 0.4,
-                      width: screenSize.width * 0.4,
+                  child: Text(
+                    "Cosmetics Shop",
+                    style: TextStyle(
+                      fontSize: 30,
+                      color: kAccentColor,
+                      fontFamily: "Roboto-Medium",
                     ),
-                  ],
+                  ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(
-                    top: defaultPadding * 2,
+                  padding: EdgeInsets.symmetric(vertical: kDefaultPadding * 2),
+                  child: Image.asset(
+                    "assets/images/launcher_ic.png",
+                    height: 150,
+                    width: 150,
                   ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: kDefaultPadding * 2),
                   child: Text(
                     "Designed for you",
                     style: TextStyle(
-                      fontSize: screenSize.width * 0.05,
-                      color: accentColor,
-                      fontFamily: "Roboto-Light",
+                      fontSize: 18,
+                      color: kAccentColor,
+                      fontWeight: FontWeight.w300,
                     ),
                   ),
                 ),

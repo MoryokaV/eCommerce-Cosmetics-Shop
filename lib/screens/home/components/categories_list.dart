@@ -13,103 +13,65 @@ class _CategoriesListState extends State<CategoriesList> {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(
-                left: defaultPadding / 1.5,
-              ),
-              child: Text(
-                "Categories",
-                style: TextStyle(
-                  fontSize: screenSize.width * 0.0675,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black54,
-                  fontFamily: "Roboto-Medium",
+    return Container(
+      height: screenSize.height * 0.2,
+      margin: EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
+      child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: categories.length,
+          itemBuilder: (BuildContext context, int index) {
+            Category category = categories[index];
+            return GestureDetector(
+              onTap: () => Navigator.push(
+                context,
+                CupertinoPageRoute(
+                  builder: (_) => CategoryScreen(
+                    category: category,
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
-        Container(
-          margin: EdgeInsets.only(
-            left: defaultPadding / 2,
-            right: defaultPadding / 2,
-          ),
-          height: screenSize.height * 0.17,
-          child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: categories.length,
-              itemBuilder: (BuildContext context, int index) {
-                Category category = categories[index];
-                return GestureDetector(
-                  onTap: () => Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                      builder: (_) => CategoryScreen(
-                        category: category,
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
+                child: Column(
+                  children: [
+                    Container(
+                      height: screenSize.width * screenSize.height * 0.00025,
+                      width: screenSize.width * screenSize.height * 0.00025,
+                      margin:
+                          EdgeInsets.symmetric(vertical: kDefaultPadding / 2),
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Image.asset(
+                          category.icon,
+                          height: screenSize.width * screenSize.height * 0.000175,
+                          width: screenSize.width * screenSize.height * 0.000175,
+                        ),
                       ),
-                    ),
-                  ),
-                  child: FittedBox(
-                    fit: BoxFit.fill,
-                    child: Container(
-                      height: screenSize.height * 0.17,
-                      margin: EdgeInsets.only(
-                        top: screenSize.height * 0.0125,
-                        left: screenSize.width * 0.0175,
-                        right: screenSize.width * 0.0175,
-                      ),
-                      child: Column(
-                        children: [
-                          Container(
-                            child: CircleAvatar(
-                              radius: screenSize.width *
-                                  screenSize.height *
-                                  0.000155,
-                              backgroundColor: primaryColor,
-                              child: Image.asset(
-                                category.icon,
-                                width: screenSize.width * 0.19,
-                                height: screenSize.height * 0.08,
-                              ),
-                            ),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  offset: Offset(0, 1),
-                                  color: Colors.black45,
-                                  blurRadius: 7.5,
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                              top: defaultPadding / 4,
-                            ),
-                            child: Text(
-                              category.name,
-                              style: TextStyle(
-                                fontFamily: "Roboto-Regular",
-                                fontWeight: FontWeight.w800,
-                                color: Colors.black54,
-                                fontSize: screenSize.width * 0.0425,
-                              ),
-                            ),
+                      decoration: BoxDecoration(
+                        color: kPrimaryColor,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            offset: Offset(0, 1),
+                            color: Colors.black45,
+                            blurRadius: 7,
                           ),
                         ],
                       ),
                     ),
-                  ),
-                );
-              }),
-        ),
-      ],
+                    Text(
+                      category.name,
+                      style: TextStyle(
+                        color: Colors.black54,
+                        fontWeight: FontWeight.w600,
+                        fontSize: screenSize.width * 0.0425,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }),
     );
   }
 }

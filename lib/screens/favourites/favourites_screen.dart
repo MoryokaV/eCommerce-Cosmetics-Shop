@@ -13,15 +13,11 @@ class FavouritesScreen extends StatefulWidget {
   _FavouritesScreenState createState() => _FavouritesScreenState();
 }
 
-class _FavouritesScreenState extends State<FavouritesScreen>
-    with TickerProviderStateMixin {
-      
-  late AnimationController controller;
-  bool containerVisibility = true;
-
+class _FavouritesScreenState extends State<FavouritesScreen> {
   List<Product> favProducts = [];
-  List<bool> favIco = [];
-  bool isLoading = false;
+  List<bool> favIcon = [];
+  bool isLoading = true;
+  bool containerVisibility = true;
 
   void initState() {
     super.initState();
@@ -29,15 +25,13 @@ class _FavouritesScreenState extends State<FavouritesScreen>
   }
 
   Future<void> productGathering() async {
-    setState(() => isLoading = true);
-
     List<Favourite> favourites = await retrieveFavourites();
 
-    favIco.clear();
+    favIcon.clear();
     favProducts.clear();
 
     for (int i = 0; i < favourites.length; i++) {
-      favIco.add(true);
+      favIcon.add(true);
       favProducts.add(products[favourites[i].productID - 1]);
     }
 
@@ -48,13 +42,14 @@ class _FavouritesScreenState extends State<FavouritesScreen>
     await deleteFavouriteItem(favProducts[index].id);
 
     setState(() {
-      favIco[index] = false;
+      favIcon[index] = false;
       containerVisibility = false;
     });
 
     Timer(Duration(milliseconds: 750), () {
       setState(() {
         favProducts.remove(favProducts[index]);
+        favIcon[index] = true;
         containerVisibility = true;
       });
     });
@@ -87,10 +82,10 @@ class _FavouritesScreenState extends State<FavouritesScreen>
                   duration: Duration(milliseconds: 500),
                   child: Container(
                     margin: EdgeInsets.only(
-                      left: defaultPadding,
-                      right: defaultPadding,
-                      top: defaultPadding / 1.5,
-                      bottom: defaultPadding / 1.5,
+                      left: kDefaultPadding,
+                      right: kDefaultPadding,
+                      top: kDefaultPadding / 1.5,
+                      bottom: kDefaultPadding / 1.5,
                     ),
                     height: screenSize.height * 0.2,
                     child: Row(
@@ -99,7 +94,7 @@ class _FavouritesScreenState extends State<FavouritesScreen>
                           height: screenSize.height * 0.2,
                           width: screenSize.width * 0.35,
                           decoration: BoxDecoration(
-                            color: backgroundAccent,
+                            color: kBgAccent,
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(20),
                               bottomLeft: Radius.circular(20),
@@ -123,7 +118,7 @@ class _FavouritesScreenState extends State<FavouritesScreen>
                               width: screenSize.width * 0.45,
                               child: Padding(
                                 padding: EdgeInsets.only(
-                                  top: defaultPadding / 2,
+                                  top: kDefaultPadding / 2,
                                 ),
                                 child: Center(
                                   child: Text(
@@ -142,9 +137,9 @@ class _FavouritesScreenState extends State<FavouritesScreen>
                             Spacer(),
                             Padding(
                               padding: EdgeInsets.only(
-                                left: defaultPadding * 1.75,
-                                right: defaultPadding,
-                                bottom: defaultPadding / 1.5,
+                                left: kDefaultPadding * 1.75,
+                                right: kDefaultPadding,
+                                bottom: kDefaultPadding / 1.5,
                               ),
                               child: Row(
                                 mainAxisAlignment:
@@ -157,11 +152,11 @@ class _FavouritesScreenState extends State<FavouritesScreen>
                                       fontFamily: "Roboto-Black",
                                       fontSize: screenSize.width * 0.05,
                                       fontWeight: FontWeight.bold,
-                                      color: accentColor,
+                                      color: kAccentColor,
                                     ),
                                   ),
                                   IconButton(
-                                    icon: favIco[index]
+                                    icon: favIcon[index]
                                         ? Icon(FontAwesomeIcons.solidHeart)
                                         : Icon(FontAwesomeIcons.heart),
                                     onPressed: () => removeFavourite(index),
@@ -194,32 +189,38 @@ class _FavouritesScreenState extends State<FavouritesScreen>
     );
   }
 
-  Widget buildNoItem(Size screenSize) {
+  Widget buildEmptyList(Size screenSize) {
     return Expanded(
       child: Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              "assets/images/misc/sad_emoji.png",
-              height: screenSize.width * 0.3,
-              width: screenSize.width * 0.3,
-            ),
-            SizedBox(
-              height: screenSize.height * 0.05,
-            ),
-            Text(
-              "It seems like you don't have a favourite product yet!",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: "Century-Gothic",
-                fontWeight: FontWeight.bold,
-                fontSize: 25,
-                color: accentColor,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                "assets/images/misc/sad_emoji.png",
+                height: screenSize.width * 0.3,
+                width: screenSize.width * 0.3,
               ),
-            ),
-          ],
+              SizedBox(
+                height: screenSize.height * 0.05,
+              ),
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: screenSize.width * 0.8,
+                ),
+                child: Text(
+                  "It seems like you don't have a favourite product yet!",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: "Century-Gothic",
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
+                    color: kAccentColor,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -239,7 +240,7 @@ class _FavouritesScreenState extends State<FavouritesScreen>
                 children: [
                   favProducts.length != 0
                       ? buildList(screenSize)
-                      : buildNoItem(screenSize),
+                      : buildEmptyList(screenSize),
                 ],
               ),
       ),

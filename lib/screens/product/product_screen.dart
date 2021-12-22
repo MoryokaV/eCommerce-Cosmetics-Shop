@@ -60,38 +60,30 @@ class _ProductScreenState extends State<ProductScreen> {
 
     for (int i = 0; i < favourites.length; i++) {
       if (favourites[i].productID == widget.product.id) {
-        setState(() {
-          fav = true;
-        });
+        setState(() => fav = true);
         break;
       }
     }
   }
 
-  Future<void> addFavourites(Size screenSize) async {
-    await insertFavouriteItem(
-      Favourite(
-        productID: widget.product.id,
-      ),
-    );
+  Future<void> addFavourites() async {
+    await insertFavouriteItem(Favourite(productID: widget.product.id));
 
     Fluttertoast.showToast(
-      msg: addFavDialogTexts[Random().nextInt(addFavDialogTexts.length)],
+      msg: toastMsg[Random().nextInt(toastMsg.length)],
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 1,
       backgroundColor: Colors.black54,
       textColor: Colors.white,
-      fontSize: screenSize.width * 0.04,
+      fontSize: 16,
     );
   }
 
-  void toggleFavourite(Size screenSize) async {
+  void toggleFavourite() async {
     setState(() => fav = !fav);
 
-    fav
-        ? await addFavourites(screenSize)
-        : await deleteFavouriteItem(widget.product.id);
+    fav ? await addFavourites() : await deleteFavouriteItem(widget.product.id);
   }
 
   @override
@@ -102,19 +94,17 @@ class _ProductScreenState extends State<ProductScreen> {
         child: Column(
           children: [
             Container(
-              height: screenSize.height * 0.6,
+              height: screenSize.height * 0.575,
+              margin: EdgeInsets.only(bottom: kDefaultPadding / 2),
               child: Stack(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(
-                      left: defaultPadding * 3.5,
-                      bottom: defaultPadding,
-                    ),
-                    height: screenSize.height * 0.475,
+                    margin: EdgeInsets.only(left: kDefaultPadding * 3.5),
+                    height: screenSize.height * 0.45,
                     decoration: BoxDecoration(
                       borderRadius:
                           BorderRadius.only(bottomLeft: Radius.circular(36)),
-                      color: accentColor,
+                      color: kAccentColor,
                       boxShadow: [
                         BoxShadow(
                           offset: Offset(0, 1),
@@ -125,19 +115,19 @@ class _ProductScreenState extends State<ProductScreen> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(defaultPadding / 4),
+                    padding: EdgeInsets.all(kDefaultPadding / 2),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         IconButton(
                           icon: Icon(Icons.arrow_back_ios),
-                          color: accentColor,
+                          color: kAccentColor,
                           iconSize: 25,
                           onPressed: () => Navigator.pop(context),
                         ),
                         IconButton(
                           icon: Icon(Icons.shopping_cart),
-                          color: backgroundColor,
+                          color: kBgColor,
                           iconSize: 25,
                           onPressed: () => {
                             Navigator.push(
@@ -153,12 +143,10 @@ class _ProductScreenState extends State<ProductScreen> {
                   ),
                   Container(
                     margin: EdgeInsets.only(
-                      left: defaultPadding * 2,
-                      bottom: defaultPadding,
-                      top: defaultPadding * 5.25,
+                      left: kDefaultPadding * 2,
+                      top: kDefaultPadding * 5,
                     ),
-                    padding: EdgeInsets.all(0),
-                    height: screenSize.height * 0.2075,
+                    height: screenSize.height * 0.21,
                     width: screenSize.width * 0.15,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -168,20 +156,13 @@ class _ProductScreenState extends State<ProductScreen> {
                           onPressed: () => addQuantity(),
                           iconSize: screenSize.height * 0.025,
                           color: Colors.black54,
-                          padding: EdgeInsets.only(
-                            top: 0,
-                            bottom: 0,
-                            left: 1,
-                            right: 1,
-                          ),
+                          padding: EdgeInsets.all(0),
                         ),
                         Spacer(),
                         Text(
                           quantity.toString(),
                           style: TextStyle(
-                            fontFamily: "Calibri",
-                            fontSize:
-                                screenSize.width * screenSize.height * 0.0001,
+                            fontSize: screenSize.height * 0.04,
                             color: Colors.black54,
                           ),
                         ),
@@ -191,35 +172,26 @@ class _ProductScreenState extends State<ProductScreen> {
                           onPressed: () => removeQuantity(),
                           iconSize: screenSize.height * 0.025,
                           color: Colors.black54,
-                          padding: EdgeInsets.only(
-                            top: 0,
-                            bottom: 0,
-                            left: 1,
-                            right: 1,
-                          ),
+                          padding: EdgeInsets.all(0),
                         ),
                       ],
                     ),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(17.5),
-                      color: primaryColor,
+                      borderRadius: BorderRadius.circular(17),
+                      color: kPrimaryColor,
                       boxShadow: [
                         BoxShadow(
                           offset: Offset(0, 1),
                           color: Colors.black26,
-                          blurRadius: 7.5,
+                          blurRadius: 7,
                         ),
                       ],
                     ),
                   ),
                   Positioned(
-                    bottom: defaultPadding * 1.25,
-                    left: 4,
+                    bottom: 20,
                     child: Container(
-                      margin: EdgeInsets.only(
-                        left: 15,
-                        right: 15,
-                      ),
+                      margin: EdgeInsets.only(left: kDefaultPadding / 2),
                       width: screenSize.width * 0.165,
                       height: screenSize.height * 0.085,
                       child: Center(
@@ -230,12 +202,12 @@ class _ProductScreenState extends State<ProductScreen> {
                           iconSize:
                               screenSize.width * screenSize.height * 0.0001,
                           color: Colors.red,
-                          onPressed: () => toggleFavourite(screenSize),
+                          onPressed: () => toggleFavourite(),
                         ),
                       ),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: primaryColor,
+                        color: kPrimaryColor,
                         boxShadow: [
                           BoxShadow(
                             offset: Offset(0, 1),
@@ -248,11 +220,11 @@ class _ProductScreenState extends State<ProductScreen> {
                   ),
                   Positioned(
                     bottom: 0,
-                    right: defaultPadding / 2,
+                    right: 10,
                     child: Image.asset(
                       widget.product.image,
-                      height: screenSize.height * 0.40,
-                      width: screenSize.width * 0.70,
+                      height: screenSize.height * 0.375,
+                      width: screenSize.width * 0.7,
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -264,16 +236,16 @@ class _ProductScreenState extends State<ProductScreen> {
               children: [
                 Padding(
                   padding: EdgeInsets.only(
-                    left: defaultPadding * 1.5,
-                    right: defaultPadding * 1.5,
+                    left: kDefaultPadding * 1.5,
+                    right: kDefaultPadding * 1.5,
                   ),
                   child: Text(
                     widget.product.name,
                     style: TextStyle(
                       fontFamily: "Calibri",
                       fontWeight: FontWeight.bold,
-                      fontSize: 28,
-                      color: accentColor,
+                      fontSize: 30,
+                      color: kAccentColor,
                     ),
                   ),
                 ),
@@ -284,10 +256,10 @@ class _ProductScreenState extends State<ProductScreen> {
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.only(
-                      left: defaultPadding * 1.5,
-                      right: defaultPadding * 1.5,
-                      top: defaultPadding / 4,
-                      bottom: defaultPadding / 4,
+                      left: kDefaultPadding * 1.5,
+                      right: kDefaultPadding * 1.5,
+                      top: kDefaultPadding / 4,
+                      bottom: kDefaultPadding / 2,
                     ),
                     child: Container(
                       height: screenSize.height * 0.125,
@@ -297,7 +269,6 @@ class _ProductScreenState extends State<ProductScreen> {
                           "·" + widget.product.longDescription,
                           style: TextStyle(
                             fontSize: 16,
-                            fontFamily: "Arial",
                             color: Colors.black87,
                           ),
                         ),
@@ -311,39 +282,34 @@ class _ProductScreenState extends State<ProductScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(
-                    left: defaultPadding * 1.5,
-                    right: defaultPadding * 1.5,
-                    top: defaultPadding / 4,
-                  ),
+                  padding: EdgeInsets.only(left: kDefaultPadding * 1.5),
                   child: Text(
                     " - " + widget.product.price.toString() + " RON - ",
                     style: TextStyle(
                       fontFamily: "Calibri",
                       fontWeight: FontWeight.bold,
                       fontSize: 19.5,
-                      color: accentColor,
+                      color: kAccentColor,
                     ),
                   ),
                 ),
               ],
             ),
             Container(
-              height: screenSize.height * 0.05,
+              height: screenSize.height * 0.055,
               margin: EdgeInsets.only(
-                left: defaultPadding,
-                right: defaultPadding,
-                top: defaultPadding / 2,
-                bottom: defaultPadding / 2,
+                left: kDefaultPadding * 1.5,
+                right: kDefaultPadding * 1.5,
+                top: kDefaultPadding / 2,
               ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
-                color: accentColor,
+                color: kAccentColor,
                 boxShadow: [
                   BoxShadow(
-                    offset: Offset(0, 0.5),
+                    offset: Offset(0, 1),
                     color: Colors.black26,
-                    blurRadius: 7.5,
+                    blurRadius: 7,
                   ),
                 ],
               ),
@@ -357,14 +323,12 @@ class _ProductScreenState extends State<ProductScreen> {
                       title: Text(
                         "View cart details?",
                         style: TextStyle(
-                          fontFamily: "Arial",
                           fontSize: screenSize.width * 0.05,
                         ),
                       ),
                       content: Text(
                         "Successfully added to your bag!",
                         style: TextStyle(
-                          fontFamily: "Arial",
                           fontSize: screenSize.width * 0.04,
                         ),
                       ),
@@ -395,27 +359,31 @@ class _ProductScreenState extends State<ProductScreen> {
                   );
                 },
                 child: Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Add to cart",
-                        style: TextStyle(
-                          color: primaryColor,
-                          fontFamily: "Roboto-Thin",
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxHeight: 20,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Add to cart",
+                          style: TextStyle(
+                            color: kPrimaryColor,
+                            fontSize: screenSize.height * 0.025,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        width: screenSize.width * 0.05,
-                      ),
-                      Icon(
-                        FontAwesomeIcons.shoppingCart,
-                        color: primaryColor,
-                        size: screenSize.width * 0.05,
-                      ),
-                    ],
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Icon(
+                          FontAwesomeIcons.shoppingCart,
+                          color: kPrimaryColor,
+                          size: screenSize.width * 0.05,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

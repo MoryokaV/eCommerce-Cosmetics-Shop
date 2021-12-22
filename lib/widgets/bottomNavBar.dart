@@ -45,27 +45,27 @@ class _BottomNavBar extends State<BottomNavBar> {
           ),
         ],
         currentIndex: _currentPage,
-        selectedItemColor: accentColor,
+        selectedItemColor: kAccentColor,
         onTap: _onItemTapped,
+        selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
       ),
     );
   }
 
   AppBar buildAppBar() {
     return AppBar(
-      backgroundColor: accentColor,
+      backgroundColor: kAccentColor,
       elevation: 0,
       leading: Icon(
         FontAwesomeIcons.shopify,
-        color: primaryColor,
+        color: kPrimaryColor,
         size: 30,
       ),
       title: Text(
         "Cosmetics Shop",
         style: TextStyle(
-          color: primaryColor,
-          fontFamily: "Arial",
-          fontSize: 23,
+          color: kPrimaryColor,
+          fontSize: 20,
         ),
       ),
     );

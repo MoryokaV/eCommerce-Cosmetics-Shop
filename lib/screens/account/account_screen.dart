@@ -17,7 +17,7 @@ class _AccountScreenState extends State<AccountScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: accentColor,
+        backgroundColor: kAccentColor,
         automaticallyImplyLeading: false,
         elevation: 0,
         titleSpacing: 0,
@@ -36,7 +36,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       children: [
                         Padding(
                           padding: EdgeInsets.only(
-                            left: defaultPadding,
+                            left: kDefaultPadding,
                           ),
                           child: Icon(
                             Icons.account_circle,
@@ -59,7 +59,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       ],
                     ),
                     decoration: BoxDecoration(
-                      color: accentColor,
+                      color: kAccentColor,
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(36.0),
                         bottomRight: Radius.circular(36.0),
@@ -73,7 +73,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black45,
-                    blurRadius: defaultPadding,
+                    blurRadius: kDefaultPadding,
                     offset: Offset(1, 1),
                   ),
                 ],

@@ -23,7 +23,7 @@ class _CongratsScreenState extends State<CongratsScreen> {
       onWillPop: () async => false,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: primaryColor,
+        backgroundColor: kPrimaryColor,
         appBar: buildAppBar(screenSize),
         body: SafeArea(
           child: Column(
@@ -64,7 +64,7 @@ class _CongratsScreenState extends State<CongratsScreen> {
               ),
               Padding(
                 padding: EdgeInsets.all(
-                  defaultPadding,
+                  kDefaultPadding,
                 ),
                 child: Text(
                   "Thank you for purchasing. Your order number is #" +
@@ -89,7 +89,7 @@ class _CongratsScreenState extends State<CongratsScreen> {
                 },
                 child: Container(
                   margin: EdgeInsets.only(
-                    top: defaultPadding / 2,
+                    top: kDefaultPadding / 2,
                   ),
                   height: screenSize.height * 0.07,
                   width: screenSize.width * 0.7,
@@ -99,15 +99,15 @@ class _CongratsScreenState extends State<CongratsScreen> {
                       style: TextStyle(
                         fontFamily: "Roboto-Bold",
                         fontSize: screenSize.width * 0.055,
-                        color: primaryColor,
+                        color: kPrimaryColor,
                       ),
                     ),
                   ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(
-                      defaultPadding * 2,
+                      kDefaultPadding * 2,
                     ),
-                    color: accentColor,
+                    color: kAccentColor,
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black45,
@@ -127,7 +127,7 @@ class _CongratsScreenState extends State<CongratsScreen> {
 
   PreferredSizeWidget buildAppBar(Size screenSize) {
     return AppBar(
-      backgroundColor: accentColor,
+      backgroundColor: kAccentColor,
       automaticallyImplyLeading: false,
       titleSpacing: 0,
       elevation: 5,
@@ -137,14 +137,14 @@ class _CongratsScreenState extends State<CongratsScreen> {
           IconButton(
             icon: Icon(Icons.exit_to_app),
             iconSize: screenSize.width * 0.06,
-            color: primaryColor,
+            color: kPrimaryColor,
             onPressed: () => exit(0),
           ),
           Text(
             "Checkout",
             style: TextStyle(
               fontFamily: "Roboto-Medium",
-              color: primaryColor,
+              color: kPrimaryColor,
               fontWeight: FontWeight.w700,
               fontSize: screenSize.width * 0.055,
             ),
@@ -152,7 +152,7 @@ class _CongratsScreenState extends State<CongratsScreen> {
           IconButton(
             icon: Icon(Icons.home),
             iconSize: screenSize.width * 0.06,
-            color: primaryColor,
+            color: kPrimaryColor,
             onPressed: () => Navigator.push(
               context,
               CupertinoPageRoute(

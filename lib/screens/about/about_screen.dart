@@ -2,12 +2,7 @@ import 'package:cosmetics_shop/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-class AboutScreen extends StatefulWidget {
-  @override
-  _AboutScreenState createState() => _AboutScreenState();
-}
-
-class _AboutScreenState extends State<AboutScreen> {
+class AboutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -20,17 +15,13 @@ class _AboutScreenState extends State<AboutScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.all(defaultPadding),
+                  padding: EdgeInsets.all(kDefaultPadding),
                   child: Row(
                     children: [
                       IconButton(
-                        icon: Icon(
-                          Icons.arrow_back_ios,
-                        ),
-                        color: accentColor,
-                        onPressed: () => Navigator.pop(
-                          context,
-                        ),
+                        icon: Icon(Icons.arrow_back_ios),
+                        color: kAccentColor,
+                        onPressed: () => Navigator.pop(context),
                       ),
                       Text(
                         "About Us",
@@ -38,7 +29,7 @@ class _AboutScreenState extends State<AboutScreen> {
                           fontFamily: "Arial",
                           fontSize: 35,
                           fontWeight: FontWeight.bold,
-                          color: accentColor,
+                          color: kAccentColor,
                         ),
                       ),
                     ],
@@ -52,7 +43,7 @@ class _AboutScreenState extends State<AboutScreen> {
               height: screenSize.width * 0.25,
             ),
             Padding(
-              padding: EdgeInsets.all(defaultPadding),
+              padding: EdgeInsets.all(kDefaultPadding),
               child: Text(
                 "Your company title here",
                 style: TextStyle(
@@ -63,7 +54,7 @@ class _AboutScreenState extends State<AboutScreen> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(defaultPadding),
+              padding: EdgeInsets.all(kDefaultPadding),
               child: Text(
                 "Description here",
                 softWrap: false,
@@ -75,7 +66,7 @@ class _AboutScreenState extends State<AboutScreen> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(defaultPadding),
+              padding: EdgeInsets.all(kDefaultPadding),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -93,7 +84,7 @@ class _AboutScreenState extends State<AboutScreen> {
                     height: screenSize.width * 0.085,
                     width: screenSize.width * 0.18,
                     decoration: BoxDecoration(
-                      color: accentColor,
+                      color: kAccentColor,
                       borderRadius: BorderRadius.circular(15),
                       boxShadow: [
                         BoxShadow(
@@ -131,7 +122,7 @@ class _AboutScreenState extends State<AboutScreen> {
                           "FAQ",
                           style: TextStyle(
                             fontSize: screenSize.width * 0.04,
-                            color: primaryColor,
+                            color: kPrimaryColor,
                           ),
                         ),
                       ),
@@ -142,9 +133,9 @@ class _AboutScreenState extends State<AboutScreen> {
             ),
             Padding(
               padding: EdgeInsets.only(
-                top: defaultPadding,
-                left: defaultPadding / 4,
-                right: defaultPadding / 4,
+                top: kDefaultPadding,
+                left: kDefaultPadding / 4,
+                right: kDefaultPadding / 4,
               ),
               child: Column(
                 children: [
@@ -152,7 +143,7 @@ class _AboutScreenState extends State<AboutScreen> {
                     fit: BoxFit.contain,
                     child: Container(
                       margin: EdgeInsets.all(
-                        defaultPadding / 5,
+                        kDefaultPadding / 5,
                       ),
                       width: screenSize.width,
                       child: Row(
@@ -173,9 +164,9 @@ class _AboutScreenState extends State<AboutScreen> {
                     fit: BoxFit.contain,
                     child: Container(
                       margin: EdgeInsets.only(
-                        top: defaultPadding / 1.5,
-                        left: defaultPadding / 5,
-                        right: defaultPadding / 5,
+                        top: kDefaultPadding / 1.5,
+                        left: kDefaultPadding / 5,
+                        right: kDefaultPadding / 5,
                       ),
                       width: screenSize.width,
                       child: Row(
@@ -196,9 +187,9 @@ class _AboutScreenState extends State<AboutScreen> {
                     fit: BoxFit.contain,
                     child: Container(
                       margin: EdgeInsets.only(
-                        top: defaultPadding / 10,
-                        left: defaultPadding / 5,
-                        right: defaultPadding / 5,
+                        top: kDefaultPadding / 10,
+                        left: kDefaultPadding / 5,
+                        right: kDefaultPadding / 5,
                       ),
                       width: screenSize.width,
                       child: Row(
