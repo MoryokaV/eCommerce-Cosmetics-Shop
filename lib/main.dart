@@ -15,15 +15,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    return MaterialApp(
-      title: 'Cosmetics Shop',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: kPrimaryColor,
-        scaffoldBackgroundColor: kBgColor,
-        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: kAccentColor),
+    return MediaQuery(
+      data: MediaQueryData.fromWindow(WidgetsBinding.instance!.window)
+          .copyWith(textScaleFactor: 1.0),
+      child: MaterialApp(
+        useInheritedMediaQuery: true,
+        title: 'Cosmetics Shop',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primaryColor: kPrimaryColor,
+          scaffoldBackgroundColor: kBgColor,
+          colorScheme:
+              ColorScheme.fromSwatch().copyWith(secondary: kAccentColor),
+        ),
+        home: SplashScreen(),
       ),
-      home: SplashScreen(),
     );
   }
 }
