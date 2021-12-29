@@ -5,6 +5,8 @@ import 'package:cosmetics_shop/screens/cart/cart_screen.dart';
 import 'package:cosmetics_shop/screens/history/history_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../../responsive.dart';
+
 class AccountScreen extends StatefulWidget {
   @override
   _AccountScreenState createState() => _AccountScreenState();
@@ -13,8 +15,6 @@ class AccountScreen extends StatefulWidget {
 class _AccountScreenState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kAccentColor,
@@ -25,59 +25,54 @@ class _AccountScreenState extends State<AccountScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            Container(
-              height: screenSize.height * 0.15,
-              child: Stack(
-                children: [
-                  Container(
-                    height: screenSize.height * 0.14,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                            left: kDefaultPadding,
-                          ),
-                          child: Icon(
-                            Icons.account_circle,
-                            color: Colors.white70,
-                            size: screenSize.width * 0.2,
-                          ),
+            Stack(
+              children: [
+                Container(
+                  height: Responsive.safeBlockVertical * 14,
+                  margin: EdgeInsets.only(bottom: kDefaultPadding / 2),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: kDefaultPadding,
                         ),
-                        SizedBox(
-                          width: screenSize.width * 0.05,
+                        child: Icon(
+                          Icons.account_circle,
+                          color: Colors.white70,
+                          size: Responsive.safeBlockHorizontal * 18,
                         ),
-                        Text(
-                          "My Profile",
-                          style: TextStyle(
-                            fontFamily: "Calibri",
-                            fontWeight: FontWeight.bold,
-                            fontSize: 30,
-                            color: Colors.white70,
-                          ),
-                        ),
-                      ],
-                    ),
-                    decoration: BoxDecoration(
-                      color: kAccentColor,
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(36.0),
-                        bottomRight: Radius.circular(36.0),
                       ),
+                      SizedBox(
+                        width: 12,
+                      ),
+                      Text(
+                        "My Profile",
+                        style: TextStyle(
+                          fontFamily: "Calibri",
+                          fontWeight: FontWeight.bold,
+                          fontSize: Responsive.safeBlockHorizontal * 7,
+                          color: Colors.white70,
+                        ),
+                      ),
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                    color: kAccentColor,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(36),
+                      bottomRight: Radius.circular(36),
                     ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black45,
+                        blurRadius: kDefaultPadding,
+                        offset: Offset(1, 1),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black45,
-                    blurRadius: kDefaultPadding,
-                    offset: Offset(1, 1),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
             NavButton(
               image: "assets/images/misc/cart_ic.png",

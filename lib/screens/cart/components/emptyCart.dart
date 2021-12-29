@@ -1,10 +1,11 @@
 import 'package:cosmetics_shop/constants.dart';
 import 'package:flutter/material.dart';
 
+import '../../../responsive.dart';
+
 class EmptyCart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
     return Container(
       margin: EdgeInsets.all(
         kDefaultPadding / 2,
@@ -17,19 +18,18 @@ class EmptyCart extends StatelessWidget {
             "assets/images/misc/shopping_ic.png",
           ),
           SizedBox(
-            height: screenSize.height * 0.025,
+            height: Responsive.safeBlockVertical * 2.5,
           ),
           ConstrainedBox(
             constraints: BoxConstraints(
-              maxWidth: screenSize.width * 0.8,
+              maxWidth: Responsive.screenWidth * 0.9,
             ),
             child: Text(
               "Continue searching until you find the product that interests you!",
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontFamily: "Arial",
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
+                fontSize: Responsive.safeBlockHorizontal * 5,
+                fontWeight: FontWeight.w500,
                 color: kAccentColor,
               ),
             ),

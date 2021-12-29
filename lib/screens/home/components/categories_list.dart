@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cosmetics_shop/models/categories.dart';
 
+import '../../../responsive.dart';
+
 class CategoriesList extends StatefulWidget {
   @override
   _CategoriesListState createState() => _CategoriesListState();
@@ -12,9 +14,8 @@ class CategoriesList extends StatefulWidget {
 class _CategoriesListState extends State<CategoriesList> {
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
     return Container(
-      height: screenSize.height * 0.2,
+      height: Responsive.safeBlockVertical * 20,
       margin: EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
@@ -35,16 +36,16 @@ class _CategoriesListState extends State<CategoriesList> {
                 child: Column(
                   children: [
                     Container(
-                      height: screenSize.width * screenSize.height * 0.00025,
-                      width: screenSize.width * screenSize.height * 0.00025,
+                      height: Responsive.safeBlockHorizontal * 20,
+                      width: Responsive.safeBlockHorizontal * 20,
                       margin:
                           EdgeInsets.symmetric(vertical: kDefaultPadding / 2),
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Image.asset(
                           category.icon,
-                          height: screenSize.width * screenSize.height * 0.000175,
-                          width: screenSize.width * screenSize.height * 0.000175,
+                          height: Responsive.safeBlockHorizontal * 13,
+                          width: Responsive.safeBlockHorizontal * 13,
                         ),
                       ),
                       decoration: BoxDecoration(
@@ -64,7 +65,7 @@ class _CategoriesListState extends State<CategoriesList> {
                       style: TextStyle(
                         color: Colors.black54,
                         fontWeight: FontWeight.w600,
-                        fontSize: screenSize.width * 0.0425,
+                        fontSize: Responsive.safeBlockHorizontal * 4,
                       ),
                     ),
                   ],

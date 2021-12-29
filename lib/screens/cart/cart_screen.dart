@@ -65,7 +65,7 @@ class _CartScreenState extends State<CartScreen> {
     });
   }
 
-  Widget buildCartList(BuildContext context, Size screenSize) {
+  Widget buildCartList(BuildContext context) {
     return ListView.builder(
       physics: ScrollPhysics(),
       shrinkWrap: true,
@@ -94,10 +94,8 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
-
     return Scaffold(
-      appBar: buildAppBar(screenSize),
+      appBar: buildAppBar(),
       body: RefreshIndicator(
         onRefresh: refreshPage,
         child: isLoading
@@ -107,7 +105,7 @@ class _CartScreenState extends State<CartScreen> {
                 : ListView(
                     physics: const AlwaysScrollableScrollPhysics(),
                     children: [
-                      buildCartList(context, screenSize),
+                      buildCartList(context),
                       OrderSummary(
                         cartProducts: cartProducts,
                         cart: cart,
@@ -121,7 +119,7 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  PreferredSizeWidget buildAppBar(Size screenSize) {
+  PreferredSizeWidget buildAppBar() {
     return AppBar(
       backgroundColor: kAccentColor,
       automaticallyImplyLeading: false,

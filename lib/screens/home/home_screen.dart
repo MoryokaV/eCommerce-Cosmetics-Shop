@@ -7,6 +7,8 @@ import 'package:cosmetics_shop/screens/home/components/header.dart';
 import 'package:cosmetics_shop/screens/home/components/recommendations.dart';
 import 'package:cosmetics_shop/screens/home/components/categories_list.dart';
 
+import '../../responsive.dart';
+
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -22,12 +24,16 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   Text(
                     "Recomended",
-                    style: Theme.of(context).textTheme.headline5!.copyWith(
-                        color: Colors.black54, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      color: Colors.black54,
+                      fontWeight: FontWeight.bold,
+                      fontSize: Responsive.safeBlockHorizontal * 6,
+                    ),
                   ),
                   Container(
-                    height: 30,
-                    padding: EdgeInsets.symmetric(horizontal: 4),
+                    height: Responsive.safeBlockVertical * 4,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: kDefaultPadding / 5),
                     child: FittedBox(
                       fit: BoxFit.contain,
                       child: TextButton(
@@ -47,16 +53,16 @@ class HomeScreen extends StatelessWidget {
                         },
                         child: Text(
                           "More",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline6!
-                              .copyWith(color: kPrimaryColor),
+                          style: TextStyle(
+                            fontSize: Responsive.safeBlockHorizontal * 5,
+                            color: kPrimaryColor,
+                          ),
                         ),
                       ),
                     ),
                     decoration: BoxDecoration(
                       color: kAccentColor,
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
                           offset: Offset(0, 1),
@@ -77,8 +83,11 @@ class HomeScreen extends StatelessWidget {
                   padding: EdgeInsets.only(left: kDefaultPadding),
                   child: Text(
                     "Categories",
-                    style: Theme.of(context).textTheme.headline5!.copyWith(
-                        color: Colors.black54, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      color: Colors.black54,
+                      fontWeight: FontWeight.bold,
+                      fontSize: Responsive.safeBlockHorizontal * 6,
+                    ),
                   ),
                 ),
               ],

@@ -3,6 +3,7 @@ import 'package:cosmetics_shop/services/databaseHandler.dart';
 import 'package:cosmetics_shop/constants.dart';
 import 'package:cosmetics_shop/models/order.dart';
 import 'package:flutter/material.dart';
+import '../../responsive.dart';
 import 'components/mainMenuButton.dart';
 
 class HistoryScreen extends StatefulWidget {
@@ -25,7 +26,7 @@ class _HistoryScreen extends State<HistoryScreen> {
     setState(() => isLoading = false);
   }
 
-  Widget buildOrdersList(Size screenSize) {
+  Widget buildOrdersList() {
     return ListView.builder(
       scrollDirection: Axis.vertical,
       physics: ScrollPhysics(),
@@ -38,16 +39,16 @@ class _HistoryScreen extends State<HistoryScreen> {
     );
   }
 
-  Widget buildEmptyList(Size screenSize) {
+  Widget buildEmptyList() {
     return Column(
       mainAxisSize: MainAxisSize.max,
       children: [
         Image.asset(
           "assets/images/misc/order-history2.png",
-          height: screenSize.height * 0.55,
+          height: Responsive.safeBlockVertical * 55,
         ),
         SizedBox(
-          height: screenSize.height * 0.15,
+          height: Responsive.safeBlockVertical * 15,
         ),
         MainMenuButton(),
       ],
@@ -56,25 +57,23 @@ class _HistoryScreen extends State<HistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
-
     return Scaffold(
-      appBar: buildAppBar(context, screenSize),
+      appBar: buildAppBar(context),
       body: isLoading
           ? Center(child: CircularProgressIndicator())
           : orders.length == 0
-              ? buildEmptyList(screenSize)
+              ? buildEmptyList()
               : ListView(
                   scrollDirection: Axis.vertical,
                   children: [
-                    buildOrdersList(screenSize),
+                    buildOrdersList(),
                     MainMenuButton(),
                   ],
                 ),
     );
   }
 
-  PreferredSizeWidget buildAppBar(BuildContext context, Size screenSize) {
+  PreferredSizeWidget buildAppBar(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: false,
       backgroundColor: kAccentColor,
@@ -86,7 +85,7 @@ class _HistoryScreen extends State<HistoryScreen> {
             color: kPrimaryColor,
             fontFamily: "Arial",
             fontWeight: FontWeight.bold,
-            fontSize: screenSize.height * 0.03,
+            fontSize: Responsive.safeBlockHorizontal * 6,
           ),
         ),
       ),

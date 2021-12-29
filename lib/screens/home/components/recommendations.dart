@@ -4,12 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cosmetics_shop/models/products.dart';
 
+import '../../../responsive.dart';
+
 class Recommendations extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
     return Container(
-      height: screenSize.height * 0.28,
+      height: Responsive.safeBlockVertical * 28,
       padding: EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
       margin: EdgeInsets.symmetric(vertical: kDefaultPadding / 2),
       child: ListView.builder(
@@ -30,8 +31,8 @@ class Recommendations extends StatelessWidget {
               children: [
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
-                  height: screenSize.height * 0.18,
-                  width: screenSize.width * 0.35,
+                  height: Responsive.safeBlockVertical * 18,
+                  width: Responsive.safeBlockHorizontal * 35,
                   child: FittedBox(
                     fit: BoxFit.contain,
                     child: Image.asset(product.image),
@@ -45,39 +46,41 @@ class Recommendations extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  height: screenSize.height * 0.08,
-                  width: screenSize.width * 0.35,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        product.name,
-                        softWrap: false,
-                        overflow: TextOverflow.fade,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: "Roboto-Medium",
-                          fontSize: 14,
+                  height: Responsive.safeBlockVertical * 8,
+                  width: Responsive.safeBlockHorizontal * 35,
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          product.name,
+                          softWrap: false,
+                          overflow: TextOverflow.fade,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontFamily: "Roboto-Medium",
+                            fontSize: Responsive.safeBlockHorizontal * 4,
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 2,
-                      ),
-                      Text(
-                        "- " + product.price.toString() + " RON -",
-                        style: TextStyle(
-                          color: kAccentColor,
-                          fontFamily: "Roboto-BlackItalic",
-                          fontSize: 14,
+                        SizedBox(height: 4),
+                        Text(
+                          "- " + product.price.toString() + " RON -",
+                          style: TextStyle(
+                            color: kAccentColor,
+                            fontFamily: "Roboto-BlackItalic",
+                            fontSize: Responsive.safeBlockHorizontal * 3,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   decoration: BoxDecoration(
                     color: kPrimaryColor,
                     borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(10),
+                      bottomLeft: Radius.circular(12),
+                      bottomRight: Radius.circular(12),
                     ),
                     boxShadow: [
                       BoxShadow(

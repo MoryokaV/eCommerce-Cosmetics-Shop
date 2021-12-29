@@ -1,4 +1,5 @@
 import 'package:cosmetics_shop/models/favourites.dart';
+import 'package:cosmetics_shop/responsive.dart';
 import 'package:cosmetics_shop/screens/product/product_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cosmetics_shop/services/databaseHandler.dart';
@@ -59,7 +60,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
     productGathering();
   }
 
-  Widget buildList(Size screenSize) {
+  Widget buildList() {
     return Expanded(
       child: RefreshIndicator(
         onRefresh: refreshPage,
@@ -81,18 +82,18 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
                   opacity: containerVisibility ? 1.0 : 0.0,
                   duration: Duration(milliseconds: 500),
                   child: Container(
-                    margin: EdgeInsets.only(
-                      left: kDefaultPadding,
-                      right: kDefaultPadding,
-                      top: kDefaultPadding / 1.5,
-                      bottom: kDefaultPadding / 1.5,
+                    margin: EdgeInsets.all(
+                      kDefaultPadding,
                     ),
-                    height: screenSize.height * 0.2,
+                    height: Responsive.safeBlockVertical * 20,
                     child: Row(
                       children: [
                         Container(
-                          height: screenSize.height * 0.2,
-                          width: screenSize.width * 0.35,
+                          margin: EdgeInsets.only(
+                            right: kDefaultPadding,
+                          ),
+                          height: Responsive.safeBlockVertical * 20,
+                          width: Responsive.safeBlockHorizontal * 35,
                           decoration: BoxDecoration(
                             color: kBgAccent,
                             borderRadius: BorderRadius.only(
@@ -107,50 +108,43 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
                               ),
                             ],
                           ),
-                          child: Image.asset(
-                            favProducts[index].image,
+                          child: FittedBox(
+                            fit: BoxFit.contain,
+                            child: Image.asset(
+                              favProducts[index].image,
+                            ),
                           ),
                         ),
-                        Column(
-                          children: [
-                            Container(
-                              height: screenSize.height * 0.08,
-                              width: screenSize.width * 0.45,
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                  top: kDefaultPadding / 2,
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    favProducts[index].name,
-                                    softWrap: false,
-                                    overflow: TextOverflow.fade,
-                                    style: TextStyle(
-                                      fontFamily: "Roboto-Bold",
-                                      fontSize: screenSize.width * 0.055,
-                                      color: Colors.grey[600],
-                                    ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: kDefaultPadding / 2,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Center(
+                                child: Text(
+                                  favProducts[index].name,
+                                  softWrap: false,
+                                  overflow: TextOverflow.fade,
+                                  style: TextStyle(
+                                    fontFamily: "Roboto-Bold",
+                                    fontSize:
+                                        Responsive.safeBlockHorizontal * 5.5,
+                                    color: Colors.grey[600],
                                   ),
                                 ),
                               ),
-                            ),
-                            Spacer(),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                left: kDefaultPadding * 1.75,
-                                right: kDefaultPadding,
-                                bottom: kDefaultPadding / 1.5,
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                              Spacer(),
+                              Row(
                                 children: [
                                   Text(
                                     favProducts[index].price.toString() +
                                         " RON",
                                     style: TextStyle(
                                       fontFamily: "Roboto-Black",
-                                      fontSize: screenSize.width * 0.05,
+                                      fontSize:
+                                          Responsive.safeBlockHorizontal * 5,
                                       fontWeight: FontWeight.bold,
                                       color: kAccentColor,
                                     ),
@@ -161,12 +155,13 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
                                         : Icon(FontAwesomeIcons.heart),
                                     onPressed: () => removeFavourite(index),
                                     color: Colors.red,
-                                    iconSize: screenSize.width * 0.075,
+                                    iconSize:
+                                        Responsive.safeBlockHorizontal * 7,
                                   )
                                 ],
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -189,7 +184,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
     );
   }
 
-  Widget buildEmptyList(Size screenSize) {
+  Widget buildEmptyList() {
     return Expanded(
       child: Container(
         child: Center(
@@ -198,15 +193,15 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
             children: [
               Image.asset(
                 "assets/images/misc/sad_emoji.png",
-                height: screenSize.width * 0.3,
-                width: screenSize.width * 0.3,
+                height: Responsive.safeBlockHorizontal * 30,
+                width: Responsive.safeBlockHorizontal * 30,
               ),
               SizedBox(
-                height: screenSize.height * 0.05,
+                height: Responsive.safeBlockVertical * 4,
               ),
               ConstrainedBox(
                 constraints: BoxConstraints(
-                  maxWidth: screenSize.width * 0.8,
+                  maxWidth: Responsive.screenWidth * 0.8,
                 ),
                 child: Text(
                   "It seems like you don't have a favourite product yet!",
@@ -214,7 +209,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
                   style: TextStyle(
                     fontFamily: "Century-Gothic",
                     fontWeight: FontWeight.bold,
-                    fontSize: 25,
+                    fontSize: Responsive.safeBlockHorizontal * 6,
                     color: kAccentColor,
                   ),
                 ),
@@ -228,8 +223,6 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
-
     return Scaffold(
       body: SafeArea(
         child: isLoading
@@ -238,9 +231,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
               )
             : Column(
                 children: [
-                  favProducts.length != 0
-                      ? buildList(screenSize)
-                      : buildEmptyList(screenSize),
+                  favProducts.length != 0 ? buildList() : buildEmptyList(),
                 ],
               ),
       ),

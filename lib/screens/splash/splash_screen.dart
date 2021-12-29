@@ -3,6 +3,8 @@ import 'package:cosmetics_shop/widgets/bottomNavBar.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+import '../../responsive.dart';
+
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -17,12 +19,12 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Timer(Duration(milliseconds: 10), () {
       setState(() {
-        panelHeight = MediaQuery.of(context).size.height;
-        panelWidth = MediaQuery.of(context).size.width;
+        panelHeight = Responsive.screenHeight;
+        panelWidth = Responsive.screenWidth;
       });
     });
 
-    Timer(Duration(milliseconds: 2150), () {
+    Timer(Duration(seconds: 2), () {
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -65,12 +67,12 @@ class _SplashScreenState extends State<SplashScreen> {
               children: [
                 ConstrainedBox(
                   constraints: BoxConstraints(
-                    maxWidth: 300,
+                    maxWidth: Responsive.screenWidth * 0.75,
                   ),
                   child: Text(
                     "Cosmetics Shop",
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: Responsive.safeBlockHorizontal * 8,
                       color: kAccentColor,
                       fontFamily: "Roboto-Medium",
                     ),
@@ -80,8 +82,8 @@ class _SplashScreenState extends State<SplashScreen> {
                   padding: EdgeInsets.symmetric(vertical: kDefaultPadding * 2),
                   child: Image.asset(
                     "assets/images/launcher_ic.png",
-                    height: 150,
-                    width: 150,
+                    height: Responsive.safeBlockHorizontal * 35,
+                    width: Responsive.safeBlockHorizontal * 35,
                   ),
                 ),
                 Padding(
@@ -89,7 +91,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   child: Text(
                     "Designed for you",
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: Responsive.safeBlockHorizontal * 5,
                       color: kAccentColor,
                       fontWeight: FontWeight.w300,
                     ),

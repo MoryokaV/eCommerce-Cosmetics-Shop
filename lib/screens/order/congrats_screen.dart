@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 
+import '../../responsive.dart';
+
 class CongratsScreen extends StatefulWidget {
   final int number;
 
@@ -18,13 +20,12 @@ class CongratsScreen extends StatefulWidget {
 class _CongratsScreenState extends State<CongratsScreen> {
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: kPrimaryColor,
-        appBar: buildAppBar(screenSize),
+        appBar: buildAppBar(),
         body: SafeArea(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -42,24 +43,24 @@ class _CongratsScreenState extends State<CongratsScreen> {
                     ],
                   ),
                   child: CircleAvatar(
-                    radius: screenSize.width * screenSize.height * 0.0005,
+                    radius: Responsive.safeBlockHorizontal * 40,
                     backgroundColor: Colors.grey[300],
                     child: Image.asset(
                       "assets/images/misc/package.png",
-                      height: screenSize.width * screenSize.height * 0.00075,
-                      width: screenSize.width * screenSize.height * 0.00075,
+                      height: Responsive.safeBlockHorizontal * 60,
+                      width: Responsive.safeBlockHorizontal * 60,
                     ),
                   ),
                 ),
               ),
               SizedBox(
-                height: screenSize.height * 0.05,
+                height: 30,
               ),
               Text(
                 "Congrats!",
                 style: TextStyle(
                   fontFamily: "Roboto-Bold",
-                  fontSize: screenSize.width * 0.1,
+                  fontSize: Responsive.safeBlockHorizontal * 10,
                 ),
               ),
               Padding(
@@ -73,7 +74,7 @@ class _CongratsScreenState extends State<CongratsScreen> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: "Roboto-Light",
-                    fontSize: screenSize.width * 0.055,
+                    fontSize: Responsive.safeBlockHorizontal * 5.5,
                   ),
                 ),
               ),
@@ -91,14 +92,14 @@ class _CongratsScreenState extends State<CongratsScreen> {
                   margin: EdgeInsets.only(
                     top: kDefaultPadding / 2,
                   ),
-                  height: screenSize.height * 0.07,
-                  width: screenSize.width * 0.7,
+                  height: Responsive.safeBlockVertical * 7,
+                  width: Responsive.safeBlockHorizontal * 70,
                   child: Center(
                     child: Text(
                       "Continue Shopping",
                       style: TextStyle(
                         fontFamily: "Roboto-Bold",
-                        fontSize: screenSize.width * 0.055,
+                        fontSize: Responsive.safeBlockHorizontal * 5.5,
                         color: kPrimaryColor,
                       ),
                     ),
@@ -125,7 +126,7 @@ class _CongratsScreenState extends State<CongratsScreen> {
     );
   }
 
-  PreferredSizeWidget buildAppBar(Size screenSize) {
+  PreferredSizeWidget buildAppBar() {
     return AppBar(
       backgroundColor: kAccentColor,
       automaticallyImplyLeading: false,
@@ -136,7 +137,7 @@ class _CongratsScreenState extends State<CongratsScreen> {
         children: [
           IconButton(
             icon: Icon(Icons.exit_to_app),
-            iconSize: screenSize.width * 0.06,
+            iconSize: 22,
             color: kPrimaryColor,
             onPressed: () => exit(0),
           ),
@@ -145,13 +146,13 @@ class _CongratsScreenState extends State<CongratsScreen> {
             style: TextStyle(
               fontFamily: "Roboto-Medium",
               color: kPrimaryColor,
-              fontWeight: FontWeight.w700,
-              fontSize: screenSize.width * 0.055,
+              fontWeight: FontWeight.w600,
+              fontSize: 24,
             ),
           ),
           IconButton(
             icon: Icon(Icons.home),
-            iconSize: screenSize.width * 0.06,
+            iconSize: 22,
             color: kPrimaryColor,
             onPressed: () => Navigator.push(
               context,

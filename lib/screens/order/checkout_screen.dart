@@ -9,6 +9,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../responsive.dart';
+
 class OrderScreen extends StatefulWidget {
   final Order order;
 
@@ -78,7 +80,7 @@ class _OrderScreenState extends State<OrderScreen> {
     setState(() => isLoading = false);
   }
 
-  void displayMessage(Size screenSize, String fieldName) {
+  void displayMessage(String fieldName) {
     Fluttertoast.showToast(
       msg: "Invalid " + fieldName,
       toastLength: Toast.LENGTH_SHORT,
@@ -86,7 +88,7 @@ class _OrderScreenState extends State<OrderScreen> {
       timeInSecForIosWeb: 1,
       backgroundColor: Colors.black54,
       textColor: Colors.white,
-      fontSize: screenSize.width * 0.04,
+      fontSize: 16,
     );
   }
 
@@ -99,9 +101,9 @@ class _OrderScreenState extends State<OrderScreen> {
     zip = _controllerZip.text;
   }
 
-  bool checkForCorrectDetails(Size screenSize) {
+  bool checkForCorrectDetails() {
     if (!validName.hasMatch(fullName)) {
-      displayMessage(screenSize, "name");
+      displayMessage("name");
       setState(() {
         validFields[0] = false;
         _focusNodeName.requestFocus();
@@ -112,7 +114,7 @@ class _OrderScreenState extends State<OrderScreen> {
     }
 
     if (!validEmail.hasMatch(email)) {
-      displayMessage(screenSize, "email address");
+      displayMessage("email address");
       setState(() {
         validFields[1] = false;
         _focusNodeEmail.requestFocus();
@@ -123,7 +125,7 @@ class _OrderScreenState extends State<OrderScreen> {
     }
 
     if (!validNumbers.hasMatch(phoneNumber.toString())) {
-      displayMessage(screenSize, "phone number");
+      displayMessage("phone number");
       setState(() {
         validFields[2] = false;
         _focusNodePhone.requestFocus();
@@ -138,10 +140,8 @@ class _OrderScreenState extends State<OrderScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
-
     return Scaffold(
-      appBar: buildAppBar(screenSize),
+      appBar: buildAppBar(),
       body: GestureDetector(
         onTap: () {
           _focusNodeName.unfocus();
@@ -162,7 +162,7 @@ class _OrderScreenState extends State<OrderScreen> {
                     Text(
                       "Shipping",
                       style: TextStyle(
-                        fontSize: screenSize.width * 0.085,
+                        fontSize: Responsive.safeBlockHorizontal * 8,
                         color: Colors.black54,
                         fontWeight: FontWeight.bold,
                       ),
@@ -171,8 +171,8 @@ class _OrderScreenState extends State<OrderScreen> {
                 ),
               ),
               Container(
-                height: screenSize.height * 0.08,
-                width: screenSize.width * 0.9,
+                height: Responsive.safeBlockVertical * 8,
+                width: Responsive.safeBlockHorizontal * 90,
                 margin: EdgeInsets.only(top: kDefaultPadding / 2),
                 padding: EdgeInsets.only(
                   left: kDefaultPadding,
@@ -202,16 +202,15 @@ class _OrderScreenState extends State<OrderScreen> {
                       labelText: "Full Name",
                       labelStyle: TextStyle(
                         fontFamily: "Arial",
-                        fontSize:
-                            screenSize.width * screenSize.height * 0.00005,
+                        fontSize: Responsive.safeBlockHorizontal * 3,
                       ),
                     ),
                   ),
                 ),
               ),
               Container(
-                height: screenSize.height * 0.08,
-                width: screenSize.width * 0.9,
+                height: Responsive.safeBlockVertical * 8,
+                width: Responsive.safeBlockHorizontal * 90,
                 margin: EdgeInsets.only(top: kDefaultPadding / 2),
                 padding: EdgeInsets.only(
                   left: kDefaultPadding,
@@ -241,16 +240,15 @@ class _OrderScreenState extends State<OrderScreen> {
                       labelText: "Email address",
                       labelStyle: TextStyle(
                         fontFamily: "Arial",
-                        fontSize:
-                            screenSize.width * screenSize.height * 0.00005,
+                        fontSize: Responsive.safeBlockHorizontal * 3,
                       ),
                     ),
                   ),
                 ),
               ),
               Container(
-                height: screenSize.height * 0.08,
-                width: screenSize.width * 0.9,
+                height: Responsive.safeBlockVertical * 8,
+                width: Responsive.safeBlockHorizontal * 90,
                 margin: EdgeInsets.only(top: kDefaultPadding / 2),
                 padding: EdgeInsets.only(
                   left: kDefaultPadding,
@@ -281,16 +279,15 @@ class _OrderScreenState extends State<OrderScreen> {
                       labelText: "Phone Number (+40)",
                       labelStyle: TextStyle(
                         fontFamily: "Arial",
-                        fontSize:
-                            screenSize.width * screenSize.height * 0.00005,
+                        fontSize: Responsive.safeBlockHorizontal * 3,
                       ),
                     ),
                   ),
                 ),
               ),
               Container(
-                height: screenSize.height * 0.08,
-                width: screenSize.width * 0.9,
+                height: Responsive.safeBlockVertical * 8,
+                width: Responsive.safeBlockHorizontal * 90,
                 margin: EdgeInsets.only(top: kDefaultPadding / 2),
                 padding: EdgeInsets.only(
                   left: kDefaultPadding,
@@ -320,16 +317,15 @@ class _OrderScreenState extends State<OrderScreen> {
                       labelText: "Address",
                       labelStyle: TextStyle(
                         fontFamily: "Arial",
-                        fontSize:
-                            screenSize.width * screenSize.height * 0.00005,
+                        fontSize: Responsive.safeBlockHorizontal * 3,
                       ),
                     ),
                   ),
                 ),
               ),
               Container(
-                height: screenSize.height * 0.115,
-                width: screenSize.width * 0.9,
+                height: Responsive.safeBlockVertical * 11.5,
+                width: Responsive.safeBlockHorizontal * 90,
                 margin: EdgeInsets.only(
                   top: kDefaultPadding / 1.5,
                 ),
@@ -337,10 +333,9 @@ class _OrderScreenState extends State<OrderScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      width: screenSize.width * 0.425,
-                      padding: EdgeInsets.only(
-                        left: kDefaultPadding / 1.5,
-                        right: kDefaultPadding / 1.5,
+                      width: Responsive.safeBlockHorizontal * 42.5,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: kDefaultPadding / 1.5,
                       ),
                       decoration: BoxDecoration(
                         color: kPrimaryColor,
@@ -366,9 +361,7 @@ class _OrderScreenState extends State<OrderScreen> {
                               "City",
                               style: TextStyle(
                                 fontFamily: "Arial",
-                                fontSize: screenSize.width *
-                                    screenSize.height *
-                                    0.00004,
+                                fontSize: Responsive.safeBlockHorizontal * 3,
                               ),
                             ),
                           ),
@@ -379,7 +372,7 @@ class _OrderScreenState extends State<OrderScreen> {
                             value: destinationCity,
                             icon: Icon(
                               Icons.arrow_drop_down,
-                              size: screenSize.width * 0.075,
+                              size: 24,
                             ),
                             onChanged: (String? value) {
                               setState(() {
@@ -394,9 +387,8 @@ class _OrderScreenState extends State<OrderScreen> {
                                   value,
                                   style: TextStyle(
                                     fontFamily: "Arial",
-                                    fontSize: screenSize.width *
-                                        screenSize.height *
-                                        0.000055,
+                                    fontSize:
+                                        Responsive.safeBlockHorizontal * 4,
                                   ),
                                 ),
                               );
@@ -407,7 +399,7 @@ class _OrderScreenState extends State<OrderScreen> {
                     ),
                     Expanded(
                       child: Container(
-                        height: screenSize.height * 0.115,
+                        height: Responsive.safeBlockVertical * 11.5,
                         margin: EdgeInsets.only(left: kDefaultPadding),
                         padding:
                             EdgeInsets.symmetric(horizontal: kDefaultPadding),
@@ -435,9 +427,7 @@ class _OrderScreenState extends State<OrderScreen> {
                               labelText: "* Zip Code",
                               labelStyle: TextStyle(
                                 fontFamily: "Arial",
-                                fontSize: screenSize.width *
-                                    screenSize.height *
-                                    0.00005,
+                                fontSize: Responsive.safeBlockHorizontal * 3,
                               ),
                             ),
                           ),
@@ -448,8 +438,8 @@ class _OrderScreenState extends State<OrderScreen> {
                 ),
               ),
               Container(
-                height: screenSize.height * 0.115,
-                width: screenSize.width * 0.9,
+                height: Responsive.safeBlockVertical * 11.5,
+                width: Responsive.safeBlockHorizontal * 90,
                 margin: EdgeInsets.only(
                   top: kDefaultPadding / 1.5,
                 ),
@@ -481,8 +471,7 @@ class _OrderScreenState extends State<OrderScreen> {
                         "Country",
                         style: TextStyle(
                           fontFamily: "Arial",
-                          fontSize:
-                              screenSize.width * screenSize.height * 0.00004,
+                          fontSize: Responsive.safeBlockHorizontal * 3,
                         ),
                       ),
                     ),
@@ -493,7 +482,7 @@ class _OrderScreenState extends State<OrderScreen> {
                       value: destinationCountry,
                       icon: Icon(
                         Icons.arrow_drop_down,
-                        size: screenSize.width * 0.075,
+                        size: 24,
                       ),
                       onChanged: (String? value) {
                         setState(() {
@@ -508,9 +497,7 @@ class _OrderScreenState extends State<OrderScreen> {
                             value,
                             style: TextStyle(
                               fontFamily: "Arial",
-                              fontSize: screenSize.width *
-                                  screenSize.height *
-                                  0.00005,
+                              fontSize: Responsive.safeBlockHorizontal * 4,
                             ),
                           ),
                         );
@@ -520,8 +507,8 @@ class _OrderScreenState extends State<OrderScreen> {
                 ),
               ),
               Container(
-                height: screenSize.height * 0.115,
-                width: screenSize.width * 0.9,
+                height: Responsive.safeBlockVertical * 11.5,
+                width: Responsive.safeBlockHorizontal * 90,
                 margin: EdgeInsets.only(
                   top: kDefaultPadding / 1.5,
                 ),
@@ -553,8 +540,7 @@ class _OrderScreenState extends State<OrderScreen> {
                         "Shipping Method",
                         style: TextStyle(
                           fontFamily: "Arial",
-                          fontSize:
-                              screenSize.width * screenSize.height * 0.00004,
+                          fontSize: Responsive.safeBlockHorizontal * 3,
                         ),
                       ),
                     ),
@@ -565,7 +551,7 @@ class _OrderScreenState extends State<OrderScreen> {
                       value: shippingMethod,
                       icon: Icon(
                         Icons.arrow_drop_down,
-                        size: screenSize.width * 0.075,
+                        size: 24,
                       ),
                       onChanged: (String? value) {
                         setState(() {
@@ -580,9 +566,7 @@ class _OrderScreenState extends State<OrderScreen> {
                             value,
                             style: TextStyle(
                               fontFamily: "Arial",
-                              fontSize: screenSize.width *
-                                  screenSize.height *
-                                  0.00005,
+                              fontSize: Responsive.safeBlockHorizontal * 4,
                             ),
                           ),
                         );
@@ -592,8 +576,8 @@ class _OrderScreenState extends State<OrderScreen> {
                 ),
               ),
               Container(
-                height: screenSize.height * 0.1,
-                width: screenSize.width * 0.9,
+                height: Responsive.safeBlockVertical * 10,
+                width: Responsive.safeBlockHorizontal * 90,
                 margin: EdgeInsets.only(top: kDefaultPadding / 2),
                 padding: EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
                 child: Center(
@@ -604,7 +588,9 @@ class _OrderScreenState extends State<OrderScreen> {
                       FocusScope.of(context).unfocus();
                     },
                     controller: _controllerDetails,
-                    style: TextStyle(fontSize: screenSize.height * 0.025),
+                    style: TextStyle(
+                      fontSize: Responsive.safeBlockHorizontal * 4,
+                    ),
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(
@@ -617,7 +603,7 @@ class _OrderScreenState extends State<OrderScreen> {
                       labelText: "* Personal Notes",
                       labelStyle: TextStyle(
                         fontFamily: "Arial",
-                        fontSize: screenSize.width * 0.0425,
+                        fontSize: Responsive.safeBlockHorizontal * 4,
                         color: _focusNodeAddress.hasFocus
                             ? Colors.black54
                             : Colors.black54,
@@ -643,7 +629,7 @@ class _OrderScreenState extends State<OrderScreen> {
                   style: TextStyle(
                     fontFamily: "Arial",
                     color: Colors.black54,
-                    fontSize: screenSize.width * 0.04,
+                    fontSize: Responsive.safeBlockHorizontal * 4,
                   ),
                 ),
                 value: saveDetails,
@@ -664,7 +650,7 @@ class _OrderScreenState extends State<OrderScreen> {
                     _focusNodeAddress.unfocus();
                   });
                   extractControllers();
-                  if (checkForCorrectDetails(screenSize)) {
+                  if (checkForCorrectDetails()) {
                     if (shippingMethod == deliveryOptions[0]) {
                       widget.order.value += deliveryCost;
                       widget.order.description += "Standard Delivery";
@@ -704,14 +690,14 @@ class _OrderScreenState extends State<OrderScreen> {
                     top: kDefaultPadding / 2,
                     bottom: kDefaultPadding,
                   ),
-                  height: screenSize.height * 0.07,
-                  width: screenSize.width * 0.7,
+                  height: Responsive.safeBlockVertical * 7,
+                  width: Responsive.safeBlockHorizontal * 70,
                   child: Center(
                     child: Text(
                       "Buy",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: screenSize.width * 0.06,
+                        fontSize: Responsive.safeBlockHorizontal * 6,
                         color: kPrimaryColor,
                       ),
                     ),
@@ -738,7 +724,7 @@ class _OrderScreenState extends State<OrderScreen> {
     );
   }
 
-  PreferredSizeWidget buildAppBar(Size screenSize) {
+  PreferredSizeWidget buildAppBar() {
     return AppBar(
       backgroundColor: kAccentColor,
       automaticallyImplyLeading: false,
@@ -749,7 +735,7 @@ class _OrderScreenState extends State<OrderScreen> {
         children: [
           IconButton(
             icon: Icon(Icons.arrow_back_ios),
-            iconSize: screenSize.width * 0.06,
+            iconSize: 20,
             color: kPrimaryColor,
             onPressed: () => Navigator.pop(context),
           ),
@@ -758,13 +744,13 @@ class _OrderScreenState extends State<OrderScreen> {
             style: TextStyle(
               fontFamily: "Roboto-Medium",
               color: kPrimaryColor,
-              fontWeight: FontWeight.w700,
-              fontSize: screenSize.width * 0.055,
+              fontWeight: FontWeight.w600,
+              fontSize: 24,
             ),
           ),
           IconButton(
             icon: Icon(Icons.home),
-            iconSize: screenSize.width * 0.06,
+            iconSize: 20,
             color: kPrimaryColor,
             onPressed: () => Navigator.push(
               context,

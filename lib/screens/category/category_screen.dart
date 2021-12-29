@@ -6,7 +6,7 @@ import 'package:cosmetics_shop/models/products.dart';
 import 'package:cosmetics_shop/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import '../../responsive.dart';
 import 'components/productCard.dart';
 
 class CategoryScreen extends StatefulWidget {
@@ -112,7 +112,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
   }
 
   PreferredSizeWidget buildAppBar() {
-    Size screenSize = MediaQuery.of(context).size;
     return AppBar(
       elevation: 5,
       automaticallyImplyLeading: false,
@@ -129,7 +128,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
         widget.category.name,
         style: TextStyle(
           color: kPrimaryColor,
-          fontSize: screenSize.width * 0.06,
+          fontSize: Responsive.safeBlockHorizontal * 6,
           fontFamily: "Arial",
           fontWeight: FontWeight.bold,
         ),

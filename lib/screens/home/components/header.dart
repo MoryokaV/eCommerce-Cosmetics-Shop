@@ -4,6 +4,8 @@ import 'package:cosmetics_shop/models/products.dart';
 import 'dart:async';
 import 'dart:math';
 
+import '../../../responsive.dart';
+
 class Header extends StatefulWidget {
   @override
   _HeaderState createState() => _HeaderState();
@@ -40,16 +42,14 @@ class _HeaderState extends State<Header> {
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
-
     return Container(
-      margin: EdgeInsets.only(bottom: kDefaultPadding / 2),
-      height: screenSize.height * 0.175,
+      margin: EdgeInsets.only(bottom: kDefaultPadding),
+      height: Responsive.safeBlockVertical * 17,
       child: Stack(
         children: [
           Container(
-            height: screenSize.height * 0.15,
-            width: screenSize.width,
+            height: Responsive.safeBlockVertical * 15,
+            width: Responsive.screenWidth,
             padding: EdgeInsets.only(
               top: kDefaultPadding / 2,
               left: kDefaultPadding,
@@ -57,7 +57,7 @@ class _HeaderState extends State<Header> {
             child: Text(
               "Hi, what do you buy today?",
               style: TextStyle(
-                fontSize: screenSize.width * 0.0625,
+                fontSize: Responsive.safeBlockHorizontal * 6,
                 fontWeight: FontWeight.w300,
                 color: kPrimaryColor,
               ),
@@ -71,12 +71,12 @@ class _HeaderState extends State<Header> {
             ),
           ),
           Positioned(
-            bottom: 5,
+            bottom: 2,
             right: 0,
             left: 0,
             child: Container(
               alignment: Alignment.center,
-              height: screenSize.height * 0.055,
+              height: Responsive.safeBlockVertical * 5,
               margin: EdgeInsets.symmetric(horizontal: kDefaultPadding),
               padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
               decoration: BoxDecoration(
@@ -96,17 +96,19 @@ class _HeaderState extends State<Header> {
                   AnimatedCrossFade(
                     firstChild: Text(
                       name,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6!
-                          .copyWith(color: kAccentColor),
+                      style: TextStyle(
+                        fontSize: Responsive.safeBlockHorizontal * 5,
+                        fontWeight: FontWeight.w500,
+                        color: kAccentColor,
+                      ),
                     ),
                     secondChild: Text(
                       price,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6!
-                          .copyWith(color: Colors.green[600]),
+                      style: TextStyle(
+                        fontSize: Responsive.safeBlockHorizontal * 5,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.green[600],
+                      ),
                     ),
                     crossFadeState: showName
                         ? CrossFadeState.showFirst
@@ -119,7 +121,7 @@ class _HeaderState extends State<Header> {
                   Icon(
                     Icons.trending_up_rounded,
                     color: kAccentColor,
-                    size: 30,
+                    size: Responsive.safeBlockHorizontal * 7,
                   ),
                 ],
               ),

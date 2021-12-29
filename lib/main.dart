@@ -1,3 +1,4 @@
+import 'package:cosmetics_shop/responsive.dart';
 import 'package:cosmetics_shop/screens/splash/splash_screen.dart';
 import 'package:cosmetics_shop/constants.dart';
 import 'package:cosmetics_shop/services/databaseHandler.dart';
@@ -15,6 +16,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    Responsive().init();
+
     return MediaQuery(
       data: MediaQueryData.fromWindow(WidgetsBinding.instance!.window)
           .copyWith(textScaleFactor: 1.0),

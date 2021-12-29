@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../responsive.dart';
+
 // ignore: must_be_immutable
 class Item extends StatefulWidget {
   final Product product;
@@ -54,14 +56,12 @@ class _ItemState extends State<Item> {
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
     return Container(
-      margin: EdgeInsets.only(
-        top: kDefaultPadding / 2,
-        bottom: kDefaultPadding / 2,
+      margin: EdgeInsets.symmetric(
+        vertical: kDefaultPadding / 2,
       ),
-      height: screenSize.height * 0.25,
-      width: screenSize.width,
+      height: Responsive.safeBlockVertical * 25,
+      width: Responsive.screenWidth,
       decoration: BoxDecoration(
         color: kPrimaryColor,
         boxShadow: [
@@ -75,8 +75,8 @@ class _ItemState extends State<Item> {
       child: Row(
         children: [
           Container(
-            width: screenSize.width * 0.35,
-            height: screenSize.height * 0.35,
+            width: Responsive.safeBlockHorizontal * 35,
+            height: Responsive.safeBlockVertical * 35,
             decoration: BoxDecoration(
               border: Border(
                 right: BorderSide(
@@ -92,14 +92,12 @@ class _ItemState extends State<Item> {
           Column(
             children: [
               Container(
-                padding: EdgeInsets.only(
-                  left: kDefaultPadding / 2,
-                  top: 4,
-                  bottom: 5,
-                  right: kDefaultPadding / 4,
+                padding: EdgeInsets.symmetric(
+                  horizontal: kDefaultPadding / 2,
+                  vertical: kDefaultPadding / 5,
                 ),
-                width: screenSize.width * 0.65,
-                height: screenSize.height * 0.125,
+                width: Responsive.safeBlockHorizontal * 65,
+                height: Responsive.safeBlockVertical * 12.5,
                 child: Center(
                   child: RichText(
                     overflow: TextOverflow.fade,
@@ -108,7 +106,7 @@ class _ItemState extends State<Item> {
                       style: TextStyle(
                         fontFamily: "Century-Gothic",
                         fontWeight: FontWeight.w900,
-                        fontSize: screenSize.width * 0.045,
+                        fontSize: Responsive.safeBlockHorizontal * 4.5,
                         color: kAccentColor,
                       ),
                       children: <TextSpan>[
@@ -116,7 +114,7 @@ class _ItemState extends State<Item> {
                           text: " - " + widget.product.shortDescription,
                           style: TextStyle(
                             fontFamily: "Century-Gothic",
-                            fontSize: screenSize.width * 0.037,
+                            fontSize: Responsive.safeBlockHorizontal * 4,
                             color: Colors.black,
                           ),
                         ),
@@ -134,10 +132,10 @@ class _ItemState extends State<Item> {
                 ),
               ),
               Container(
-                width: screenSize.width * 0.65,
-                height: screenSize.height * 0.05,
+                width: Responsive.safeBlockHorizontal * 65,
+                height: Responsive.safeBlockVertical * 5,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Row(
                       children: [
@@ -147,7 +145,7 @@ class _ItemState extends State<Item> {
                               : Icon(FontAwesomeIcons.heart),
                           onPressed: () => toggleFavourites(),
                           color: Colors.red,
-                          iconSize: screenSize.width * 0.0575,
+                          iconSize: Responsive.safeBlockHorizontal * 5,
                           padding: EdgeInsets.all(0),
                         ),
                         Text(
@@ -170,7 +168,7 @@ class _ItemState extends State<Item> {
                             });
                           },
                           color: Colors.grey,
-                          iconSize: screenSize.width * 0.0575,
+                          iconSize: Responsive.safeBlockHorizontal * 5,
                           padding: EdgeInsets.all(0),
                         ),
                         Text(
@@ -197,12 +195,12 @@ class _ItemState extends State<Item> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Container(
-                    width: screenSize.width * 0.325,
-                    height: screenSize.height * 0.075,
+                    width: Responsive.safeBlockHorizontal * 32.5,
+                    height: Responsive.safeBlockVertical * 7.5,
                     decoration: BoxDecoration(
                       border: Border(
                         right: BorderSide(
-                          width: screenSize.height * 0.001,
+                          width: 0.5,
                           color: Colors.black38,
                         ),
                       ),
@@ -214,7 +212,7 @@ class _ItemState extends State<Item> {
                           value: widget.quantity.toString(),
                           icon: Icon(
                             Icons.arrow_drop_down,
-                            size: screenSize.width * 0.075,
+                            size: Responsive.safeBlockHorizontal * 7,
                           ),
                           elevation: 16,
                           underline: SizedBox(),
@@ -239,7 +237,8 @@ class _ItemState extends State<Item> {
                               child: Text(
                                 value,
                                 style: TextStyle(
-                                    fontSize: screenSize.width * 0.045),
+                                  fontSize: Responsive.safeBlockHorizontal * 5,
+                                ),
                               ),
                             );
                           }).toList(),
@@ -248,15 +247,15 @@ class _ItemState extends State<Item> {
                         Text(
                           " buc.",
                           style: TextStyle(
-                            fontSize: screenSize.width * 0.045,
+                            fontSize: Responsive.safeBlockHorizontal * 5,
                           ),
                         ),
                       ],
                     ),
                   ),
                   Container(
-                    width: screenSize.width * 0.325,
-                    height: screenSize.height * 0.075,
+                    width: Responsive.safeBlockHorizontal * 32.5,
+                    height: Responsive.safeBlockVertical * 7.5,
                     child: Center(
                       child: Text(
                         (widget.product.price * widget.quantity).toString() +
@@ -265,7 +264,7 @@ class _ItemState extends State<Item> {
                           color: Colors.black54,
                           fontWeight: FontWeight.w700,
                           fontFamily: "Roboto-Medium",
-                          fontSize: screenSize.width * 0.045,
+                          fontSize: Responsive.safeBlockHorizontal * 4.5,
                         ),
                       ),
                     ),

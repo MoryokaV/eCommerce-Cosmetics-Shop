@@ -10,6 +10,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
+import '../../responsive.dart';
+
 class ProductScreen extends StatefulWidget {
   final Product product;
 
@@ -88,19 +90,18 @@ class _ProductScreenState extends State<ProductScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
             Container(
-              height: screenSize.height * 0.575,
+              height: Responsive.safeBlockVertical * 57.5,
               margin: EdgeInsets.only(bottom: kDefaultPadding / 2),
               child: Stack(
                 children: [
                   Container(
                     margin: EdgeInsets.only(left: kDefaultPadding * 3.5),
-                    height: screenSize.height * 0.45,
+                    height: Responsive.safeBlockVertical * 45,
                     decoration: BoxDecoration(
                       borderRadius:
                           BorderRadius.only(bottomLeft: Radius.circular(36)),
@@ -122,13 +123,13 @@ class _ProductScreenState extends State<ProductScreen> {
                         IconButton(
                           icon: Icon(Icons.arrow_back_ios),
                           color: kAccentColor,
-                          iconSize: 25,
+                          iconSize: Responsive.safeBlockHorizontal * 5,
                           onPressed: () => Navigator.pop(context),
                         ),
                         IconButton(
                           icon: Icon(Icons.shopping_cart),
                           color: kBgColor,
-                          iconSize: 25,
+                          iconSize: Responsive.safeBlockHorizontal * 5,
                           onPressed: () => {
                             Navigator.push(
                               context,
@@ -141,66 +142,65 @@ class _ProductScreenState extends State<ProductScreen> {
                       ],
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(
-                      left: kDefaultPadding * 2,
-                      top: kDefaultPadding * 5,
-                    ),
-                    height: screenSize.height * 0.21,
-                    width: screenSize.width * 0.15,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          icon: Icon(FontAwesomeIcons.plus),
-                          onPressed: () => addQuantity(),
-                          iconSize: screenSize.height * 0.025,
-                          color: Colors.black54,
-                          padding: EdgeInsets.all(0),
-                        ),
-                        Spacer(),
-                        Text(
-                          quantity.toString(),
-                          style: TextStyle(
-                            fontSize: screenSize.height * 0.04,
+                  Positioned(
+                    top: kDefaultPadding * 5,
+                    left: kDefaultPadding * 2,
+                    child: Container(
+                      height: Responsive.safeBlockVertical * 21,
+                      width: Responsive.safeBlockHorizontal * 15,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            icon: Icon(FontAwesomeIcons.plus),
+                            onPressed: () => addQuantity(),
+                            iconSize: Responsive.safeBlockHorizontal * 5,
                             color: Colors.black54,
+                            padding: EdgeInsets.all(0),
                           ),
-                        ),
-                        Spacer(),
-                        IconButton(
-                          icon: Icon(FontAwesomeIcons.minus),
-                          onPressed: () => removeQuantity(),
-                          iconSize: screenSize.height * 0.025,
-                          color: Colors.black54,
-                          padding: EdgeInsets.all(0),
-                        ),
-                      ],
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(17),
-                      color: kPrimaryColor,
-                      boxShadow: [
-                        BoxShadow(
-                          offset: Offset(0, 1),
-                          color: Colors.black26,
-                          blurRadius: 7,
-                        ),
-                      ],
+                          Spacer(),
+                          Text(
+                            quantity.toString(),
+                            style: TextStyle(
+                              fontSize: Responsive.safeBlockHorizontal * 8,
+                              color: Colors.black54,
+                            ),
+                          ),
+                          Spacer(),
+                          IconButton(
+                            icon: Icon(FontAwesomeIcons.minus),
+                            onPressed: () => removeQuantity(),
+                            iconSize: Responsive.safeBlockHorizontal * 5,
+                            color: Colors.black54,
+                            padding: EdgeInsets.all(0),
+                          ),
+                        ],
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color: kPrimaryColor,
+                        boxShadow: [
+                          BoxShadow(
+                            offset: Offset(0, 1),
+                            color: Colors.black26,
+                            blurRadius: 7,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Positioned(
                     bottom: 20,
                     child: Container(
-                      margin: EdgeInsets.only(left: kDefaultPadding / 2),
-                      width: screenSize.width * 0.165,
-                      height: screenSize.height * 0.085,
+                      margin: EdgeInsets.only(left: kDefaultPadding),
+                      height: Responsive.safeBlockHorizontal * 14,
+                      width: Responsive.safeBlockHorizontal * 14,
                       child: Center(
                         child: IconButton(
                           icon: fav
                               ? Icon(FontAwesomeIcons.solidHeart)
                               : Icon(FontAwesomeIcons.heart),
-                          iconSize:
-                              screenSize.width * screenSize.height * 0.0001,
+                          iconSize: Responsive.safeBlockHorizontal * 8,
                           color: Colors.red,
                           onPressed: () => toggleFavourite(),
                         ),
@@ -223,8 +223,8 @@ class _ProductScreenState extends State<ProductScreen> {
                     right: 10,
                     child: Image.asset(
                       widget.product.image,
-                      height: screenSize.height * 0.375,
-                      width: screenSize.width * 0.7,
+                      height: Responsive.safeBlockVertical * 37,
+                      width: Responsive.safeBlockHorizontal * 70,
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -235,16 +235,13 @@ class _ProductScreenState extends State<ProductScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(
-                    left: kDefaultPadding * 1.5,
-                    right: kDefaultPadding * 1.5,
-                  ),
+                  padding: EdgeInsets.only(left: kDefaultPadding),
                   child: Text(
                     widget.product.name,
                     style: TextStyle(
                       fontFamily: "Calibri",
                       fontWeight: FontWeight.bold,
-                      fontSize: 30,
+                      fontSize: Responsive.safeBlockHorizontal * 7,
                       color: kAccentColor,
                     ),
                   ),
@@ -255,20 +252,18 @@ class _ProductScreenState extends State<ProductScreen> {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.only(
-                      left: kDefaultPadding * 1.5,
-                      right: kDefaultPadding * 1.5,
-                      top: kDefaultPadding / 4,
-                      bottom: kDefaultPadding / 2,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: kDefaultPadding,
+                      vertical: kDefaultPadding / 2,
                     ),
                     child: Container(
-                      height: screenSize.height * 0.125,
+                      height: Responsive.safeBlockVertical * 12,
                       child: SingleChildScrollView(
                         scrollDirection: Axis.vertical,
                         child: Text(
-                          "·" + widget.product.longDescription,
+                          "\t" + widget.product.longDescription,
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: Responsive.safeBlockHorizontal * 4,
                             color: Colors.black87,
                           ),
                         ),
@@ -282,13 +277,13 @@ class _ProductScreenState extends State<ProductScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(left: kDefaultPadding * 1.5),
+                  padding: EdgeInsets.only(left: kDefaultPadding),
                   child: Text(
                     " - " + widget.product.price.toString() + " RON - ",
                     style: TextStyle(
                       fontFamily: "Calibri",
                       fontWeight: FontWeight.bold,
-                      fontSize: 19.5,
+                      fontSize: Responsive.safeBlockHorizontal * 5,
                       color: kAccentColor,
                     ),
                   ),
@@ -296,10 +291,10 @@ class _ProductScreenState extends State<ProductScreen> {
               ],
             ),
             Container(
-              height: screenSize.height * 0.055,
+              height: Responsive.safeBlockVertical * 5.5,
               margin: EdgeInsets.only(
-                left: kDefaultPadding * 1.5,
-                right: kDefaultPadding * 1.5,
+                left: kDefaultPadding,
+                right: kDefaultPadding,
                 top: kDefaultPadding / 2,
               ),
               decoration: BoxDecoration(
@@ -323,13 +318,13 @@ class _ProductScreenState extends State<ProductScreen> {
                       title: Text(
                         "View cart details?",
                         style: TextStyle(
-                          fontSize: screenSize.width * 0.05,
+                          fontSize: Responsive.safeBlockHorizontal * 5,
                         ),
                       ),
                       content: Text(
                         "Successfully added to your bag!",
                         style: TextStyle(
-                          fontSize: screenSize.width * 0.04,
+                          fontSize: Responsive.safeBlockHorizontal * 4,
                         ),
                       ),
                       actions: [
@@ -370,7 +365,7 @@ class _ProductScreenState extends State<ProductScreen> {
                           "Add to cart",
                           style: TextStyle(
                             color: kPrimaryColor,
-                            fontSize: screenSize.height * 0.025,
+                            fontSize: Responsive.safeBlockHorizontal * 5,
                             fontWeight: FontWeight.w400,
                           ),
                         ),
@@ -380,7 +375,7 @@ class _ProductScreenState extends State<ProductScreen> {
                         Icon(
                           FontAwesomeIcons.shoppingCart,
                           color: kPrimaryColor,
-                          size: screenSize.width * 0.05,
+                          size: Responsive.safeBlockHorizontal * 4,
                         ),
                       ],
                     ),

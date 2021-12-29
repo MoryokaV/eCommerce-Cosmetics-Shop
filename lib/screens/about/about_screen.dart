@@ -2,10 +2,11 @@ import 'package:cosmetics_shop/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../responsive.dart';
+
 class AboutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -39,15 +40,15 @@ class AboutScreen extends StatelessWidget {
             ),
             Image.asset(
               "assets/images/launcher_ic.png",
-              width: screenSize.width * 0.25,
-              height: screenSize.width * 0.25,
+              width: Responsive.safeBlockHorizontal * 25,
+              height: Responsive.safeBlockHorizontal * 25,
             ),
             Padding(
               padding: EdgeInsets.all(kDefaultPadding),
               child: Text(
                 "Your company title here",
                 style: TextStyle(
-                  fontSize: screenSize.width * 0.05,
+                  fontSize: Responsive.safeBlockHorizontal * 5,
                   fontFamily: "Arial",
                   fontWeight: FontWeight.bold,
                 ),
@@ -60,7 +61,7 @@ class AboutScreen extends StatelessWidget {
                 softWrap: false,
                 overflow: TextOverflow.fade,
                 style: TextStyle(
-                  fontSize: screenSize.width * 0.04,
+                  fontSize: Responsive.safeBlockHorizontal * 4,
                   fontWeight: FontWeight.w300,
                 ),
               ),
@@ -75,14 +76,14 @@ class AboutScreen extends StatelessWidget {
                     softWrap: false,
                     overflow: TextOverflow.fade,
                     style: TextStyle(
-                      fontSize: screenSize.width * 0.05,
+                      fontSize: Responsive.safeBlockHorizontal * 5,
                       fontFamily: "Arial",
                       fontWeight: FontWeight.w200,
                     ),
                   ),
                   Container(
-                    height: screenSize.width * 0.085,
-                    width: screenSize.width * 0.18,
+                    height: Responsive.safeBlockVertical * 5,
+                    width: Responsive.safeBlockHorizontal * 18,
                     decoration: BoxDecoration(
                       color: kAccentColor,
                       borderRadius: BorderRadius.circular(15),
@@ -121,7 +122,7 @@ class AboutScreen extends StatelessWidget {
                         child: Text(
                           "FAQ",
                           style: TextStyle(
-                            fontSize: screenSize.width * 0.04,
+                            fontSize: Responsive.safeBlockHorizontal * 4,
                             color: kPrimaryColor,
                           ),
                         ),
@@ -145,7 +146,7 @@ class AboutScreen extends StatelessWidget {
                       margin: EdgeInsets.all(
                         kDefaultPadding / 5,
                       ),
-                      width: screenSize.width,
+                      width: Responsive.screenWidth,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -153,7 +154,7 @@ class AboutScreen extends StatelessWidget {
                             "Author: Vlaviano Mario-Alexandru",
                             style: TextStyle(
                               fontFamily: "Roboto-BoldItalic",
-                              fontSize: screenSize.width * 0.05,
+                              fontSize: Responsive.safeBlockHorizontal * 5,
                             ),
                           ),
                         ],
@@ -164,11 +165,11 @@ class AboutScreen extends StatelessWidget {
                     fit: BoxFit.contain,
                     child: Container(
                       margin: EdgeInsets.only(
-                        top: kDefaultPadding / 1.5,
-                        left: kDefaultPadding / 5,
-                        right: kDefaultPadding / 5,
+                        top: kDefaultPadding / 2,
+                        left: kDefaultPadding / 4,
+                        right: kDefaultPadding / 4,
                       ),
-                      width: screenSize.width,
+                      width: Responsive.screenWidth,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -176,7 +177,7 @@ class AboutScreen extends StatelessWidget {
                             "Contact: +4 0736 743 002,",
                             style: TextStyle(
                               fontFamily: "Roboto-LightItalic",
-                              fontSize: screenSize.width * 0.05,
+                              fontSize: Responsive.safeBlockHorizontal * 5,
                             ),
                           ),
                         ],
@@ -186,12 +187,10 @@ class AboutScreen extends StatelessWidget {
                   FittedBox(
                     fit: BoxFit.contain,
                     child: Container(
-                      margin: EdgeInsets.only(
-                        top: kDefaultPadding / 10,
-                        left: kDefaultPadding / 5,
-                        right: kDefaultPadding / 5,
+                      margin: EdgeInsets.symmetric(
+                        horizontal: kDefaultPadding / 4,
                       ),
-                      width: screenSize.width,
+                      width: Responsive.screenWidth,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -199,7 +198,7 @@ class AboutScreen extends StatelessWidget {
                             "mariovlaviano2005@yahoo.com",
                             style: TextStyle(
                               fontFamily: "Roboto-LightItalic",
-                              fontSize: screenSize.width * 0.05,
+                              fontSize: Responsive.safeBlockHorizontal * 5,
                             ),
                           ),
                         ],
@@ -208,8 +207,8 @@ class AboutScreen extends StatelessWidget {
                   ),
                   Image.asset(
                     "assets/images/misc/signature.png",
-                    width: screenSize.width * 0.33,
-                    height: screenSize.width * 0.33,
+                    width: Responsive.safeBlockHorizontal * 33,
+                    height: Responsive.safeBlockHorizontal * 33,
                   ),
                 ],
               ),

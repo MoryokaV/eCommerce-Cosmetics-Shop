@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../responsive.dart';
+
 // ignore: must_be_immutable
 class ProductCard extends StatefulWidget {
   bool favIcon;
@@ -65,21 +67,20 @@ class _ProductCardState extends State<ProductCard> {
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
     return Container(
-      margin: EdgeInsets.only(
-        top: kDefaultPadding,
-        bottom: kDefaultPadding / 1.5,
-      ),
-      height: screenSize.height * 0.2,
-      width: screenSize.width,
+      margin: EdgeInsets.symmetric(vertical: kDefaultPadding / 2),
+      height: Responsive.safeBlockVertical * 20,
+      width: Responsive.screenWidth,
       child: Row(
         children: [
           Container(
-            height: screenSize.height * 0.2,
-            width: screenSize.width * 0.35,
-            child: Image.asset(
-              widget.product.image,
+            height: Responsive.safeBlockVertical * 20,
+            width: Responsive.safeBlockHorizontal * 35,
+            child: FittedBox(
+              fit: BoxFit.contain,
+              child: Image.asset(
+                widget.product.image,
+              ),
             ),
           ),
           Column(
@@ -91,11 +92,10 @@ class _ProductCardState extends State<ProductCard> {
                   Container(
                     padding: EdgeInsets.only(
                       top: kDefaultPadding / 2,
-                      left: kDefaultPadding / 2.5,
-                      right: 4,
+                      left: kDefaultPadding / 2,
                     ),
-                    height: screenSize.height * 0.075,
-                    width: screenSize.width * 0.525,
+                    height: Responsive.safeBlockVertical * 7.5,
+                    width: Responsive.safeBlockHorizontal * 55,
                     child: RichText(
                       overflow: TextOverflow.fade,
                       maxLines: 2,
@@ -106,7 +106,7 @@ class _ProductCardState extends State<ProductCard> {
                           color: Colors.black87,
                           fontFamily: "Calibri",
                           fontWeight: FontWeight.bold,
-                          fontSize: screenSize.height * 0.025,
+                          fontSize: Responsive.safeBlockHorizontal * 5,
                         ),
                         children: [
                           TextSpan(
@@ -115,7 +115,7 @@ class _ProductCardState extends State<ProductCard> {
                               color: Colors.black54,
                               fontFamily: "Calibri",
                               fontWeight: FontWeight.w300,
-                              fontSize: screenSize.height * 0.0225,
+                              fontSize: Responsive.safeBlockHorizontal * 4,
                             ),
                           ),
                         ],
@@ -123,14 +123,13 @@ class _ProductCardState extends State<ProductCard> {
                     ),
                   ),
                   CircleAvatar(
-                    radius: screenSize.height * 0.025,
+                    radius: Responsive.safeBlockHorizontal * 4,
                     backgroundColor: Colors.grey[200],
                     child: IconButton(
                       icon: Icon(FontAwesomeIcons.solidHeart),
                       color: widget.favIcon ? Colors.red : Colors.grey[600],
                       onPressed: () => toggleFavourites(widget.product.id),
-                      iconSize:
-                          screenSize.height * screenSize.width * 0.0000575,
+                      iconSize: Responsive.safeBlockHorizontal * 4,
                     ),
                   ),
                 ],
@@ -148,23 +147,21 @@ class _ProductCardState extends State<ProductCard> {
                       style: TextStyle(
                         fontFamily: "Roboto-Medium",
                         color: kAccentColor,
-                        fontSize: screenSize.width * 0.045,
+                        fontSize: Responsive.safeBlockHorizontal * 4.5,
                       ),
                     ),
                   ),
                 ],
               ),
-              SizedBox(
-                height: screenSize.height * 0.015,
-              ),
               Container(
-                height: screenSize.height * 0.045,
-                width: screenSize.width * 0.55,
+                height: Responsive.safeBlockVertical * 4.5,
+                width: Responsive.safeBlockHorizontal * 55,
                 margin: EdgeInsets.only(
+                  top: kDefaultPadding / 2,
                   left: kDefaultPadding / 2,
                 ),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
+                  borderRadius: BorderRadius.circular(16),
                   color: kAccentColor,
                   boxShadow: [
                     BoxShadow(
@@ -185,14 +182,14 @@ class _ProductCardState extends State<ProductCard> {
                           "View cart details?",
                           style: TextStyle(
                             fontFamily: "Arial",
-                            fontSize: screenSize.width * 0.05,
+                            fontSize: Responsive.safeBlockHorizontal * 5,
                           ),
                         ),
                         content: Text(
                           "Successfully added to your bag!",
                           style: TextStyle(
                             fontFamily: "Arial",
-                            fontSize: screenSize.width * 0.04,
+                            fontSize: Responsive.safeBlockHorizontal * 4,
                           ),
                         ),
                         actions: [
@@ -231,17 +228,17 @@ class _ProductCardState extends State<ProductCard> {
                           style: TextStyle(
                             color: kPrimaryColor,
                             fontFamily: "Roboto-Thin",
-                            fontSize: 18,
+                            fontSize: Responsive.safeBlockHorizontal * 4,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         SizedBox(
-                          width: screenSize.width * 0.05,
+                          width: 8,
                         ),
                         Icon(
                           FontAwesomeIcons.shoppingCart,
                           color: kPrimaryColor,
-                          size: screenSize.width * 0.05,
+                          size: Responsive.safeBlockHorizontal * 3,
                         ),
                       ],
                     ),

@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:cosmetics_shop/constants.dart';
 import 'package:flutter/material.dart';
 
+import '../../../responsive.dart';
+
 class NavButton extends StatelessWidget {
   final String image;
   final String title;
@@ -15,8 +17,6 @@ class NavButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
-
     return GestureDetector(
       onTap: () => Navigator.push(
         context,
@@ -25,9 +25,9 @@ class NavButton extends StatelessWidget {
         ),
       ),
       child: Container(
-        margin: EdgeInsets.only(top: kDefaultPadding / 1.5),
-        height: screenSize.height * 0.155,
-        width: screenSize.width * 0.9,
+        margin: EdgeInsets.only(top: kDefaultPadding),
+        height: Responsive.safeBlockVertical * 15,
+        width: Responsive.safeBlockHorizontal * 90,
         decoration: BoxDecoration(
           color: kBgAccent,
           borderRadius: BorderRadius.circular(20),
@@ -42,14 +42,12 @@ class NavButton extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              margin: EdgeInsets.only(
-                bottom: kDefaultPadding,
-                top: kDefaultPadding,
-                left: kDefaultPadding / 2,
-                right: kDefaultPadding / 2,
+              margin: EdgeInsets.symmetric(
+                vertical: kDefaultPadding,
+                horizontal: kDefaultPadding / 2,
               ),
-              height: screenSize.height * 0.12,
-              width: screenSize.width * 0.22,
+              height: Responsive.safeBlockVertical * 12,
+              width: Responsive.safeBlockHorizontal * 22,
               child: Image.asset(image),
             ),
             Text(
@@ -57,7 +55,7 @@ class NavButton extends StatelessWidget {
               style: TextStyle(
                 fontFamily: "Century-Gothic",
                 color: Colors.white,
-                fontSize: screenSize.width * 0.065,
+                fontSize: Responsive.safeBlockHorizontal * 6,
                 fontWeight: FontWeight.bold,
               ),
             ),

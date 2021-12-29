@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
+import '../../../responsive.dart';
+
 // ignore: must_be_immutable
 class OrderSummary extends StatefulWidget {
   final List<Product> cartProducts;
@@ -33,7 +35,7 @@ class OrderSummary extends StatefulWidget {
 class _OrderSummaryState extends State<OrderSummary>
     with TickerProviderStateMixin {
   late AnimationController _arrowController;
-  double? listHeight;
+  double listHeight = Responsive.safeBlockVertical * 14.5;
 
   IconData summaryListIcon = Icons.keyboard_arrow_up;
   bool summaryList = false;
@@ -78,18 +80,19 @@ class _OrderSummaryState extends State<OrderSummary>
     return desc;
   }
 
-  void toggleSummary(Size screenSize) {
+  void toggleSummary() {
     setState(() {
       summaryList = !summaryList;
       if (summaryList) {
-        listHeight =
-            screenSize.height * 0.04 * (widget.cartProducts.length + 1) +
-                screenSize.height * 0.145;
+        listHeight = Responsive.safeBlockVertical *
+                4 *
+                (widget.cartProducts.length + 1) +
+            Responsive.safeBlockVertical * 14.5;
         _arrowController.forward(); //animate arrow
         summaryListIcon = Icons.keyboard_arrow_down;
         summaryTitle = "Order Summary";
       } else {
-        listHeight = screenSize.height * 0.145;
+        listHeight = Responsive.safeBlockVertical * 14.5;
         _arrowController.reverse(); //animate arrow
         summaryListIcon = Icons.keyboard_arrow_up;
         summaryTitle = "See Order Summary";
@@ -99,15 +102,12 @@ class _OrderSummaryState extends State<OrderSummary>
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
-    listHeight ??= screenSize.height * 0.145;
-
     return AnimatedContainer(
       duration: Duration(seconds: 1),
       curve: Curves.fastOutSlowIn,
-      margin: EdgeInsets.only(top: kDefaultPadding / 2),
+      margin: EdgeInsets.symmetric(vertical: kDefaultPadding),
       height: listHeight,
-      width: screenSize.width,
+      width: Responsive.screenWidth,
       decoration: BoxDecoration(
         color: kPrimaryColor,
         borderRadius: BorderRadius.circular(15),
@@ -132,7 +132,7 @@ class _OrderSummaryState extends State<OrderSummary>
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
-                    onTap: () => toggleSummary(screenSize),
+                    onTap: () => toggleSummary(),
                     child: Row(
                       children: [
                         RotationTransition(
@@ -146,7 +146,7 @@ class _OrderSummaryState extends State<OrderSummary>
                                 EdgeInsets.only(right: kDefaultPadding / 6),
                             child: Icon(
                               summaryListIcon,
-                              size: screenSize.height * 0.035,
+                              size: Responsive.safeBlockHorizontal * 6,
                               color: Colors.grey[500],
                             ),
                           ),
@@ -155,7 +155,7 @@ class _OrderSummaryState extends State<OrderSummary>
                           summaryTitle,
                           style: TextStyle(
                             color: Colors.grey[500],
-                            fontSize: screenSize.width * 0.045,
+                            fontSize: Responsive.safeBlockHorizontal * 4.5,
                             fontFamily: "Arial",
                             fontWeight: FontWeight.bold,
                           ),
@@ -168,7 +168,7 @@ class _OrderSummaryState extends State<OrderSummary>
                     calcPrice().toString() + " RON",
                     style: TextStyle(
                       color: kAccentColor,
-                      fontSize: screenSize.width * 0.045,
+                      fontSize: Responsive.safeBlockHorizontal * 4.5,
                       fontFamily: "Arial",
                       fontWeight: FontWeight.bold,
                     ),
@@ -176,7 +176,7 @@ class _OrderSummaryState extends State<OrderSummary>
                 ],
               ),
             ),
-            if (summaryList) buildSummaryListDetails(context, screenSize),
+            if (summaryList) buildSummaryListDetails(),
             GestureDetector(
               onTap: () {
                 setState(() {
@@ -203,8 +203,8 @@ class _OrderSummaryState extends State<OrderSummary>
               },
               child: Container(
                 margin: EdgeInsets.all(kDefaultPadding / 1.5),
-                height: screenSize.height * 0.06,
-                width: screenSize.width * 0.75,
+                height: Responsive.safeBlockVertical * 6,
+                width: Responsive.safeBlockHorizontal * 75,
                 decoration: BoxDecoration(
                   color: kAccentColor,
                   borderRadius: BorderRadius.circular(kDefaultPadding / 2),
@@ -216,8 +216,8 @@ class _OrderSummaryState extends State<OrderSummary>
                         AnimatedContainer(
                           duration: Duration(seconds: 1),
                           curve: Curves.fastOutSlowIn,
-                          height: screenSize.height * widget.height,
-                          width: screenSize.width * widget.width,
+                          height: Responsive.screenHeight * widget.height,
+                          width: Responsive.screenWidth * widget.width,
                           decoration: BoxDecoration(
                             color: kBgAccent,
                             borderRadius: BorderRadius.only(
@@ -235,7 +235,7 @@ class _OrderSummaryState extends State<OrderSummary>
                           child: Icon(
                             FontAwesomeIcons.arrowRight,
                             color: kPrimaryColor,
-                            size: screenSize.width * 0.06,
+                            size: Responsive.safeBlockHorizontal * 6,
                           ),
                         ),
                       ],
@@ -246,7 +246,7 @@ class _OrderSummaryState extends State<OrderSummary>
                         style: TextStyle(
                           color: kPrimaryColor,
                           fontWeight: FontWeight.bold,
-                          fontSize: screenSize.width * 0.05,
+                          fontSize: Responsive.safeBlockHorizontal * 5,
                         ),
                       ),
                     ),
@@ -260,10 +260,11 @@ class _OrderSummaryState extends State<OrderSummary>
     );
   }
 
-  Widget buildSummaryListDetails(BuildContext context, Size screenSize) {
+  Widget buildSummaryListDetails() {
     return Container(
       padding: EdgeInsets.only(top: kDefaultPadding / 2),
-      height: screenSize.height * 0.04 * (widget.cartProducts.length + 1),
+      height:
+          Responsive.safeBlockVertical * 4 * (widget.cartProducts.length + 1),
       child: ListView(
         children: [
           ListView.builder(
@@ -285,7 +286,7 @@ class _OrderSummaryState extends State<OrderSummary>
                           " x " +
                           widget.cartProducts[index].name,
                       style: TextStyle(
-                        fontSize: screenSize.width * 0.04,
+                        fontSize: Responsive.safeBlockHorizontal * 4,
                         fontWeight: FontWeight.w400,
                       ),
                     ),
@@ -295,7 +296,7 @@ class _OrderSummaryState extends State<OrderSummary>
                               .toString() +
                           " RON",
                       style: TextStyle(
-                        fontSize: screenSize.width * 0.04,
+                        fontSize: Responsive.safeBlockHorizontal * 4,
                         fontWeight: FontWeight.w400,
                       ),
                     ),
@@ -316,14 +317,14 @@ class _OrderSummaryState extends State<OrderSummary>
                 Text(
                   "Delivery cost: ",
                   style: TextStyle(
-                    fontSize: screenSize.width * 0.04,
+                    fontSize: Responsive.safeBlockHorizontal * 4,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
                   deliveryCost > 0 ? deliveryCost.toString() + " RON" : "Free",
                   style: TextStyle(
-                    fontSize: screenSize.width * 0.04,
+                    fontSize: Responsive.safeBlockHorizontal * 4,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

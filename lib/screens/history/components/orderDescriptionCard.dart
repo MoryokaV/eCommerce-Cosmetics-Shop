@@ -2,6 +2,8 @@ import 'package:cosmetics_shop/constants.dart';
 import 'package:cosmetics_shop/models/order.dart';
 import 'package:flutter/material.dart';
 
+import '../../../responsive.dart';
+
 class OrderDescriptionCard extends StatelessWidget {
   final Order order;
 
@@ -11,21 +13,14 @@ class OrderDescriptionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
-
     return FittedBox(
       fit: BoxFit.fill,
       child: Container(
-        width: screenSize.width,
-        margin: EdgeInsets.only(
-          top: kDefaultPadding,
-          bottom: kDefaultPadding / 1.75,
-        ),
-        padding: EdgeInsets.only(
-          left: kDefaultPadding,
-          right: kDefaultPadding,
-          top: kDefaultPadding / 2,
-          bottom: kDefaultPadding / 2,
+        width: Responsive.screenWidth,
+        margin: EdgeInsets.only(top: kDefaultPadding),
+        padding: EdgeInsets.symmetric(
+          horizontal: kDefaultPadding,
+          vertical: kDefaultPadding / 2,
         ),
         decoration: BoxDecoration(
           color: kBgColor,
@@ -33,7 +28,7 @@ class OrderDescriptionCard extends StatelessWidget {
             BoxShadow(
               color: Colors.black45,
               offset: Offset(1, 1),
-              blurRadius: 7.5,
+              blurRadius: 7,
             ),
           ],
         ),
@@ -45,7 +40,7 @@ class OrderDescriptionCard extends StatelessWidget {
                   "#" + order.number.toString(),
                   style: TextStyle(
                     fontFamily: "Calibri",
-                    fontSize: screenSize.width * 0.055,
+                    fontSize: Responsive.safeBlockHorizontal * 5,
                   ),
                 ),
                 Spacer(),
@@ -53,7 +48,7 @@ class OrderDescriptionCard extends StatelessWidget {
                   order.date,
                   style: TextStyle(
                     fontFamily: "Calibri",
-                    fontSize: screenSize.width * 0.055,
+                    fontSize: Responsive.safeBlockHorizontal * 5,
                   ),
                 ),
                 Spacer(),
@@ -61,7 +56,7 @@ class OrderDescriptionCard extends StatelessWidget {
                   order.value.toString() + " RON",
                   style: TextStyle(
                     fontFamily: "Calibri",
-                    fontSize: screenSize.width * 0.055,
+                    fontSize: Responsive.safeBlockHorizontal * 5,
                   ),
                 ),
               ],
@@ -75,7 +70,7 @@ class OrderDescriptionCard extends StatelessWidget {
                     order.description,
                     style: TextStyle(
                       fontFamily: "Roboto-Light",
-                      fontSize: screenSize.width * 0.04,
+                      fontSize: Responsive.safeBlockHorizontal * 4,
                     ),
                   ),
                 ],
