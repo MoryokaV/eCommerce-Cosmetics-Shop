@@ -22,7 +22,7 @@ Future<void> initDatabase() async {
         "CREATE TABLE orders (number INTEGER NOT NULL, value REAL NOT NULL, description TEXT, date TEXT)",
       );
       db.execute(
-        "CREATE TABLE user (name TEXT NOT NULL, email TEXT NOT NULL, phone TEXT NOT NULL, address TEXT NOT NULL, zipcode TEXT NOT NULL)",
+        "CREATE TABLE user (name TEXT NOT NULL, email TEXT NOT NULL, phone TEXT NOT NULL, address TEXT NOT NULL)",
       );
 
       //default user
@@ -32,7 +32,6 @@ Future<void> initDatabase() async {
           email: "",
           phone: "",
           address: "",
-          zipcode: "",
         ),
       );
     },

@@ -3,14 +3,12 @@ class User {
   String email;
   String phone;
   String address;
-  String zipcode;
 
   User({
     required this.name,
     required this.email,
     required this.phone,
     required this.address,
-    required this.zipcode,
   });
 
   Map<String, dynamic> toMap() {
@@ -19,7 +17,6 @@ class User {
       'email': email,
       'phone': phone,
       'address': address,
-      'zipcode': zipcode,
     };
   }
 
@@ -29,7 +26,6 @@ class User {
       email: map['email'],
       phone: map['phone'],
       address: map['address'],
-      zipcode: map['zipcode'],
     );
   }
 }

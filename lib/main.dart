@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  
   await initDatabase();
   runApp(MyApp());
 }
@@ -30,6 +30,11 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: kBgColor,
           colorScheme:
               ColorScheme.fromSwatch().copyWith(secondary: kAccentColor),
+          inputDecorationTheme: InputDecorationTheme(
+            border: textFieldBorder,
+            enabledBorder: textFieldBorder,
+            focusedBorder: textFieldBorder,
+          ),
         ),
         home: SplashScreen(),
       ),

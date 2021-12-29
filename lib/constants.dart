@@ -6,6 +6,12 @@ const kAccentColor = Color.fromRGBO(222, 108, 100, 1.0);
 const kBgAccent = Color.fromRGBO(255, 203, 161, 1.0);
 const kBgColor = Color.fromRGBO(250, 225, 202, 1.0);
 
+final textFieldBorder = OutlineInputBorder(
+  borderSide: BorderSide(
+    color: Colors.black26,
+  ),
+);
+
 //UI scale factor
 const double kDefaultPadding = 20.0;
 
@@ -26,10 +32,9 @@ const List<String> deliveryOptions = [
 
 const List<String> destinationCities = [
   "Brăila",
-];
-
-const List<String> destinationCountries = [
-  "Romania",
+  "Galați",
+  "Cluj",
+  "Iași",
 ];
 
 enum UserFieldType {
