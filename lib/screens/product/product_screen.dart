@@ -149,30 +149,37 @@ class _ProductScreenState extends State<ProductScreen> {
                       height: Responsive.safeBlockVertical * 21,
                       width: Responsive.safeBlockHorizontal * 15,
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          IconButton(
-                            icon: Icon(FontAwesomeIcons.plus),
-                            onPressed: () => addQuantity(),
-                            iconSize: Responsive.safeBlockHorizontal * 5,
-                            color: Colors.black54,
-                            padding: EdgeInsets.all(0),
-                          ),
-                          Spacer(),
-                          Text(
-                            quantity.toString(),
-                            style: TextStyle(
-                              fontSize: Responsive.safeBlockHorizontal * 8,
+                          Expanded(
+                            child: IconButton(
+                              icon: Icon(FontAwesomeIcons.plus),
+                              onPressed: () => addQuantity(),
+                              iconSize: Responsive.safeBlockHorizontal * 5,
                               color: Colors.black54,
+                              padding: const EdgeInsets.all(0),
                             ),
                           ),
-                          Spacer(),
-                          IconButton(
-                            icon: Icon(FontAwesomeIcons.minus),
-                            onPressed: () => removeQuantity(),
-                            iconSize: Responsive.safeBlockHorizontal * 5,
-                            color: Colors.black54,
-                            padding: EdgeInsets.all(0),
+                          Expanded(
+                            child: Center(
+                              child: Text(
+                                quantity.toString(),
+                                maxLines: 1,
+                                style: TextStyle(
+                                  fontSize: Responsive.safeBlockHorizontal * 7,
+                                  color: Colors.black54,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: IconButton(
+                              icon: Icon(FontAwesomeIcons.minus),
+                              onPressed: () => removeQuantity(),
+                              iconSize: Responsive.safeBlockHorizontal * 5,
+                              color: Colors.black54,
+                              padding: const EdgeInsets.all(0),
+                            ),
                           ),
                         ],
                       ),
@@ -291,11 +298,10 @@ class _ProductScreenState extends State<ProductScreen> {
               ],
             ),
             Container(
-              height: Responsive.safeBlockVertical * 5.5,
               margin: EdgeInsets.only(
                 left: kDefaultPadding,
                 right: kDefaultPadding,
-                top: kDefaultPadding / 2,
+                top: kDefaultPadding,
               ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
@@ -353,33 +359,26 @@ class _ProductScreenState extends State<ProductScreen> {
                     ),
                   );
                 },
-                child: Center(
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxHeight: 20,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Add to cart",
+                      style: TextStyle(
+                        color: kPrimaryColor,
+                        fontSize: Responsive.safeBlockHorizontal * 5,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Add to cart",
-                          style: TextStyle(
-                            color: kPrimaryColor,
-                            fontSize: Responsive.safeBlockHorizontal * 5,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Icon(
-                          FontAwesomeIcons.shoppingCart,
-                          color: kPrimaryColor,
-                          size: Responsive.safeBlockHorizontal * 4,
-                        ),
-                      ],
+                    SizedBox(
+                      width: 10,
                     ),
-                  ),
+                    Icon(
+                      FontAwesomeIcons.shoppingCart,
+                      color: kPrimaryColor,
+                      size: Responsive.safeBlockHorizontal * 4,
+                    ),
+                  ],
                 ),
               ),
             ),
