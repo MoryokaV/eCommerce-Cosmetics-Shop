@@ -1,4 +1,3 @@
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cosmetics_shop/models/favourites.dart';
 import 'package:cosmetics_shop/models/products.dart';
 import 'package:cosmetics_shop/screens/cart/cart_screen.dart';
@@ -153,7 +152,7 @@ class _ProductScreenState extends State<ProductScreen> {
                         children: [
                           Expanded(
                             child: IconButton(
-                              icon: Icon(FontAwesomeIcons.plus),
+                              icon: Icon(Icons.add),
                               onPressed: () => addQuantity(),
                               iconSize: Responsive.safeBlockHorizontal * 5,
                               color: Colors.black54,
@@ -174,7 +173,7 @@ class _ProductScreenState extends State<ProductScreen> {
                           ),
                           Expanded(
                             child: IconButton(
-                              icon: Icon(FontAwesomeIcons.minus),
+                              icon: Icon(Icons.remove),
                               onPressed: () => removeQuantity(),
                               iconSize: Responsive.safeBlockHorizontal * 5,
                               color: Colors.black54,
@@ -205,8 +204,8 @@ class _ProductScreenState extends State<ProductScreen> {
                       child: Center(
                         child: IconButton(
                           icon: fav
-                              ? Icon(FontAwesomeIcons.solidHeart)
-                              : Icon(FontAwesomeIcons.heart),
+                              ? Icon(Icons.favorite)
+                              : Icon(Icons.favorite_border),
                           iconSize: Responsive.safeBlockHorizontal * 8,
                           color: Colors.red,
                           onPressed: () => toggleFavourite(),
@@ -297,88 +296,77 @@ class _ProductScreenState extends State<ProductScreen> {
                 ),
               ],
             ),
-            Container(
-              margin: EdgeInsets.only(
+            Padding(
+              padding: EdgeInsets.only(
                 left: kDefaultPadding,
                 right: kDefaultPadding,
                 top: kDefaultPadding,
               ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: kAccentColor,
-                boxShadow: [
-                  BoxShadow(
-                    offset: Offset(0, 1),
-                    color: Colors.black26,
-                    blurRadius: 7,
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    primary: kAccentColor,
+                    onPrimary: kPrimaryColor,
+                    elevation: 6,
+                    padding:
+                        EdgeInsets.symmetric(vertical: kDefaultPadding / 2),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                   ),
-                ],
-              ),
-              child: TextButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (BuildContext dialogContext) =>
-                        CupertinoAlertDialog(
-                      title: Text(
-                        "View cart details?",
-                        style: TextStyle(
-                          fontSize: Responsive.safeBlockHorizontal * 5,
+                  label: Text(
+                    "Add to cart",
+                    style: TextStyle(
+                      fontSize: Responsive.safeBlockHorizontal * 5,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  icon: Icon(Icons.shopping_cart),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext dialogContext) =>
+                          CupertinoAlertDialog(
+                        title: Text(
+                          "View cart details?",
+                          style: TextStyle(
+                            fontSize: Responsive.safeBlockHorizontal * 5,
+                          ),
                         ),
-                      ),
-                      content: Text(
-                        "Successfully added to your bag!",
-                        style: TextStyle(
-                          fontSize: Responsive.safeBlockHorizontal * 4,
+                        content: Text(
+                          "Successfully added to your bag!",
+                          style: TextStyle(
+                            fontSize: Responsive.safeBlockHorizontal * 4,
+                          ),
                         ),
-                      ),
-                      actions: [
-                        CupertinoDialogAction(
-                            child: const Text("No"),
+                        actions: [
+                          CupertinoDialogAction(
+                              child: const Text("No"),
+                              onPressed: () async {
+                                await addToCart(widget.product.id);
+                                Navigator.of(dialogContext, rootNavigator: true)
+                                    .pop();
+                              }),
+                          CupertinoDialogAction(
+                            child: const Text("Yes"),
                             onPressed: () async {
                               await addToCart(widget.product.id);
                               Navigator.of(dialogContext, rootNavigator: true)
                                   .pop();
-                            }),
-                        CupertinoDialogAction(
-                          child: const Text("Yes"),
-                          onPressed: () async {
-                            await addToCart(widget.product.id);
-                            Navigator.of(dialogContext, rootNavigator: true)
-                                .pop();
-                            Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                builder: (_) => CartScreen(),
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Add to cart",
-                      style: TextStyle(
-                        color: kPrimaryColor,
-                        fontSize: Responsive.safeBlockHorizontal * 5,
-                        fontWeight: FontWeight.w400,
+                              Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                  builder: (_) => CartScreen(),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
                       ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Icon(
-                      FontAwesomeIcons.shoppingCart,
-                      color: kPrimaryColor,
-                      size: Responsive.safeBlockHorizontal * 4,
-                    ),
-                  ],
+                    );
+                  },
                 ),
               ),
             ),

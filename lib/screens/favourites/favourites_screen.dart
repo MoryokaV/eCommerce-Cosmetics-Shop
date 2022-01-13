@@ -1,7 +1,6 @@
 import 'package:cosmetics_shop/models/favourites.dart';
 import 'package:cosmetics_shop/responsive.dart';
 import 'package:cosmetics_shop/screens/product/product_screen.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cosmetics_shop/services/databaseHandler.dart';
 import 'package:cosmetics_shop/constants.dart';
 import 'package:cosmetics_shop/models/products.dart';
@@ -89,9 +88,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
                     child: Row(
                       children: [
                         Container(
-                          margin: EdgeInsets.only(
-                            right: kDefaultPadding,
-                          ),
+                          margin: EdgeInsets.only(right: kDefaultPadding),
                           height: Responsive.safeBlockVertical * 20,
                           width: Responsive.safeBlockHorizontal * 35,
                           decoration: BoxDecoration(
@@ -103,8 +100,8 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black45,
-                                blurRadius: 10,
-                                offset: Offset(7, 0),
+                                blurRadius: 8,
+                                offset: Offset(2, 0),
                               ),
                             ],
                           ),
@@ -122,17 +119,15 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Center(
-                                child: Text(
-                                  favProducts[index].name,
-                                  softWrap: false,
-                                  overflow: TextOverflow.fade,
-                                  style: TextStyle(
-                                    fontFamily: "Roboto-Bold",
-                                    fontSize:
-                                        Responsive.safeBlockHorizontal * 5.5,
-                                    color: Colors.grey[600],
-                                  ),
+                              Text(
+                                favProducts[index].name,
+                                softWrap: false,
+                                overflow: TextOverflow.fade,
+                                style: TextStyle(
+                                  fontFamily: "Roboto-Bold",
+                                  fontSize:
+                                      Responsive.safeBlockHorizontal * 5.5,
+                                  color: Colors.grey[600],
                                 ),
                               ),
                               Spacer(),
@@ -151,8 +146,8 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
                                   ),
                                   IconButton(
                                     icon: favIcon[index]
-                                        ? Icon(FontAwesomeIcons.solidHeart)
-                                        : Icon(FontAwesomeIcons.heart),
+                                        ? Icon(Icons.favorite)
+                                        : Icon(Icons.favorite_outline),
                                     onPressed: () => removeFavourite(index),
                                     color: Colors.red,
                                     iconSize:
@@ -171,8 +166,8 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black54,
-                          blurRadius: 10,
-                          offset: Offset(3, 3),
+                          blurRadius: 8,
+                          offset: Offset(2, 2),
                         ),
                       ],
                     ),

@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:cosmetics_shop/constants.dart';
 import 'package:cosmetics_shop/models/cart.dart';
 import 'package:cosmetics_shop/models/favourites.dart';
@@ -9,7 +8,6 @@ import 'package:cosmetics_shop/services/databaseHandler.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../responsive.dart';
 
@@ -126,7 +124,7 @@ class _ProductCardState extends State<ProductCard> {
                     radius: Responsive.safeBlockHorizontal * 4,
                     backgroundColor: Colors.grey[200],
                     child: IconButton(
-                      icon: Icon(FontAwesomeIcons.solidHeart),
+                      icon: Icon(Icons.favorite),
                       color: widget.favIcon ? Colors.red : Colors.grey[600],
                       onPressed: () => toggleFavourites(widget.product.id),
                       iconSize: Responsive.safeBlockHorizontal * 4,
@@ -153,95 +151,82 @@ class _ProductCardState extends State<ProductCard> {
                   ),
                 ],
               ),
-              Container(
-                height: Responsive.safeBlockVertical * 4.5,
-                width: Responsive.safeBlockHorizontal * 55,
-                margin: EdgeInsets.only(
+              Padding(
+                padding: EdgeInsets.only(
                   top: kDefaultPadding / 2,
                   left: kDefaultPadding / 2,
                 ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: kAccentColor,
-                  boxShadow: [
-                    BoxShadow(
-                      offset: Offset(0, 0.5),
-                      color: Colors.black26,
-                      blurRadius: 5,
-                    ),
-                  ],
-                ),
-                child: TextButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (BuildContext dialogContext) =>
-                          CupertinoAlertDialog(
-                        title: Text(
-                          "View cart details?",
-                          style: TextStyle(
-                            fontFamily: "Arial",
-                            fontSize: Responsive.safeBlockHorizontal * 5,
-                          ),
-                        ),
-                        content: Text(
-                          "Successfully added to your bag!",
-                          style: TextStyle(
-                            fontFamily: "Arial",
-                            fontSize: Responsive.safeBlockHorizontal * 4,
-                          ),
-                        ),
-                        actions: [
-                          CupertinoDialogAction(
-                            child: const Text("No"),
-                            onPressed: () async {
-                              await addToCart(widget.product.id);
-                              Navigator.of(dialogContext, rootNavigator: true)
-                                  .pop();
-                            },
-                          ),
-                          CupertinoDialogAction(
-                            child: const Text("Yes"),
-                            onPressed: () async {
-                              await addToCart(widget.product.id);
-                              Navigator.of(dialogContext, rootNavigator: true)
-                                  .pop();
-                              Navigator.push(
-                                context,
-                                CupertinoPageRoute(
-                                  builder: (_) => CartScreen(),
-                                ),
-                              );
-                            },
-                          ),
-                        ],
+                child: SizedBox(
+                  width: Responsive.safeBlockHorizontal * 53,
+                  child: ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      primary: kAccentColor,
+                      onPrimary: kPrimaryColor,
+                      elevation: 6,
+                      padding: EdgeInsets.symmetric(
+                        vertical: kDefaultPadding / 4,
                       ),
-                    );
-                  },
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Add to cart",
-                          style: TextStyle(
-                            color: kPrimaryColor,
-                            fontFamily: "Roboto-Thin",
-                            fontSize: Responsive.safeBlockHorizontal * 4,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 8,
-                        ),
-                        Icon(
-                          FontAwesomeIcons.shoppingCart,
-                          color: kPrimaryColor,
-                          size: Responsive.safeBlockHorizontal * 3,
-                        ),
-                      ],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                     ),
+                    label: Text(
+                      "Add to cart",
+                      style: TextStyle(
+                        color: kPrimaryColor,
+                        fontFamily: "Roboto-Thin",
+                        fontSize: Responsive.safeBlockHorizontal * 4,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    icon: Icon(Icons.shopping_cart),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext dialogContext) =>
+                            CupertinoAlertDialog(
+                          title: Text(
+                            "View cart details?",
+                            style: TextStyle(
+                              fontFamily: "Arial",
+                              fontSize: Responsive.safeBlockHorizontal * 5,
+                            ),
+                          ),
+                          content: Text(
+                            "Successfully added to your bag!",
+                            style: TextStyle(
+                              fontFamily: "Arial",
+                              fontSize: Responsive.safeBlockHorizontal * 4,
+                            ),
+                          ),
+                          actions: [
+                            CupertinoDialogAction(
+                              child: const Text("No"),
+                              onPressed: () async {
+                                await addToCart(widget.product.id);
+                                Navigator.of(dialogContext, rootNavigator: true)
+                                    .pop();
+                              },
+                            ),
+                            CupertinoDialogAction(
+                              child: const Text("Yes"),
+                              onPressed: () async {
+                                await addToCart(widget.product.id);
+                                Navigator.of(dialogContext, rootNavigator: true)
+                                    .pop();
+                                Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                    builder: (_) => CartScreen(),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),

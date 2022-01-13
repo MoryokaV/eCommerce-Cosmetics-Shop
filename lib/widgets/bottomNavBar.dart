@@ -3,7 +3,6 @@ import 'package:cosmetics_shop/constants.dart';
 import 'package:cosmetics_shop/screens/favourites/favourites_screen.dart';
 import 'package:cosmetics_shop/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class BottomNavBar extends StatefulWidget {
   @override
@@ -32,7 +31,7 @@ class _BottomNavBar extends State<BottomNavBar> {
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.compass),
+            icon: Icon(Icons.explore_outlined),
             label: "Explore",
           ),
           BottomNavigationBarItem(
@@ -57,7 +56,7 @@ class _BottomNavBar extends State<BottomNavBar> {
       backgroundColor: kAccentColor,
       elevation: 0,
       leading: Icon(
-        FontAwesomeIcons.shopify,
+        Icons.shopping_bag_outlined,
         color: kPrimaryColor,
         size: 30,
       ),

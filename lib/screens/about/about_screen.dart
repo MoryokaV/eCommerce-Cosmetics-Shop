@@ -81,44 +81,44 @@ class AboutScreen extends StatelessWidget {
                       fontWeight: FontWeight.w200,
                     ),
                   ),
-                  Container(
-                    height: Responsive.safeBlockVertical * 5,
-                    width: Responsive.safeBlockHorizontal * 18,
-                    decoration: BoxDecoration(
-                      color: kAccentColor,
-                      borderRadius: BorderRadius.circular(15),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black38,
-                          offset: Offset(1, 1),
-                          blurRadius: 5,
+                  GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext dialogContext) =>
+                            CupertinoAlertDialog(
+                          title: Text("FAQ"),
+                          content: Text(
+                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam felis est, placerat eget erat fringilla, vestibulum ullamcorper sapien. Nam nec volutpat lorem."),
+                          actions: [
+                            CupertinoDialogAction(
+                              isDefaultAction: true,
+                              child: Text("Close"),
+                              onPressed: () => Navigator.of(dialogContext,
+                                      rootNavigator: true)
+                                  .pop(),
+                            )
+                          ],
                         ),
-                      ],
-                    ),
-                    child: TextButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (BuildContext dialogContext) =>
-                              CupertinoAlertDialog(
-                            title: Text("FAQ"),
-                            content: Text(
-                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam felis est, placerat eget erat fringilla, vestibulum ullamcorper sapien. Nam nec volutpat lorem."),
-                            actions: [
-                              CupertinoDialogAction(
-                                isDefaultAction: true,
-                                child: Text("Close"),
-                                onPressed: () => Navigator.of(dialogContext,
-                                        rootNavigator: true)
-                                    .pop(),
-                              )
-                            ],
+                      );
+                    },
+                    child: Container(
+                      height: Responsive.safeBlockVertical * 5,
+                      width: Responsive.safeBlockHorizontal * 18,
+                      decoration: BoxDecoration(
+                        color: kAccentColor,
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black38,
+                            offset: Offset(1, 1),
+                            blurRadius: 5,
                           ),
-                        );
-                      },
+                        ],
+                      ),
                       child: FittedBox(
-                        fit: BoxFit.contain,
+                        fit: BoxFit.scaleDown,
                         child: Text(
                           "FAQ",
                           style: TextStyle(

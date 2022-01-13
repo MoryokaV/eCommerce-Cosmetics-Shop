@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:cosmetics_shop/constants.dart';
 import 'package:cosmetics_shop/models/cart.dart';
 import 'package:cosmetics_shop/models/order.dart';
@@ -7,9 +6,7 @@ import 'package:cosmetics_shop/models/products.dart';
 import 'package:cosmetics_shop/screens/order/checkout_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-
 import '../../../responsive.dart';
 
 // ignore: must_be_immutable
@@ -233,7 +230,7 @@ class _OrderSummaryState extends State<OrderSummary>
                           top: 2,
                           bottom: 2,
                           child: Icon(
-                            FontAwesomeIcons.arrowRight,
+                            Icons.subdirectory_arrow_right_rounded,
                             color: kPrimaryColor,
                             size: Responsive.safeBlockHorizontal * 6,
                           ),
