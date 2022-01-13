@@ -21,6 +21,6 @@ Dart + Flutter Framework -> UI + Business logic
 Sqflite (Dart package) -> Sqlite backend
 
 # Screenshots
-![UI1](https://user-images.githubusercontent.com/55505135/147699974-37bfc329-52e0-4c14-9f33-bda63bf51dff.png)
-![UI2](https://user-images.githubusercontent.com/55505135/147699976-199af709-cafa-437e-a5f0-f620dcb860b4.png)
-![UI3](https://user-images.githubusercontent.com/55505135/147699977-ee322780-c323-4a6e-91c2-bb9b98f89baf.png)
+<img width="800" alt="image1" src="https://user-images.githubusercontent.com/55505135/149353096-26df4a9e-1117-49d2-b076-9269a417e4de.png">
+<img width="800" alt="image2" src="https://user-images.githubusercontent.com/55505135/149353098-5c8946df-a455-491f-b9bd-5fae414f7d30.png">
+<img width="800" alt="image3" src="https://user-images.githubusercontent.com/55505135/149353103-65e74899-d313-4d1f-bab3-991d0be0524c.png">
