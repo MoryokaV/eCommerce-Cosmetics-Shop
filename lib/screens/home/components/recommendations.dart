@@ -33,9 +33,11 @@ class Recommendations extends StatelessWidget {
                   margin: EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
                   height: Responsive.safeBlockVertical * 18,
                   width: Responsive.safeBlockHorizontal * 35,
-                  child: FittedBox(
-                    fit: BoxFit.contain,
-                    child: Image.asset(product.image),
+                  child: Hero(
+                    tag: product.image,
+                    child: FittedBox(
+                        fit: BoxFit.contain,
+                        child: Image.asset(product.image)),
                   ),
                   decoration: BoxDecoration(
                     color: kBgAccent,

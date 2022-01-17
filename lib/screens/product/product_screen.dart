@@ -227,11 +227,14 @@ class _ProductScreenState extends State<ProductScreen> {
                   Positioned(
                     bottom: 0,
                     right: 10,
-                    child: Image.asset(
-                      widget.product.image,
-                      height: Responsive.safeBlockVertical * 37,
-                      width: Responsive.safeBlockHorizontal * 70,
-                      fit: BoxFit.contain,
+                    child: Hero(
+                      tag: widget.product.image,
+                      child: Image.asset(
+                        widget.product.image,
+                        height: Responsive.safeBlockVertical * 37,
+                        width: Responsive.safeBlockHorizontal * 70,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
                 ],
