@@ -42,7 +42,7 @@ class _CartScreenState extends State<CartScreen> {
     cartProducts.clear();
     favIcon.clear();
 
-    FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection('products')
         .orderBy('id')
         .get()
