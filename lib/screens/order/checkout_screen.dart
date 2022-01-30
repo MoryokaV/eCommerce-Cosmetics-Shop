@@ -2,7 +2,7 @@ import 'package:cosmetics_shop/models/cart.dart';
 import 'package:cosmetics_shop/models/user.dart';
 import 'package:cosmetics_shop/screens/order/components/textFieldName.dart';
 import 'package:cosmetics_shop/screens/order/congrats_screen.dart';
-import 'package:cosmetics_shop/services/databaseHandler.dart';
+import 'package:cosmetics_shop/services/sqliteHelper.dart';
 import 'package:cosmetics_shop/constants.dart';
 import 'package:cosmetics_shop/widgets/bottomNavBar.dart';
 import 'package:cosmetics_shop/models/order.dart';

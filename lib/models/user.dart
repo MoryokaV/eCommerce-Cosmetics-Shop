@@ -3,6 +3,7 @@ class User {
   String email;
   String phone;
   String address;
+  static String uid = "";
 
   User({
     required this.name,
@@ -10,6 +11,7 @@ class User {
     required this.phone,
     required this.address,
   });
+
 
   Map<String, dynamic> toMap() {
     return {

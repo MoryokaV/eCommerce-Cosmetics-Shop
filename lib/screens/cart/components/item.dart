@@ -3,7 +3,7 @@ import 'package:cosmetics_shop/constants.dart';
 import 'package:cosmetics_shop/models/cart.dart';
 import 'package:cosmetics_shop/models/favourites.dart';
 import 'package:cosmetics_shop/models/products.dart';
-import 'package:cosmetics_shop/services/databaseHandler.dart';
+import 'package:cosmetics_shop/services/sqliteHelper.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../../responsive.dart';
@@ -82,7 +82,7 @@ class _ItemState extends State<Item> {
                 ),
               ),
             ),
-            child: Image.asset(
+            child: Image.network(
               widget.product.image,
             ),
           ),

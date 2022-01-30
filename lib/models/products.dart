@@ -1,9 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Product {
   int id;
   String name;
   int categoryID;
-  String manufacter;
-  double price;
+  num price;
   String image;
   String shortDescription;
   String longDescription;
@@ -12,12 +13,23 @@ class Product {
     required this.id,
     required this.name,
     required this.categoryID,
-    required this.manufacter,
     required this.price,
     required this.image,
     required this.shortDescription,
     required this.longDescription,
   });
+
+  factory Product.fromSnapshot(DocumentSnapshot snapshot) {
+    return Product(
+      id: snapshot["id"],
+      name: snapshot["name"],
+      categoryID: snapshot["categoryID"],
+      price: snapshot["price"],
+      image: snapshot["image"],
+      shortDescription: snapshot["shortDescription"],
+      longDescription: snapshot["longDescription"],
+    );
+  }
 }
 
 final List<Product> products = [
@@ -25,7 +37,6 @@ final List<Product> products = [
     id: 1,
     name: "Gerovital H3",
     categoryID: 1,
-    manufacter: "Gerovital",
     price: 50.00,
     image: "assets/images/products/gerovitalH3.png",
     shortDescription: "Crema de fata menita sa iti protejeze tenul.",
@@ -36,9 +47,8 @@ final List<Product> products = [
     id: 2,
     name: "Kiss Hexa-Eyes",
     categoryID: 2,
-    manufacter: "Kiss",
     price: 42.00,
-    image: "assets/images/products/kissHexaEyes.png",
+    image: "assets/images/products/kissHexaEyes2.png",
     shortDescription: "Pigmented texture in a single application!",
     longDescription:
         "Nuantele din interior sunt perfect alese si formeaza un degrade cromatic. Nuantele deschise le poti aplica in interiorul pleoapei sau pe arcada, cele din mijloc sunt de tranzitie pentru a face trecerea intre culori sau pentru a estompa machiajul in pliu si exterior.",
@@ -47,7 +57,6 @@ final List<Product> products = [
     id: 3,
     name: "Mascara Kiss Dead",
     categoryID: 2,
-    manufacter: "Mascara",
     price: 38.00,
     image: "assets/images/products/mascaraKissDead.png",
     shortDescription:
@@ -59,11 +68,9 @@ final List<Product> products = [
     id: 4,
     name: "Techniques Blush",
     categoryID: 3,
-    manufacter: "realTechniques",
     price: 51.00,
     image: "assets/images/products/techniquesBlush.png",
-    shortDescription:
-        "Pensula pentru fard de obraz.",
+    shortDescription: "Pensula pentru fard de obraz.",
     longDescription:
         "Creaza un aspect perfect chiar si în cea mai slaba lumina. Firele sintetice de taklon sunt realizate manual, creand astfel perii incredibil de moi, 100% fara cruzime. Construcția periilor permite pozitionarea lor pe orice suprafata plana. Manerul din aluminiu este foarte usoara si astfel permite o utilizare usoara.",
   ),
@@ -71,7 +78,6 @@ final List<Product> products = [
     id: 5,
     name: "Secret Key",
     categoryID: 1,
-    manufacter: "Snail",
     price: 71.00,
     image: "assets/images/products/snailSecretKey.png",
     shortDescription:
@@ -83,7 +89,6 @@ final List<Product> products = [
     id: 6,
     name: "Sleek Lip Shot",
     categoryID: 4,
-    manufacter: "Sleek",
     price: 51.00,
     image: "assets/images/products/sleekLipShot.png",
     shortDescription:

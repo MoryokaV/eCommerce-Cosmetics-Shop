@@ -1,5 +1,5 @@
 import 'package:cosmetics_shop/screens/history/components/orderDescriptionCard.dart';
-import 'package:cosmetics_shop/services/databaseHandler.dart';
+import 'package:cosmetics_shop/services/sqliteHelper.dart';
 import 'package:cosmetics_shop/constants.dart';
 import 'package:cosmetics_shop/models/order.dart';
 import 'package:flutter/material.dart';

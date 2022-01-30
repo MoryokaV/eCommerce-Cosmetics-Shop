@@ -1,8 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cosmetics_shop/models/order.dart';
 import 'package:cosmetics_shop/screens/cart/components/emptyCart.dart';
 import 'package:cosmetics_shop/screens/cart/components/orderSummary.dart';
 import 'package:cosmetics_shop/screens/product/product_screen.dart';
-import 'package:cosmetics_shop/services/databaseHandler.dart';
+import 'package:cosmetics_shop/services/sqliteHelper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cosmetics_shop/models/favourites.dart';
 import 'package:cosmetics_shop/models/products.dart';
@@ -10,7 +11,6 @@ import 'package:cosmetics_shop/constants.dart';
 import 'package:cosmetics_shop/models/cart.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-
 import 'components/item.dart';
 
 class CartScreen extends StatefulWidget {
@@ -42,19 +42,29 @@ class _CartScreenState extends State<CartScreen> {
     cartProducts.clear();
     favIcon.clear();
 
-    for (int i = 0; i < cart.length; i++) {
-      cartProducts.add(products[cart[i].productID - 1]);
-      favIcon.add(false);
-    }
+    FirebaseFirestore.instance
+        .collection('products')
+        .orderBy('id')
+        .get()
+        .then((value) {
+      for (int i = 0; i < cart.length; i++) {
+        for (int j = 0; j < value.docs.length; j++) {
+          if (cart[i].productID == value.docs[j]['id']) {
+            cartProducts.add(Product.fromSnapshot(value.docs[j]));
 
-    for (int i = 0; i < cartProducts.length; i++) {
-      for (int j = 0; j < favourites.length; j++) {
-        if (favourites[j].productID == cartProducts[i].id) {
-          favIcon[i] = true;
-          break;
+            favIcon.add(false);
+            for (int k = 0; k < favourites.length; k++) {
+              if (favourites[k].productID == value.docs[j]['id']) {
+                favIcon.last = true;
+                break;
+              }
+            }
+
+            break;
+          }
         }
       }
-    }
+    });
 
     setState(() => isLoading = false);
   }
@@ -125,16 +135,15 @@ class _CartScreenState extends State<CartScreen> {
       automaticallyImplyLeading: false,
       elevation: 4,
       titleSpacing: 0,
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back_ios),
+        color: kPrimaryColor,
+        onPressed: () => Navigator.pop(context),
+      ),
       title: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          IconButton(
-            icon: Icon(Icons.arrow_back_ios),
-            color: kPrimaryColor,
-            onPressed: () => Navigator.pop(context),
-          ),
-          SizedBox(width: 8),
           Icon(
             Icons.shopping_cart,
             color: kBgAccent,

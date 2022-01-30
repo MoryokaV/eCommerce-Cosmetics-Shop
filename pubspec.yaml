@@ -30,7 +30,9 @@ dependencies:
   intl: ^0.17.0 #date-time
   flutter_launcher_icons: ^0.9.2 #app icon
   form_field_validator: ^1.1.0 #regexp
-  firebase_core: ^1.12.0 #database
+  firebase_core: ^1.12.0 #firebase
+  cloud_firestore: ^3.1.7 #database
+  provider: ^6.0.2 #state management
 
 flutter_icons:
   android: "launcher_icon"
@@ -62,43 +64,40 @@ flutter:
   fonts:
     - family: Calibri
       fonts:
-        - asset: fonts/Calibri Regular.ttf
+        - asset: assets/fonts/Calibri Regular.ttf
     - family: Arial
       fonts:
-        - asset: fonts/arial.ttf
+        - asset: assets/fonts/arial.ttf
     - family: Century-Gothic
       fonts:
-        - asset: fonts/Century Gothic 400.ttf
+        - asset: assets/fonts/Century Gothic 400.ttf
     - family: Roboto-ThinItalic
       fonts:
-        - asset: fonts/Roboto-ThinItalic.ttf
+        - asset: assets/fonts/Roboto-ThinItalic.ttf
     - family: Roboto-BlackItalic
       fonts:
-        - asset: fonts/Roboto-BlackItalic.ttf
+        - asset: assets/fonts/Roboto-BlackItalic.ttf
     - family: Roboto-Black
       fonts:
-        - asset: fonts/Roboto-Black.ttf         
+        - asset: assets/fonts/Roboto-Black.ttf         
     - family: Roboto-Bold
       fonts:
-        - asset: fonts/Roboto-Bold.ttf
+        - asset: assets/fonts/Roboto-Bold.ttf
     - family: Roboto-BoldItalic
       fonts:
-        - asset: fonts/Roboto-BoldItalic.ttf 
+        - asset: assets/fonts/Roboto-BoldItalic.ttf 
     - family: Roboto-Italic
       fonts:        
-        - asset: fonts/Roboto-Italic.ttf
+        - asset: assets/fonts/Roboto-Italic.ttf
     - family: Roboto-Light
       fonts:
-        - asset: fonts/Roboto-Light.ttf
+        - asset: assets/fonts/Roboto-Light.ttf
     - family: Roboto-LightItalic
       fonts:
-        - asset: fonts/Roboto-LightItalic.ttf
+        - asset: assets/fonts/Roboto-LightItalic.ttf
     - family: Roboto-Medium
       fonts:
-        - asset: fonts/Roboto-Medium.ttf      
-    - family: Roboto-Regulat
-      fonts:
-        - asset: fonts/Roboto-Regular.ttf
+        - asset: assets/fonts/Roboto-Medium.ttf      
     - family: Roboto-Thin
       fonts:
-        - asset: fonts/Roboto-Thin.ttf         
+        - asset: assets/fonts/Roboto-Thin.ttf         

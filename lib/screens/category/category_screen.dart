@@ -1,5 +1,5 @@
 import 'package:cosmetics_shop/screens/product/product_screen.dart';
-import 'package:cosmetics_shop/services/databaseHandler.dart';
+import 'package:cosmetics_shop/services/sqliteHelper.dart';
 import 'package:cosmetics_shop/models/categories.dart';
 import 'package:cosmetics_shop/models/favourites.dart';
 import 'package:cosmetics_shop/models/products.dart';

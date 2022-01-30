@@ -3,12 +3,11 @@ import 'package:cosmetics_shop/models/products.dart';
 import 'package:cosmetics_shop/screens/cart/cart_screen.dart';
 import 'package:cosmetics_shop/constants.dart';
 import 'package:cosmetics_shop/models/cart.dart';
-import 'package:cosmetics_shop/services/databaseHandler.dart';
+import 'package:cosmetics_shop/services/sqliteHelper.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
-
 import '../../responsive.dart';
 
 class ProductScreen extends StatefulWidget {
@@ -48,14 +47,6 @@ class _ProductScreenState extends State<ProductScreen> {
     );
   }
 
-  void addQuantity() {
-    if (quantity < 5) setState(() => quantity++);
-  }
-
-  void removeQuantity() {
-    if (quantity > 1) setState(() => quantity--);
-  }
-
   Future<void> checkFavourite() async {
     List<Favourite> favourites = await retrieveFavourites();
 
@@ -65,6 +56,14 @@ class _ProductScreenState extends State<ProductScreen> {
         break;
       }
     }
+  }
+
+  void addQuantity() {
+    if (quantity < 5) setState(() => quantity++);
+  }
+
+  void removeQuantity() {
+    if (quantity > 1) setState(() => quantity--);
   }
 
   Future<void> addFavourites() async {
@@ -229,7 +228,7 @@ class _ProductScreenState extends State<ProductScreen> {
                     right: 10,
                     child: Hero(
                       tag: widget.product.image,
-                      child: Image.asset(
+                      child: Image.network(
                         widget.product.image,
                         height: Responsive.safeBlockVertical * 37,
                         width: Responsive.safeBlockHorizontal * 70,

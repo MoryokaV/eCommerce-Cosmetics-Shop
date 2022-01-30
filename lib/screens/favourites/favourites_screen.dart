@@ -1,7 +1,7 @@
 import 'package:cosmetics_shop/models/favourites.dart';
 import 'package:cosmetics_shop/responsive.dart';
 import 'package:cosmetics_shop/screens/product/product_screen.dart';
-import 'package:cosmetics_shop/services/databaseHandler.dart';
+import 'package:cosmetics_shop/services/sqliteHelper.dart';
 import 'package:cosmetics_shop/constants.dart';
 import 'package:cosmetics_shop/models/products.dart';
 import 'package:flutter/cupertino.dart';
