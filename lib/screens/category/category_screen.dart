@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cosmetics_shop/screens/product/product_screen.dart';
 import 'package:cosmetics_shop/services/sqliteHelper.dart';
 import 'package:cosmetics_shop/models/categories.dart';
@@ -20,11 +21,15 @@ class CategoryScreen extends StatefulWidget {
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
-  List<Product> categoryProducts = [];
   List<bool> favIcon = [];
   bool isLoading = true;
 
+  final CollectionReference productsCollection =
+      FirebaseFirestore.instance.collection('products');
+  late final Query cartProducts;
+
   void favouritesGathering() async {
+    /*
     List<Favourite> favourites = await retrieveFavourites();
 
     for (int i = 0; i < categoryProducts.length; i++) {
@@ -34,22 +39,25 @@ class _CategoryScreenState extends State<CategoryScreen> {
           break;
         }
       }
-    }
+    } */
 
     setState(() => isLoading = false);
   }
 
   void productsGathering() {
-    categoryProducts.clear();
     favIcon.clear();
 
+    cartProducts = widget.category.name == "All products"
+        ? productsCollection.orderBy('id')
+        : productsCollection
+            .where('categoryID', isEqualTo: widget.category.id)
+            .orderBy('id'); 
+
     if (widget.category.name == "All products") {
-      categoryProducts = products;
       for (int i = 0; i < products.length; i++) favIcon.add(false);
     } else {
       for (int i = 0; i < products.length; i++) {
         if (products[i].categoryID == widget.category.id) {
-          categoryProducts.add(products[i]);
           favIcon.add(false);
         }
       }
@@ -58,6 +66,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   void initState() {
     super.initState();
+
     productsGathering();
     favouritesGathering();
   }
@@ -79,30 +88,41 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 onRefresh: _onRefresh,
                 child: isLoading
                     ? Center(child: CircularProgressIndicator())
-                    : ListView.builder(
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        itemCount: categoryProducts.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                CupertinoPageRoute(
-                                  builder: (_) => ProductScreen(
-                                    product: categoryProducts[index],
+                    : StreamBuilder<QuerySnapshot>(
+                        stream: cartProducts.snapshots(),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData)
+                            return Center(child: CircularProgressIndicator());
+                          else
+                            return ListView.builder(
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              itemCount: snapshot.data!.docs.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                        builder: (_) => ProductScreen(
+                                          product: Product.fromSnapshot(
+                                            snapshot.data!.docs[index],
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: ProductCard(
+                                    favIcon: favIcon[index],
+                                    product: Product.fromSnapshot(
+                                      snapshot.data!.docs[index],
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
-                            child: ProductCard(
-                              favIcon: favIcon[index],
-                              product: categoryProducts[index],
-                            ),
-                          );
-                        },
-                      ),
+                                );
+                              },
+                            );
+                        }),
               ),
             ),
           ],

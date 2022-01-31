@@ -76,7 +76,7 @@ class _ProductCardState extends State<ProductCard> {
             width: Responsive.safeBlockHorizontal * 35,
             child: FittedBox(
               fit: BoxFit.contain,
-              child: Image.asset(
+              child: Image.network(
                 widget.product.image,
               ),
             ),
