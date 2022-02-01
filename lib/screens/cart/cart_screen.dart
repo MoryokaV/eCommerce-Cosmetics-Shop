@@ -10,7 +10,6 @@ import 'package:cosmetics_shop/models/products.dart';
 import 'package:cosmetics_shop/constants.dart';
 import 'package:cosmetics_shop/models/cart.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
 import 'components/item.dart';
 
 class CartScreen extends StatefulWidget {
@@ -22,7 +21,7 @@ class _CartScreenState extends State<CartScreen> {
   final double containerAnimationHeight = 0.06;
   final double containerAnimationWidth = 0.155;
 
-  List<bool> favIcon = [];
+  List<bool> favIcon = [false, false, false, false, false, false];
   List<Cart> cart = [];
   List<Product> cartProducts = [];
   List<Order> orders = [];
@@ -69,12 +68,6 @@ class _CartScreenState extends State<CartScreen> {
     setState(() => isLoading = false);
   }
 
-  Future<Null> refreshPage() async {
-    setState(() {
-      getProducts();
-    });
-  }
-
   Widget buildCartList(BuildContext context) {
     return ListView.builder(
       physics: ScrollPhysics(),
@@ -106,26 +99,23 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(),
-      body: RefreshIndicator(
-        onRefresh: refreshPage,
-        child: isLoading
-            ? Center(child: CircularProgressIndicator())
-            : cartProducts.length == 0
-                ? EmptyCart()
-                : ListView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    children: [
-                      buildCartList(context),
-                      OrderSummary(
-                        cartProducts: cartProducts,
-                        cart: cart,
-                        orders: orders.length,
-                        width: containerAnimationWidth,
-                        height: containerAnimationHeight,
-                      ),
-                    ],
-                  ),
-      ),
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : cartProducts.length == 0
+              ? EmptyCart()
+              : ListView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  children: [
+                    buildCartList(context),
+                    OrderSummary(
+                      cartProducts: cartProducts,
+                      cart: cart,
+                      orders: orders.length,
+                      width: containerAnimationWidth,
+                      height: containerAnimationHeight,
+                    ),
+                  ],
+                ),
     );
   }
 

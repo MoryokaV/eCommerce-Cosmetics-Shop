@@ -1,5 +1,6 @@
 import 'package:cosmetics_shop/constants.dart';
 import 'package:cosmetics_shop/screens/product/product_screen.dart';
+import 'package:cosmetics_shop/services/firestoreService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cosmetics_shop/models/products.dart';
@@ -14,7 +15,7 @@ class Recommendations extends StatelessWidget {
         context,
         CupertinoPageRoute(
           builder: (_) => ProductScreen(
-            product: product,
+            documentId: snap.id,
           ),
         ),
       ),
@@ -96,10 +97,7 @@ class Recommendations extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
       margin: EdgeInsets.symmetric(vertical: kDefaultPadding / 2),
       child: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('products')
-            .orderBy('id')
-            .snapshots(),
+        stream: FirestoreService.getProducts(),
         builder: (context, snapshot) {
           if (!snapshot.hasData)
             return Center(child: CircularProgressIndicator());

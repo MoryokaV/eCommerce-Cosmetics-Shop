@@ -44,7 +44,7 @@ class HomeScreen extends StatelessWidget {
                               builder: (_) => CategoryScreen(
                                 category: Category(
                                   icon: "",
-                                  id: 0,
+                                  id: -1,
                                   name: "All products",
                                 ),
                               ),
