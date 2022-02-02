@@ -12,12 +12,10 @@ import '../../responsive.dart';
 import '../../services/firestoreService.dart';
 
 class ProductScreen extends StatefulWidget {
-  final Product? product;
-  final String? documentId;
+  final int productId;
 
   ProductScreen({
-    this.product,
-    this.documentId,
+    required this.productId,
   });
 
   @override
@@ -57,13 +55,13 @@ class _ProductScreenState extends State<ProductScreen> {
   build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: StreamBuilder<DocumentSnapshot>(
-          stream: FirestoreService.getProductById(widget.documentId!),
+        child: StreamBuilder<QuerySnapshot>(
+          stream: FirestoreService.getProductById(widget.productId),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return Center(child: CircularProgressIndicator());
             } else {
-              Product product = Product.fromSnapshot(snapshot.data!);
+              Product product = Product.fromSnapshot(snapshot.data!.docs[0]);
               return Column(
                 children: [
                   Container(

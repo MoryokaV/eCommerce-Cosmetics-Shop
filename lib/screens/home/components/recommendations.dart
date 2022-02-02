@@ -15,7 +15,7 @@ class Recommendations extends StatelessWidget {
         context,
         CupertinoPageRoute(
           builder: (_) => ProductScreen(
-            documentId: snap.id,
+            productId: product.id,
           ),
         ),
       ),
@@ -27,9 +27,9 @@ class Recommendations extends StatelessWidget {
             width: Responsive.safeBlockHorizontal * 35,
             child: Hero(
               tag: product.image,
-              child: FittedBox(
+              child: Image.network(
+                product.image,
                 fit: BoxFit.contain,
-                child: Image.network(product.image),
               ),
             ),
             decoration: BoxDecoration(

@@ -33,7 +33,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
           children: [
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
-                stream: FirestoreService.getProductsByCategory(widget.category.id),
+                stream:
+                    FirestoreService.getProductsByCategory(widget.category.id),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData)
                     return Center(child: CircularProgressIndicator());
@@ -44,24 +45,22 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       scrollDirection: Axis.vertical,
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (BuildContext context, int index) {
+                        Product product =
+                            Product.fromSnapshot(snapshot.data!.docs[index]);
                         return GestureDetector(
                           onTap: () {
                             Navigator.push(
                               context,
                               CupertinoPageRoute(
                                 builder: (_) => ProductScreen(
-                                  product: Product.fromSnapshot(
-                                    snapshot.data!.docs[index],
-                                  ),
+                                  productId: product.id,
                                 ),
                               ),
                             );
                           },
                           child: ProductCard(
                             favIcon: favIcon[index],
-                            product: Product.fromSnapshot(
-                              snapshot.data!.docs[index],
-                            ),
+                            product: product,
                           ),
                         );
                       },

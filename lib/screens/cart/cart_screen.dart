@@ -23,7 +23,6 @@ class _CartScreenState extends State<CartScreen> {
 
   List<bool> favIcon = [false, false, false, false, false, false];
   List<Cart> cart = [];
-  List<Product> cartProducts = [];
   List<Order> orders = [];
 
   bool isLoading = true;
@@ -34,36 +33,8 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   void getProducts() async {
-    List<Favourite> favourites = await retrieveFavourites();
     cart = await retrieveCart();
     orders = await retrieveOrders();
-
-    cartProducts.clear();
-    favIcon.clear();
-
-    await FirebaseFirestore.instance
-        .collection('products')
-        .orderBy('id')
-        .get()
-        .then((value) {
-      for (int i = 0; i < cart.length; i++) {
-        for (int j = 0; j < value.docs.length; j++) {
-          if (cart[i].productID == value.docs[j]['id']) {
-            cartProducts.add(Product.fromSnapshot(value.docs[j]));
-
-            favIcon.add(false);
-            for (int k = 0; k < favourites.length; k++) {
-              if (favourites[k].productID == value.docs[j]['id']) {
-                favIcon.last = true;
-                break;
-              }
-            }
-
-            break;
-          }
-        }
-      }
-    });
 
     setState(() => isLoading = false);
   }
@@ -73,19 +44,19 @@ class _CartScreenState extends State<CartScreen> {
       physics: ScrollPhysics(),
       shrinkWrap: true,
       scrollDirection: Axis.vertical,
-      itemCount: cartProducts.length,
+      itemCount: cart.length,
       itemBuilder: (BuildContext context, int index) {
         return GestureDetector(
           onTap: () => Navigator.push(
             context,
             CupertinoPageRoute(
               builder: (_) => ProductScreen(
-                product: cartProducts[index],
+                productId: cart[index].productID,
               ),
             ),
           ),
           child: Item(
-            product: cartProducts[index],
+            productId: cart[index].productID,
             getProductsFunc: getProducts,
             quantity: cart[index].productQuantity,
             favIcon: favIcon[index],
@@ -101,14 +72,13 @@ class _CartScreenState extends State<CartScreen> {
       appBar: buildAppBar(),
       body: isLoading
           ? Center(child: CircularProgressIndicator())
-          : cartProducts.length == 0
+          : cart.length == 0
               ? EmptyCart()
               : ListView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   children: [
                     buildCartList(context),
                     OrderSummary(
-                      cartProducts: cartProducts,
                       cart: cart,
                       orders: orders.length,
                       width: containerAnimationWidth,

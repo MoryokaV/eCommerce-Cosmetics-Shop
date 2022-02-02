@@ -8,8 +8,8 @@ class FirestoreService {
     return productsCollection.orderBy('id').snapshots();
   }
 
-  static Stream<DocumentSnapshot> getProductById(String id) {
-    return productsCollection.doc(id).snapshots();
+  static Stream<QuerySnapshot> getProductById(int id) {
+    return productsCollection.where('id', isEqualTo: id).limit(1).snapshots();
   }
 
   static Stream<QuerySnapshot> getProductsByCategory(int categoryId) {

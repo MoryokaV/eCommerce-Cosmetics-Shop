@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cosmetics_shop/models/favourites.dart';
 import 'package:cosmetics_shop/responsive.dart';
 import 'package:cosmetics_shop/screens/product/product_screen.dart';
+import 'package:cosmetics_shop/services/firestoreService.dart';
 import 'package:cosmetics_shop/services/sqliteHelper.dart';
 import 'package:cosmetics_shop/constants.dart';
 import 'package:cosmetics_shop/models/products.dart';
@@ -14,8 +16,8 @@ class FavouritesScreen extends StatefulWidget {
 }
 
 class _FavouritesScreenState extends State<FavouritesScreen> {
-  List<Product> favProducts = [];
   List<bool> favIcon = [];
+  List<Favourite> favourites = [];
   bool isLoading = true;
   bool containerVisibility = true;
 
@@ -25,21 +27,19 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
   }
 
   Future<void> productGathering() async {
-    List<Favourite> favourites = await retrieveFavourites();
+    favourites = await retrieveFavourites();
 
     favIcon.clear();
-    favProducts.clear();
 
     for (int i = 0; i < favourites.length; i++) {
       favIcon.add(true);
-      favProducts.add(products[favourites[i].productID - 1]);
     }
 
     setState(() => isLoading = false);
   }
 
   Future<void> removeFavourite(int index) async {
-    await deleteFavouriteItem(favProducts[index].id);
+    await deleteFavouriteItem(favourites[index].productID);
 
     setState(() {
       favIcon[index] = false;
@@ -48,133 +48,137 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
 
     Timer(Duration(milliseconds: 750), () {
       setState(() {
-        favProducts.remove(favProducts[index]);
+        favourites.remove(favourites[index]);
         favIcon[index] = true;
         containerVisibility = true;
       });
     });
   }
 
-  Future<Null> refreshPage() async {
-    productGathering();
-  }
-
   Widget buildList() {
     return Expanded(
-      child: RefreshIndicator(
-        onRefresh: refreshPage,
-        child: ListView.builder(
-            physics: const AlwaysScrollableScrollPhysics(),
-            scrollDirection: Axis.vertical,
-            itemCount: favProducts.length,
-            itemBuilder: (BuildContext context, int index) {
-              return GestureDetector(
-                onTap: () => Navigator.push(
-                  context,
-                  CupertinoPageRoute(
-                    builder: (_) => ProductScreen(
-                      product: favProducts[index],
+      child: ListView.builder(
+        physics: const AlwaysScrollableScrollPhysics(),
+        scrollDirection: Axis.vertical,
+        itemCount: favourites.length,
+        itemBuilder: (BuildContext context, int index) {
+          return StreamBuilder<QuerySnapshot>(
+            stream:
+                FirestoreService.getProductById(favourites[index].productID),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else {
+                Product product = Product.fromSnapshot(snapshot.data!.docs[0]);
+                return GestureDetector(
+                  onTap: () => Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (_) => ProductScreen(
+                        productId: product.id,
+                      ),
                     ),
                   ),
-                ),
-                child: AnimatedOpacity(
-                  opacity: containerVisibility ? 1.0 : 0.0,
-                  duration: Duration(milliseconds: 500),
-                  child: Container(
-                    margin: EdgeInsets.all(
-                      kDefaultPadding,
-                    ),
-                    height: Responsive.safeBlockVertical * 20,
-                    child: Row(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(right: kDefaultPadding),
-                          height: Responsive.safeBlockVertical * 20,
-                          width: Responsive.safeBlockHorizontal * 35,
-                          decoration: BoxDecoration(
-                            color: kBgAccent,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              bottomLeft: Radius.circular(20),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black45,
-                                blurRadius: 8,
-                                offset: Offset(2, 0),
+                  child: AnimatedOpacity(
+                    opacity: containerVisibility ? 1.0 : 0.0,
+                    duration: Duration(milliseconds: 500),
+                    child: Container(
+                      margin: EdgeInsets.all(
+                        kDefaultPadding,
+                      ),
+                      height: Responsive.safeBlockVertical * 20,
+                      child: Row(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(right: kDefaultPadding),
+                            height: Responsive.safeBlockVertical * 20,
+                            width: Responsive.safeBlockHorizontal * 35,
+                            decoration: BoxDecoration(
+                              color: kBgAccent,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                bottomLeft: Radius.circular(20),
                               ),
-                            ],
-                          ),
-                          child: FittedBox(
-                            fit: BoxFit.contain,
-                            child: Image.asset(
-                              favProducts[index].image,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                            vertical: kDefaultPadding / 2,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                favProducts[index].name,
-                                softWrap: false,
-                                overflow: TextOverflow.fade,
-                                style: TextStyle(
-                                  fontFamily: "Roboto-Bold",
-                                  fontSize:
-                                      Responsive.safeBlockHorizontal * 5.5,
-                                  color: Colors.grey[600],
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black45,
+                                  blurRadius: 8,
+                                  offset: Offset(2, 0),
                                 ),
-                              ),
-                              Spacer(),
-                              Row(
-                                children: [
-                                  Text(
-                                    favProducts[index].price.toString() +
-                                        " RON",
-                                    style: TextStyle(
-                                      fontFamily: "Roboto-Black",
-                                      fontSize:
-                                          Responsive.safeBlockHorizontal * 5,
-                                      fontWeight: FontWeight.bold,
-                                      color: kAccentColor,
-                                    ),
-                                  ),
-                                  IconButton(
-                                    icon: favIcon[index]
-                                        ? Icon(Icons.favorite)
-                                        : Icon(Icons.favorite_outline),
-                                    onPressed: () => removeFavourite(index),
-                                    color: Colors.red,
-                                    iconSize:
-                                        Responsive.safeBlockHorizontal * 7,
-                                  )
-                                ],
-                              ),
-                            ],
+                              ],
+                            ),
+                            child: Image.network(
+                              product.image,
+                              fit: BoxFit.contain,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black54,
-                          blurRadius: 8,
-                          offset: Offset(2, 2),
-                        ),
-                      ],
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              vertical: kDefaultPadding / 2,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  product.name,
+                                  softWrap: false,
+                                  overflow: TextOverflow.fade,
+                                  style: TextStyle(
+                                    fontFamily: "Roboto-Bold",
+                                    fontSize:
+                                        Responsive.safeBlockHorizontal * 5.5,
+                                    color: Colors.grey[600],
+                                  ),
+                                ),
+                                Spacer(),
+                                Row(
+                                  children: [
+                                    Text(
+                                      product.price.toString() + " RON",
+                                      style: TextStyle(
+                                        fontFamily: "Roboto-Black",
+                                        fontSize:
+                                            Responsive.safeBlockHorizontal * 5,
+                                        fontWeight: FontWeight.bold,
+                                        color: kAccentColor,
+                                      ),
+                                    ),
+                                    IconButton(
+                                      icon: favIcon[index]
+                                          ? Icon(Icons.favorite)
+                                          : Icon(Icons.favorite_outline),
+                                      onPressed: () => removeFavourite(index),
+                                      color: Colors.red,
+                                      iconSize:
+                                          Responsive.safeBlockHorizontal * 7,
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black54,
+                            blurRadius: 8,
+                            offset: Offset(2, 2),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              );
-            }),
+                );
+              }
+            },
+          );
+        },
       ),
     );
   }
@@ -226,7 +230,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
               )
             : Column(
                 children: [
-                  favProducts.length != 0 ? buildList() : buildEmptyList(),
+                  favourites.length != 0 ? buildList() : buildEmptyList(),
                 ],
               ),
       ),
