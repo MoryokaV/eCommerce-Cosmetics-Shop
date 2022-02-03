@@ -30,21 +30,21 @@ class _ProductCardState extends State<ProductCard> {
     List<Cart> cart = await retrieveCart();
 
     for (int i = 0; i < cart.length; i++) {
-      if (cart[i].productID == id) {
+      if (cart[i].productId == id) {
         return;
       }
     }
 
     await insertCartItem(
       Cart(
-        productID: id,
+        productId: id,
         productQuantity: 1,
       ),
     );
   }
 
   Future<void> addFavourites(int id) async {
-    await insertFavouriteItem(Favourite(productID: id));
+    await insertFavouriteItem(Favourite(productId: id));
 
     Fluttertoast.showToast(
       msg: toastMsg[Random().nextInt(toastMsg.length)],

@@ -37,7 +37,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     FirestoreService.getProductsByCategory(widget.category.id),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData)
-                    return Center(child: CircularProgressIndicator());
+                    return LoadingIndicator;
                   else
                     return ListView.builder(
                       physics: const AlwaysScrollableScrollPhysics(),

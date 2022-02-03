@@ -60,7 +60,7 @@ class _HistoryScreen extends State<HistoryScreen> {
     return Scaffold(
       appBar: buildAppBar(context),
       body: isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? LoadingIndicator
           : orders.length == 0
               ? buildEmptyList()
               : ListView(

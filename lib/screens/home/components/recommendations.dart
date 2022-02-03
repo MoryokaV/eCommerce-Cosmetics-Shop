@@ -100,7 +100,7 @@ class Recommendations extends StatelessWidget {
         stream: FirestoreService.getProducts(),
         builder: (context, snapshot) {
           if (!snapshot.hasData)
-            return Center(child: CircularProgressIndicator());
+            return LoadingIndicator;
           else
             return ListView.builder(
               scrollDirection: Axis.horizontal,

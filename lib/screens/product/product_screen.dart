@@ -30,14 +30,14 @@ class _ProductScreenState extends State<ProductScreen> {
     List<Cart> cart = await retrieveCart();
 
     for (int i = 0; i < cart.length; i++) {
-      if (cart[i].productID == id) {
+      if (cart[i].productId == id) {
         return;
       }
     }
 
     await insertCartItem(
       Cart(
-        productID: id,
+        productId: id,
         productQuantity: quantity,
       ),
     );
@@ -59,7 +59,7 @@ class _ProductScreenState extends State<ProductScreen> {
           stream: FirestoreService.getProductById(widget.productId),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              return Center(child: CircularProgressIndicator());
+              return LoadingIndicator;
             } else {
               Product product = Product.fromSnapshot(snapshot.data!.docs[0]);
               return Column(

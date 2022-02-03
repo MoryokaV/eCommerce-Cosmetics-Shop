@@ -199,7 +199,7 @@ class _ItemState extends State<Item> {
 
                             await updateCartQuantity(
                               Cart(
-                                productID: widget.product.id,
+                                productId: widget.product.id,
                                 productQuantity: widget.quantity,
                               ),
                             );

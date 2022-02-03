@@ -41,7 +41,7 @@ class _CartScreenState extends State<CartScreen> {
   void fetchCartProducts(AsyncSnapshot<QuerySnapshot> snapshot) {
     for (int i = 0; i < cart.length; i++) {
       for (int j = 0; j < snapshot.data!.docs.length; j++) {
-        if (snapshot.data!.docs[j]['id'] == cart[i].productID) {
+        if (snapshot.data!.docs[j]['id'] == cart[i].productId) {
           cartProducts.add(Product.fromSnapshot(snapshot.data!.docs[j]));
           break;
         }
@@ -61,7 +61,7 @@ class _CartScreenState extends State<CartScreen> {
             context,
             CupertinoPageRoute(
               builder: (_) => ProductScreen(
-                productId: cart[index].productID,
+                productId: cart[index].productId,
               ),
             ),
           ),
@@ -81,14 +81,14 @@ class _CartScreenState extends State<CartScreen> {
     return Scaffold(
       appBar: buildAppBar(),
       body: isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? LoadingIndicator
           : cart.length == 0
               ? EmptyCart()
               : StreamBuilder<QuerySnapshot>(
                   stream: FirestoreService.getProducts(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
-                      return Center(child: CircularProgressIndicator());
+                      return LoadingIndicator;
                     } else {
                       fetchCartProducts(snapshot);
                       getOrdersNumber();

@@ -3,7 +3,6 @@ class User {
   String email;
   String phone;
   String address;
-  static String uid = "";
 
   User({
     required this.name,

@@ -39,7 +39,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
   }
 
   Future<void> removeFavourite(int index) async {
-    await deleteFavouriteItem(favourites[index].productID);
+    await deleteFavouriteItem(favourites[index].productId);
 
     setState(() {
       favIcon[index] = false;
@@ -64,12 +64,10 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
         itemBuilder: (BuildContext context, int index) {
           return StreamBuilder<QuerySnapshot>(
             stream:
-                FirestoreService.getProductById(favourites[index].productID),
+                FirestoreService.getProductById(favourites[index].productId),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
+                return LoadingIndicator;
               } else {
                 Product product = Product.fromSnapshot(snapshot.data!.docs[0]);
                 return GestureDetector(
@@ -225,9 +223,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
     return Scaffold(
       body: SafeArea(
         child: isLoading
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
+            ? LoadingIndicator
             : Column(
                 children: [
                   favourites.length != 0 ? buildList() : buildEmptyList(),

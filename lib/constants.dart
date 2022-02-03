@@ -6,9 +6,15 @@ const kAccentColor = Color.fromRGBO(222, 108, 100, 1.0);
 const kBgAccent = Color.fromRGBO(255, 203, 161, 1.0);
 const kBgColor = Color.fromRGBO(250, 225, 202, 1.0);
 
-final textFieldBorder = OutlineInputBorder(
+const textFieldBorder = OutlineInputBorder(
   borderSide: BorderSide(
     color: Colors.black26,
+  ),
+);
+
+const LoadingIndicator = Center(
+  child: CircularProgressIndicator(
+    color: kAccentColor,
   ),
 );
 

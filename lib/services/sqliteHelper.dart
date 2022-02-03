@@ -13,10 +13,10 @@ Future<void> initDatabase() async {
     join(await getDatabasesPath(), 'models.db'),
     onCreate: (Database db, int version) {
       db.execute(
-        "CREATE TABLE favouriteItems (productID integer NOT NULL)",
+        "CREATE TABLE favouriteItems (productId integer NOT NULL)",
       );
       db.execute(
-        "CREATE TABLE cartItems (productID integer NOT NULL, productQuantity integer NOT NULL)",
+        "CREATE TABLE cartItems (productId integer NOT NULL, productQuantity integer NOT NULL)",
       );
       db.execute(
         "CREATE TABLE orders (number INTEGER NOT NULL, value REAL NOT NULL, description TEXT, date TEXT)",
@@ -54,7 +54,7 @@ Future<void> deleteFavouriteItem(int id) async {
 
   await db.delete(
     'favouriteItems',
-    where: "productID = ?",
+    where: "productId = ?",
     whereArgs: [id],
   );
 }
@@ -72,7 +72,7 @@ Future<void> deleteCartItem(int id) async {
 
   await db.delete(
     'cartItems',
-    where: "productID = ?",
+    where: "productId = ?",
     whereArgs: [id],
   );
 }
@@ -101,8 +101,8 @@ Future<void> updateCartQuantity(Cart cartItem) async {
   await db.update(
     'cartItems',
     cartItem.toMap(),
-    where: "productID = ?",
-    whereArgs: [cartItem.productID],
+    where: "productId = ?",
+    whereArgs: [cartItem.productId],
   );
 }
 

@@ -2,34 +2,34 @@ import 'package:flutter/cupertino.dart';
 import '../services/sqliteHelper.dart' as sqlite;
 
 class Favourite extends ChangeNotifier {
-  int productID;
+  int productId;
 
   Favourite({
-    required this.productID,
+    required this.productId,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'productID': productID,
+      'productID': productId,
     };
   }
 
   factory Favourite.fromMap(Map map) {
     return Favourite(
-      productID: map['productID'],
+      productId: map['productID'],
     );
   }
 
   Future<void> addToFavourites(int id) async {
     favourites.add(
       Favourite(
-        productID: id,
+        productId: id,
       ),
     );
 
     await sqlite.insertFavouriteItem(
       Favourite(
-        productID: id,
+        productId: id,
       ),
     );
 
@@ -38,7 +38,7 @@ class Favourite extends ChangeNotifier {
 
   Future<void> removeFromFavourites(int id) async {
     favourites.removeWhere(
-      (Favourite fav) => fav.productID == id,
+      (Favourite fav) => fav.productId == id,
     );
 
     await sqlite.deleteFavouriteItem(id);

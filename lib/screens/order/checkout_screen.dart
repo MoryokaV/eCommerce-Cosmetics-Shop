@@ -60,7 +60,7 @@ class _OrderScreenState extends State<OrderScreen> {
       backgroundColor: kPrimaryColor,
       appBar: buildAppBar(),
       body: isLoading
-          ? CircularProgressIndicator()
+          ? LoadingIndicator
           : SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Padding(
@@ -207,7 +207,7 @@ class _OrderScreenState extends State<OrderScreen> {
 
                             List<Cart> cart = await retrieveCart();
                             for (int i = 0; i < cart.length; i++)
-                              await deleteCartItem(cart[i].productID);
+                              await deleteCartItem(cart[i].productId);
 
                             Navigator.push(
                               context,
