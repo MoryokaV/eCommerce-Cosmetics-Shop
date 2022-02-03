@@ -3,6 +3,7 @@ import 'package:cosmetics_shop/models/order.dart';
 import 'package:cosmetics_shop/screens/cart/components/emptyCart.dart';
 import 'package:cosmetics_shop/screens/cart/components/orderSummary.dart';
 import 'package:cosmetics_shop/screens/product/product_screen.dart';
+import 'package:cosmetics_shop/services/firestoreService.dart';
 import 'package:cosmetics_shop/services/sqliteHelper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cosmetics_shop/models/favourites.dart';
@@ -18,28 +19,37 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  final double containerAnimationHeight = 0.06;
-  final double containerAnimationWidth = 0.155;
-
-  List<bool> favIcon = [false, false, false, false, false, false];
   List<Cart> cart = [];
+  List<Product> cartProducts = [];
+  List<bool> favIcon = [false, false, false, false, false, false];
   List<Order> orders = [];
 
   bool isLoading = true;
 
   void initState() {
     super.initState();
-    getProducts();
+    refreshCart();
   }
 
-  void getProducts() async {
+  void refreshCart() async {
     cart = await retrieveCart();
-    orders = await retrieveOrders();
-
     setState(() => isLoading = false);
   }
 
-  Widget buildCartList(BuildContext context) {
+  void getOrdersNumber() async => orders = await retrieveOrders();
+
+  void fetchCartProducts(AsyncSnapshot<QuerySnapshot> snapshot) {
+    for (int i = 0; i < cart.length; i++) {
+      for (int j = 0; j < snapshot.data!.docs.length; j++) {
+        if (snapshot.data!.docs[j]['id'] == cart[i].productID) {
+          cartProducts.add(Product.fromSnapshot(snapshot.data!.docs[j]));
+          break;
+        }
+      }
+    }
+  }
+
+  Widget buildCartList(List<Product> cartProducts) {
     return ListView.builder(
       physics: ScrollPhysics(),
       shrinkWrap: true,
@@ -56,8 +66,8 @@ class _CartScreenState extends State<CartScreen> {
             ),
           ),
           child: Item(
-            productId: cart[index].productID,
-            getProductsFunc: getProducts,
+            product: cartProducts[index],
+            refreshCartFunc: refreshCart,
             quantity: cart[index].productQuantity,
             favIcon: favIcon[index],
           ),
@@ -74,17 +84,26 @@ class _CartScreenState extends State<CartScreen> {
           ? Center(child: CircularProgressIndicator())
           : cart.length == 0
               ? EmptyCart()
-              : ListView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  children: [
-                    buildCartList(context),
-                    OrderSummary(
-                      cart: cart,
-                      orders: orders.length,
-                      width: containerAnimationWidth,
-                      height: containerAnimationHeight,
-                    ),
-                  ],
+              : StreamBuilder<QuerySnapshot>(
+                  stream: FirestoreService.getProducts(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(child: CircularProgressIndicator());
+                    } else {
+                      fetchCartProducts(snapshot);
+                      getOrdersNumber();
+                      return ListView(
+                        children: [
+                          buildCartList(cartProducts),
+                          OrderSummary(
+                            cart: cart,
+                            cartProducts: cartProducts,
+                            numberOfOrders: orders.length,
+                          ),
+                        ],
+                      );
+                    }
+                  },
                 ),
     );
   }
