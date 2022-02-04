@@ -1,6 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cosmetics_shop/services/firestoreService.dart';
 import 'package:flutter/material.dart';
 import 'package:cosmetics_shop/constants.dart';
-import 'package:cosmetics_shop/models/products.dart';
 import 'dart:async';
 import 'dart:math';
 
@@ -16,28 +17,22 @@ class _HeaderState extends State<Header> {
   String name = "";
   String price = "";
 
-  void getProduct() {
-    int index = Random().nextInt(products.length);
+  void getInformation(AsyncSnapshot<QuerySnapshot> snapshot) {
+    int index = Random().nextInt(snapshot.data!.docs.length);
 
-    name = products[index].name;
-    price = "Only " + products[index].price.toString() + " RON";
+    name = snapshot.data!.docs[index]['name'];
+    price = "Only " + snapshot.data!.docs[index]['price'].toString() + " RON";
   }
 
-  void toggleAntimations() {
+  void toggleAnimation(AsyncSnapshot<QuerySnapshot> snapshot) {
     Timer.periodic(Duration(seconds: 5), (timer) {
       if (mounted) {
         setState(() {
           showName = !showName;
-          if (showName) getProduct();
+          if (showName) getInformation(snapshot);
         });
       }
     });
-  }
-
-  void initState() {
-    super.initState();
-    getProduct();
-    toggleAntimations();
   }
 
   @override
@@ -93,30 +88,41 @@ class _HeaderState extends State<Header> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AnimatedCrossFade(
-                    firstChild: Text(
-                      name,
-                      style: TextStyle(
-                        fontSize: Responsive.safeBlockHorizontal * 5,
-                        fontWeight: FontWeight.w500,
-                        color: kAccentColor,
-                      ),
-                    ),
-                    secondChild: Text(
-                      price,
-                      style: TextStyle(
-                        fontSize: Responsive.safeBlockHorizontal * 5,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.green[600],
-                      ),
-                    ),
-                    crossFadeState: showName
-                        ? CrossFadeState.showFirst
-                        : CrossFadeState.showSecond,
-                    firstCurve: Curves.easeOut,
-                    secondCurve: Curves.easeIn,
-                    sizeCurve: Curves.decelerate,
-                    duration: Duration(seconds: 1),
+                  StreamBuilder<QuerySnapshot>(
+                    stream: FirestoreService.getProducts(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return SizedBox();
+                      } else {
+                        getInformation(snapshot);
+                        toggleAnimation(snapshot);
+                        return AnimatedCrossFade(
+                          firstChild: Text(
+                            name,
+                            style: TextStyle(
+                              fontSize: Responsive.safeBlockHorizontal * 5,
+                              fontWeight: FontWeight.w500,
+                              color: kAccentColor,
+                            ),
+                          ),
+                          secondChild: Text(
+                            price,
+                            style: TextStyle(
+                              fontSize: Responsive.safeBlockHorizontal * 5,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.green[600],
+                            ),
+                          ),
+                          crossFadeState: showName
+                              ? CrossFadeState.showFirst
+                              : CrossFadeState.showSecond,
+                          firstCurve: Curves.easeOut,
+                          secondCurve: Curves.easeIn,
+                          sizeCurve: Curves.decelerate,
+                          duration: Duration(seconds: 1),
+                        );
+                      }
+                    },
                   ),
                   Icon(
                     Icons.trending_up_rounded,

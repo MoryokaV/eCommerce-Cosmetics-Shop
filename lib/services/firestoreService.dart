@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 final FirebaseFirestore _db = FirebaseFirestore.instance;
 final CollectionReference productsCollection = _db.collection('products');
+final CollectionReference categoriesCollection = _db.collection('categories');
 
 class FirestoreService {
   static Stream<QuerySnapshot> getProducts() {
@@ -19,5 +20,9 @@ class FirestoreService {
             .where('categoryID', isEqualTo: categoryId)
             .orderBy('id')
             .snapshots();
+  }
+
+  static Stream<QuerySnapshot> getCategories(){
+    return categoriesCollection.orderBy('id').snapshots();
   }
 }
