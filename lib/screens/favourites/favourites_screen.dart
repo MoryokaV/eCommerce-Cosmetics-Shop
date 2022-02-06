@@ -1,14 +1,15 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cosmetics_shop/models/favourites.dart';
 import 'package:cosmetics_shop/responsive.dart';
 import 'package:cosmetics_shop/screens/product/product_screen.dart';
 import 'package:cosmetics_shop/services/firestoreService.dart';
-import 'package:cosmetics_shop/services/sqliteHelper.dart';
 import 'package:cosmetics_shop/constants.dart';
 import 'package:cosmetics_shop/models/products.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
+import 'package:provider/provider.dart';
 
 class FavouritesScreen extends StatefulWidget {
   @override
@@ -16,55 +17,30 @@ class FavouritesScreen extends StatefulWidget {
 }
 
 class _FavouritesScreenState extends State<FavouritesScreen> {
-  List<bool> favIcon = [];
-  List<Favourite> favourites = [];
-  bool isLoading = true;
   bool containerVisibility = true;
 
-  void initState() {
-    super.initState();
-    productGathering();
-  }
+  void removeItem(int id) {
+    setState(() => containerVisibility = false);
 
-  Future<void> productGathering() async {
-    favourites = await retrieveFavourites();
-
-    favIcon.clear();
-
-    for (int i = 0; i < favourites.length; i++) {
-      favIcon.add(true);
-    }
-
-    setState(() => isLoading = false);
-  }
-
-  Future<void> removeFavourite(int index) async {
-    await deleteFavouriteItem(favourites[index].productId);
-
-    setState(() {
-      favIcon[index] = false;
-      containerVisibility = false;
+    Timer(Duration(milliseconds: 500), () async{
+      await Provider.of<Favourite>(context, listen: false).removeFromFavourites(id);
     });
 
     Timer(Duration(milliseconds: 750), () {
-      setState(() {
-        favourites.remove(favourites[index]);
-        favIcon[index] = true;
-        containerVisibility = true;
-      });
+      setState(() => containerVisibility = true);
     });
   }
 
   Widget buildList() {
+    var favourites = context.watch<Favourite>();
     return Expanded(
       child: ListView.builder(
         physics: const AlwaysScrollableScrollPhysics(),
         scrollDirection: Axis.vertical,
-        itemCount: favourites.length,
+        itemCount: favourites.items.length,
         itemBuilder: (BuildContext context, int index) {
           return StreamBuilder<QuerySnapshot>(
-            stream:
-                FirestoreService.getProductById(favourites[index].productId),
+            stream: FirestoreService.getProductById(favourites.items[index]),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return LoadingIndicator;
@@ -144,10 +120,12 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
                                       ),
                                     ),
                                     IconButton(
-                                      icon: favIcon[index]
-                                          ? Icon(Icons.favorite)
-                                          : Icon(Icons.favorite_outline),
-                                      onPressed: () => removeFavourite(index),
+                                      icon:
+                                          favourites.items.contains(product.id)
+                                              ? Icon(Icons.favorite)
+                                              : Icon(Icons.favorite_outline),
+                                      onPressed: () =>
+                                          removeItem(favourites.items[index]),
                                       color: Colors.red,
                                       iconSize:
                                           Responsive.safeBlockHorizontal * 7,
@@ -222,13 +200,13 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: isLoading
-            ? LoadingIndicator
-            : Column(
-                children: [
-                  favourites.length != 0 ? buildList() : buildEmptyList(),
-                ],
-              ),
+        child: Column(
+          children: [
+            Provider.of<Favourite>(context).items.length != 0
+                ? buildList()
+                : buildEmptyList(),
+          ],
+        ),
       ),
     );
   }

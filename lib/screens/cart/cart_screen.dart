@@ -6,7 +6,6 @@ import 'package:cosmetics_shop/screens/product/product_screen.dart';
 import 'package:cosmetics_shop/services/firestoreService.dart';
 import 'package:cosmetics_shop/services/sqliteHelper.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:cosmetics_shop/models/favourites.dart';
 import 'package:cosmetics_shop/models/products.dart';
 import 'package:cosmetics_shop/constants.dart';
 import 'package:cosmetics_shop/models/cart.dart';
@@ -21,7 +20,6 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   List<Cart> cart = [];
   List<Product> cartProducts = [];
-  List<bool> favIcon = [false, false, false, false, false, false];
   List<Order> orders = [];
 
   bool isLoading = true;
@@ -32,7 +30,10 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   void refreshCart() async {
+    setState(() => isLoading = true);
+
     cart = await retrieveCart();
+    
     setState(() => isLoading = false);
   }
 
@@ -69,7 +70,6 @@ class _CartScreenState extends State<CartScreen> {
             product: cartProducts[index],
             refreshCartFunc: refreshCart,
             quantity: cart[index].productQuantity,
-            favIcon: favIcon[index],
           ),
         );
       },

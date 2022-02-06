@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cosmetics_shop/screens/product/product_screen.dart';
 import 'package:cosmetics_shop/services/firestoreService.dart';
 import 'package:cosmetics_shop/models/categories.dart';
-import 'package:cosmetics_shop/models/favourites.dart';
 import 'package:cosmetics_shop/models/products.dart';
 import 'package:cosmetics_shop/constants.dart';
 import 'package:flutter/cupertino.dart';
@@ -59,7 +58,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
                             );
                           },
                           child: ProductCard(
-                            favIcon: favIcon[index],
                             product: product,
                           ),
                         );

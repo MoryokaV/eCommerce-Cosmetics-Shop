@@ -7,7 +7,7 @@ import 'package:cosmetics_shop/models/cart.dart';
 import 'package:cosmetics_shop/services/sqliteHelper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dart:math';
+import 'package:provider/provider.dart';
 import '../../responsive.dart';
 import '../../services/firestoreService.dart';
 
@@ -23,7 +23,6 @@ class ProductScreen extends StatefulWidget {
 }
 
 class _ProductScreenState extends State<ProductScreen> {
-  bool fav = false;
   int quantity = 1;
 
   Future<void> addToCart(int id) async {
@@ -176,13 +175,19 @@ class _ProductScreenState extends State<ProductScreen> {
                             height: Responsive.safeBlockHorizontal * 14,
                             width: Responsive.safeBlockHorizontal * 14,
                             child: Center(
-                              child: IconButton(
-                                icon: fav
-                                    ? Icon(Icons.favorite)
-                                    : Icon(Icons.favorite_border),
-                                iconSize: Responsive.safeBlockHorizontal * 8,
-                                color: Colors.red,
-                                onPressed: () => null,
+                              child: Consumer<Favourite>(
+                                builder: (context, favourites, _) {
+                                  return IconButton(
+                                    icon: favourites.items.contains(product.id)
+                                        ? Icon(Icons.favorite)
+                                        : Icon(Icons.favorite_border),
+                                    iconSize:
+                                        Responsive.safeBlockHorizontal * 8,
+                                    color: Colors.red,
+                                    onPressed: () => favourites
+                                        .toggleFavourites(context, product.id),
+                                  );
+                                },
                               ),
                             ),
                             decoration: BoxDecoration(

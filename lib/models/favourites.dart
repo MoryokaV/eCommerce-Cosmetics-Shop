@@ -1,35 +1,39 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:math';
+
+import 'package:flutter/material.dart';
 import '../services/sqliteHelper.dart' as sqlite;
+import '../constants.dart';
 
 class Favourite extends ChangeNotifier {
-  int productId;
+  List<int> items = [];
 
-  Favourite({
-    required this.productId,
-  });
-
-  Map<String, dynamic> toMap() {
-    return {
-      'productID': productId,
-    };
+  Favourite() {
+    fetchData();
   }
 
-  factory Favourite.fromMap(Map map) {
-    return Favourite(
-      productId: map['productID'],
-    );
+  void fetchData() async {
+    items = await sqlite.retrieveFavourites();
+
+    notifyListeners();
   }
 
-  Future<void> addToFavourites(int id) async {
-    favourites.add(
-      Favourite(
-        productId: id,
-      ),
-    );
+  void toggleFavourites(BuildContext context, int id) {
+    items.contains(id)
+        ? removeFromFavourites(id)
+        : addToFavourites(context, id);
+  }
 
-    await sqlite.insertFavouriteItem(
-      Favourite(
-        productId: id,
+  Future<void> addToFavourites(BuildContext context, int id) async {
+    items.add(id);
+
+    await sqlite.insertFavouriteItem(id);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: Duration(seconds: 1),
+        content: Text(
+          toastMsg[Random().nextInt(toastMsg.length)],
+        ),
       ),
     );
 
@@ -37,14 +41,10 @@ class Favourite extends ChangeNotifier {
   }
 
   Future<void> removeFromFavourites(int id) async {
-    favourites.removeWhere(
-      (Favourite fav) => fav.productId == id,
-    );
+    items.remove(id);
 
     await sqlite.deleteFavouriteItem(id);
 
     notifyListeners();
   }
 }
-
-List<Favourite> favourites = [];

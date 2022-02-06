@@ -1,24 +1,22 @@
-import 'dart:math';
 import 'package:cosmetics_shop/constants.dart';
 import 'package:cosmetics_shop/models/cart.dart';
 import 'package:cosmetics_shop/models/favourites.dart';
 import 'package:cosmetics_shop/models/products.dart';
 import 'package:cosmetics_shop/services/sqliteHelper.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../responsive.dart';
 
 // ignore: must_be_immutable
 class Item extends StatefulWidget {
-  final Product product; 
+  final Product product;
   final Function refreshCartFunc;
   int quantity;
-  bool favIcon;
 
   Item({
     required this.product,
     required this.refreshCartFunc,
     required this.quantity,
-    required this.favIcon,
   });
 
   @override
@@ -26,10 +24,6 @@ class Item extends StatefulWidget {
 }
 
 class _ItemState extends State<Item> {
-  void toggleFavourites() async {
-    setState(() => widget.favIcon = !widget.favIcon);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -115,14 +109,19 @@ class _ItemState extends State<Item> {
                   children: [
                     Row(
                       children: [
-                        IconButton(
-                          icon: widget.favIcon == true
-                              ? Icon(Icons.favorite)
-                              : Icon(Icons.favorite_border),
-                          onPressed: () => toggleFavourites(),
-                          color: Colors.red,
-                          iconSize: Responsive.safeBlockHorizontal * 5,
-                          padding: EdgeInsets.all(0),
+                        Consumer<Favourite>(
+                          builder: (context, favourites, _) {
+                            return IconButton(
+                              icon: favourites.items.contains(widget.product.id)
+                                  ? Icon(Icons.favorite)
+                                  : Icon(Icons.favorite_border),
+                              onPressed: () => favourites.toggleFavourites(
+                                  context, widget.product.id),
+                              color: Colors.red,
+                              iconSize: Responsive.safeBlockHorizontal * 5,
+                              padding: EdgeInsets.all(0),
+                            );
+                          },
                         ),
                         Text(
                           "Favourites",
@@ -203,7 +202,7 @@ class _ItemState extends State<Item> {
                                 productQuantity: widget.quantity,
                               ),
                             );
-                            
+
                             widget.refreshCartFunc();
                           },
                           items: <String>['1', '2', '3', '4', '5']

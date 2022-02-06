@@ -1,5 +1,4 @@
 import 'package:cosmetics_shop/models/user.dart';
-import 'package:cosmetics_shop/models/favourites.dart';
 import 'package:cosmetics_shop/models/order.dart';
 import 'package:cosmetics_shop/models/cart.dart';
 import 'package:sqflite/sqflite.dart';
@@ -39,12 +38,12 @@ Future<void> initDatabase() async {
   );
 }
 
-Future<void> insertFavouriteItem(Favourite favourite) async {
+Future<void> insertFavouriteItem(int id) async {
   final db = await database;
 
   await db.insert(
     'favouriteItems',
-    favourite.toMap(),
+    {'productId': id},
     conflictAlgorithm: ConflictAlgorithm.replace,
   );
 }
@@ -59,12 +58,12 @@ Future<void> deleteFavouriteItem(int id) async {
   );
 }
 
-Future<List<Favourite>> retrieveFavourites() async {
+Future<List<int>> retrieveFavourites() async {
   final db = await database;
 
   List<Map> maps = await db.query('favouriteItems');
 
-  return maps.map((m) => Favourite.fromMap(m)).toList();
+  return maps.map((m) => m['productId'] as int).toList();
 }
 
 Future<void> deleteCartItem(int id) async {

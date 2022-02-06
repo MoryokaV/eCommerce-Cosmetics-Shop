@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:cosmetics_shop/constants.dart';
 import 'package:cosmetics_shop/models/cart.dart';
 import 'package:cosmetics_shop/models/favourites.dart';
@@ -7,17 +6,13 @@ import 'package:cosmetics_shop/screens/cart/cart_screen.dart';
 import 'package:cosmetics_shop/services/sqliteHelper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-
+import 'package:provider/provider.dart';
 import '../../../responsive.dart';
 
-// ignore: must_be_immutable
 class ProductCard extends StatefulWidget {
-  bool favIcon;
   final Product product;
 
   ProductCard({
-    required this.favIcon,
     required this.product,
   });
 
@@ -41,26 +36,6 @@ class _ProductCardState extends State<ProductCard> {
         productQuantity: 1,
       ),
     );
-  }
-
-  Future<void> addFavourites(int id) async {
-    await insertFavouriteItem(Favourite(productId: id));
-
-    Fluttertoast.showToast(
-      msg: toastMsg[Random().nextInt(toastMsg.length)],
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 1,
-      backgroundColor: Colors.black54,
-      textColor: Colors.white,
-      fontSize: 16,
-    );
-  }
-
-  void toggleFavourites(int id) async {
-    setState(() => widget.favIcon = !widget.favIcon);
-
-    widget.favIcon ? await addFavourites(id) : await deleteFavouriteItem(id);
   }
 
   @override
@@ -121,11 +96,18 @@ class _ProductCardState extends State<ProductCard> {
                   CircleAvatar(
                     radius: Responsive.safeBlockHorizontal * 4,
                     backgroundColor: Colors.grey[200],
-                    child: IconButton(
-                      icon: Icon(Icons.favorite),
-                      color: widget.favIcon ? Colors.red : Colors.grey[600],
-                      onPressed: () => toggleFavourites(widget.product.id),
-                      iconSize: Responsive.safeBlockHorizontal * 4,
+                    child: Consumer<Favourite>(
+                      builder: (context, favourites, _) {
+                        return IconButton(
+                          icon: Icon(Icons.favorite),
+                          color: favourites.items.contains(widget.product.id)
+                              ? Colors.red
+                              : Colors.grey[600],
+                          onPressed: () => favourites.toggleFavourites(
+                              context, widget.product.id),
+                          iconSize: Responsive.safeBlockHorizontal * 4,
+                        );
+                      },
                     ),
                   ),
                 ],

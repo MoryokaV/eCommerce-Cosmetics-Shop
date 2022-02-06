@@ -9,14 +9,14 @@ class Cart {
 
   Map<String, dynamic> toMap() {
     return {
-      'productID': productId,
+      'productId': productId,
       'productQuantity': productQuantity,
     };
   }
 
   factory Cart.fromMap(Map map) {
     return Cart(
-      productId: map["productID"],
+      productId: map["productId"],
       productQuantity: map["productQuantity"],
     );
   }
