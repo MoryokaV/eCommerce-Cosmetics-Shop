@@ -9,6 +9,7 @@ import 'package:cosmetics_shop/models/order.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:provider/provider.dart';
 import '../../responsive.dart';
 
 class OrderScreen extends StatefulWidget {
@@ -204,10 +205,8 @@ class _OrderScreenState extends State<OrderScreen> {
                             }
 
                             await insertOrder(widget.order);
-
-                            List<Cart> cart = await retrieveCart();
-                            for (int i = 0; i < cart.length; i++)
-                              await deleteCartItem(cart[i].productId);
+                            
+                            await Provider.of<Cart>(context, listen: false).clearCart();
 
                             Navigator.push(
                               context,

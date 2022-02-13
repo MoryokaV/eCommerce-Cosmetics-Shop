@@ -1,3 +1,4 @@
+import 'package:cosmetics_shop/models/cart.dart';
 import 'package:cosmetics_shop/models/favourites.dart';
 import 'package:cosmetics_shop/responsive.dart';
 import 'package:cosmetics_shop/screens/splash/splash_screen.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider<Favourite>(create: (_) => Favourite()),
+          ChangeNotifierProvider<Cart>(create: (_) => Cart()),
         ],
         child: MaterialApp(
           useInheritedMediaQuery: true,

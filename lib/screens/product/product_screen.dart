@@ -4,7 +4,6 @@ import 'package:cosmetics_shop/models/products.dart';
 import 'package:cosmetics_shop/screens/cart/cart_screen.dart';
 import 'package:cosmetics_shop/constants.dart';
 import 'package:cosmetics_shop/models/cart.dart';
-import 'package:cosmetics_shop/services/sqliteHelper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,23 +23,6 @@ class ProductScreen extends StatefulWidget {
 
 class _ProductScreenState extends State<ProductScreen> {
   int quantity = 1;
-
-  Future<void> addToCart(int id) async {
-    List<Cart> cart = await retrieveCart();
-
-    for (int i = 0; i < cart.length; i++) {
-      if (cart[i].productId == id) {
-        return;
-      }
-    }
-
-    await insertCartItem(
-      Cart(
-        productId: id,
-        productQuantity: quantity,
-      ),
-    );
-  }
 
   void addQuantity() {
     if (quantity < 5) setState(() => quantity++);
@@ -309,46 +291,56 @@ class _ProductScreenState extends State<ProductScreen> {
                           showDialog(
                             context: context,
                             barrierDismissible: false,
-                            builder: (BuildContext dialogContext) =>
-                                CupertinoAlertDialog(
-                              title: Text(
-                                "View cart details?",
-                                style: TextStyle(
-                                  fontSize: Responsive.safeBlockHorizontal * 5,
-                                ),
-                              ),
-                              content: Text(
-                                "Successfully added to your bag!",
-                                style: TextStyle(
-                                  fontSize: Responsive.safeBlockHorizontal * 4,
-                                ),
-                              ),
-                              actions: [
-                                CupertinoDialogAction(
-                                    child: const Text("No"),
-                                    onPressed: () async {
-                                      await addToCart(product.id);
-                                      Navigator.of(dialogContext,
-                                              rootNavigator: true)
-                                          .pop();
-                                    }),
-                                CupertinoDialogAction(
-                                  child: const Text("Yes"),
-                                  onPressed: () async {
-                                    await addToCart(product.id);
-                                    Navigator.of(dialogContext,
-                                            rootNavigator: true)
-                                        .pop();
-                                    Navigator.push(
-                                      context,
-                                      CupertinoPageRoute(
-                                        builder: (_) => CartScreen(),
+                            builder: (BuildContext dialogContext) {
+                              return Consumer<Cart>(
+                                builder: ((context, cart, child) {
+                                  return CupertinoAlertDialog(
+                                    title: Text(
+                                      "View cart details?",
+                                      style: TextStyle(
+                                        fontSize:
+                                            Responsive.safeBlockHorizontal * 5,
                                       ),
-                                    );
-                                  },
-                                ),
-                              ],
-                            ),
+                                    ),
+                                    content: Text(
+                                      "Successfully added to your bag!",
+                                      style: TextStyle(
+                                        fontSize:
+                                            Responsive.safeBlockHorizontal * 4,
+                                      ),
+                                    ),
+                                    actions: [
+                                      CupertinoDialogAction(
+                                        child: const Text("No"),
+                                        onPressed: () async {
+                                          await cart.addToCart(
+                                              product.id, quantity);
+                                          Navigator.of(dialogContext,
+                                                  rootNavigator: true)
+                                              .pop();
+                                        },
+                                      ),
+                                      CupertinoDialogAction(
+                                        child: const Text("Yes"),
+                                        onPressed: () async {
+                                          await cart.addToCart(
+                                              product.id, quantity);
+                                          Navigator.of(dialogContext,
+                                                  rootNavigator: true)
+                                              .pop();
+                                          Navigator.push(
+                                            context,
+                                            CupertinoPageRoute(
+                                              builder: (_) => CartScreen(),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                }),
+                              );
+                            },
                           );
                         },
                       ),

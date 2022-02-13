@@ -1,8 +1,8 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cosmetics_shop/constants.dart';
 import 'package:cosmetics_shop/models/cart.dart';
 import 'package:cosmetics_shop/models/order.dart';
-import 'package:cosmetics_shop/models/products.dart';
 import 'package:cosmetics_shop/screens/order/checkout_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,13 +10,13 @@ import 'package:intl/intl.dart';
 import '../../../responsive.dart';
 
 class OrderSummary extends StatefulWidget {
-  final List<Cart> cart;
-  final List<Product> cartProducts;
+  final Cart cart;
+  final AsyncSnapshot<QuerySnapshot> snapshot;
   final int numberOfOrders;
 
   OrderSummary({
     required this.cart,
-    required this.cartProducts,
+    required this.snapshot,
     required this.numberOfOrders,
   });
 
@@ -56,8 +56,10 @@ class _OrderSummaryState extends State<OrderSummary>
   double calcPrice() {
     double total = 0;
 
-    for (int i = 0; i < widget.cart.length; i++)
-      total += widget.cartProducts[i].price * widget.cart[i].productQuantity;
+    for (int i = 0; i < widget.cart.items.length; i++)
+      total += widget.snapshot.data!.docs[widget.cart.items[i].productId - 1]
+              ['price'] *
+          widget.cart.items[i].productQuantity;
 
     total += deliveryCost;
 
@@ -67,10 +69,11 @@ class _OrderSummaryState extends State<OrderSummary>
   String getOrderDescription() {
     String desc = "";
 
-    for (int i = 0; i < widget.cart.length; i++)
-      desc += widget.cart[i].productQuantity.toString() +
+    for (int i = 0; i < widget.cart.items.length; i++)
+      desc += widget.cart.items[i].productQuantity.toString() +
           " x " +
-          widget.cartProducts[i].name +
+          widget.snapshot.data!.docs[widget.cart.items[i].productId - 1]
+              ['name'] +
           "\n";
 
     return desc;
@@ -81,7 +84,7 @@ class _OrderSummaryState extends State<OrderSummary>
       isSummaryListExpanded = !isSummaryListExpanded;
       if (isSummaryListExpanded) {
         summaryListHeight =
-            Responsive.safeBlockVertical * 4 * (widget.cart.length + 1) +
+            Responsive.safeBlockVertical * 4 * (widget.cart.items.length + 1) +
                 Responsive.safeBlockVertical * 14.5;
         _arrowController.forward(); //animate arrow
         summaryListIcon = Icons.keyboard_arrow_down;
@@ -258,13 +261,13 @@ class _OrderSummaryState extends State<OrderSummary>
   Widget buildSummaryListDetails() {
     return Container(
       padding: EdgeInsets.only(top: kDefaultPadding / 2),
-      height: Responsive.safeBlockVertical * 4 * (widget.cart.length + 1),
+      height: Responsive.safeBlockVertical * 4 * (widget.cart.items.length + 1),
       child: ListView(
         children: [
           ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: widget.cart.length,
+            itemCount: widget.cart.items.length,
             itemBuilder: (BuildContext context, int index) {
               return Padding(
                 padding: EdgeInsets.only(
@@ -276,17 +279,21 @@ class _OrderSummaryState extends State<OrderSummary>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      widget.cart[index].productQuantity.toString() +
+                      widget.cart.items[index].productQuantity.toString() +
                           " x " +
-                          widget.cartProducts[index].name,
+                          widget.snapshot.data!
+                                  .docs[widget.cart.items[index].productId - 1]
+                              ['name'],
                       style: TextStyle(
                         fontSize: Responsive.safeBlockHorizontal * 4,
                         fontWeight: FontWeight.w400,
                       ),
                     ),
                     Text(
-                      (widget.cartProducts[index].price *
-                                  widget.cart[index].productQuantity)
+                      (widget.snapshot.data!.docs[
+                                      widget.cart.items[index].productId -
+                                          1]['price'] *
+                                  widget.cart.items[index].productQuantity)
                               .toString() +
                           " RON",
                       style: TextStyle(

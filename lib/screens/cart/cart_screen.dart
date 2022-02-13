@@ -6,10 +6,10 @@ import 'package:cosmetics_shop/screens/product/product_screen.dart';
 import 'package:cosmetics_shop/services/firestoreService.dart';
 import 'package:cosmetics_shop/services/sqliteHelper.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:cosmetics_shop/models/products.dart';
 import 'package:cosmetics_shop/constants.dart';
 import 'package:cosmetics_shop/models/cart.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'components/item.dart';
 
 class CartScreen extends StatefulWidget {
@@ -18,58 +18,29 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  List<Cart> cart = [];
-  List<Product> cartProducts = [];
   List<Order> orders = [];
-
-  bool isLoading = true;
-
-  void initState() {
-    super.initState();
-    refreshCart();
-  }
-
-  void refreshCart() async {
-    setState(() => isLoading = true);
-
-    cart = await retrieveCart();
-    
-    setState(() => isLoading = false);
-  }
 
   void getOrdersNumber() async => orders = await retrieveOrders();
 
-  void fetchCartProducts(AsyncSnapshot<QuerySnapshot> snapshot) {
-    for (int i = 0; i < cart.length; i++) {
-      for (int j = 0; j < snapshot.data!.docs.length; j++) {
-        if (snapshot.data!.docs[j]['id'] == cart[i].productId) {
-          cartProducts.add(Product.fromSnapshot(snapshot.data!.docs[j]));
-          break;
-        }
-      }
-    }
-  }
-
-  Widget buildCartList(List<Product> cartProducts) {
+  Widget buildCartList(Cart cart) {
     return ListView.builder(
       physics: ScrollPhysics(),
       shrinkWrap: true,
       scrollDirection: Axis.vertical,
-      itemCount: cart.length,
+      itemCount: cart.items.length,
       itemBuilder: (BuildContext context, int index) {
         return GestureDetector(
           onTap: () => Navigator.push(
             context,
             CupertinoPageRoute(
               builder: (_) => ProductScreen(
-                productId: cart[index].productId,
+                productId: cart.items[index].productId,
               ),
             ),
           ),
           child: Item(
-            product: cartProducts[index],
-            refreshCartFunc: refreshCart,
-            quantity: cart[index].productQuantity,
+            cartItem: cart.items[index],
+            quantity: cart.items[index].productQuantity,
           ),
         );
       },
@@ -78,33 +49,34 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: buildAppBar(),
-      body: isLoading
-          ? LoadingIndicator
-          : cart.length == 0
+    return Consumer<Cart>(
+      builder: (context, cart, child) {
+        return Scaffold(
+          appBar: buildAppBar(),
+          body: cart.items.length == 0
               ? EmptyCart()
-              : StreamBuilder<QuerySnapshot>(
-                  stream: FirestoreService.getProducts(),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return LoadingIndicator;
-                    } else {
-                      fetchCartProducts(snapshot);
-                      getOrdersNumber();
-                      return ListView(
-                        children: [
-                          buildCartList(cartProducts),
-                          OrderSummary(
+              : ListView(
+                  children: [
+                    buildCartList(cart),
+                    StreamBuilder<QuerySnapshot>(
+                      stream: FirestoreService.getProducts(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return LoadingIndicator;
+                        } else {
+                          getOrdersNumber();
+                          return OrderSummary(
                             cart: cart,
-                            cartProducts: cartProducts,
+                            snapshot: snapshot,
                             numberOfOrders: orders.length,
-                          ),
-                        ],
-                      );
-                    }
-                  },
+                          );
+                        }
+                      },
+                    )
+                  ],
                 ),
+        );
+      },
     );
   }
 

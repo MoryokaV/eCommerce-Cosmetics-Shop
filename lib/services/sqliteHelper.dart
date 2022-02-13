@@ -76,32 +76,32 @@ Future<void> deleteCartItem(int id) async {
   );
 }
 
-Future<void> insertCartItem(Cart cart) async {
+Future<void> insertCartItem(CartItem item) async {
   final db = await database;
 
   await db.insert(
     'cartItems',
-    cart.toMap(),
+    item.toMap(),
     conflictAlgorithm: ConflictAlgorithm.replace,
   );
 }
 
-Future<List<Cart>> retrieveCart() async {
+Future<List<CartItem>> retrieveCart() async {
   final db = await database;
 
   List<Map> maps = await db.query('cartItems');
 
-  return maps.map((m) => Cart.fromMap(m)).toList();
+  return maps.map((m) => CartItem.fromMap(m)).toList().toList();
 }
 
-Future<void> updateCartQuantity(Cart cartItem) async {
+Future<void> updateCartQuantity(CartItem item) async {
   final db = await database;
 
   await db.update(
     'cartItems',
-    cartItem.toMap(),
+    item.toMap(),
     where: "productId = ?",
-    whereArgs: [cartItem.productId],
+    whereArgs: [item.productId],
   );
 }
 

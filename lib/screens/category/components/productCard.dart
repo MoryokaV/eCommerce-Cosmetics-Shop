@@ -3,7 +3,6 @@ import 'package:cosmetics_shop/models/cart.dart';
 import 'package:cosmetics_shop/models/favourites.dart';
 import 'package:cosmetics_shop/models/products.dart';
 import 'package:cosmetics_shop/screens/cart/cart_screen.dart';
-import 'package:cosmetics_shop/services/sqliteHelper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,23 +20,6 @@ class ProductCard extends StatefulWidget {
 }
 
 class _ProductCardState extends State<ProductCard> {
-  Future<void> addToCart(int id) async {
-    List<Cart> cart = await retrieveCart();
-
-    for (int i = 0; i < cart.length; i++) {
-      if (cart[i].productId == id) {
-        return;
-      }
-    }
-
-    await insertCartItem(
-      Cart(
-        productId: id,
-        productQuantity: 1,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -164,47 +146,58 @@ class _ProductCardState extends State<ProductCard> {
                       showDialog(
                         context: context,
                         barrierDismissible: false,
-                        builder: (BuildContext dialogContext) =>
-                            CupertinoAlertDialog(
-                          title: Text(
-                            "View cart details?",
-                            style: TextStyle(
-                              fontFamily: "Arial",
-                              fontSize: Responsive.safeBlockHorizontal * 5,
-                            ),
-                          ),
-                          content: Text(
-                            "Successfully added to your bag!",
-                            style: TextStyle(
-                              fontFamily: "Arial",
-                              fontSize: Responsive.safeBlockHorizontal * 4,
-                            ),
-                          ),
-                          actions: [
-                            CupertinoDialogAction(
-                              child: const Text("No"),
-                              onPressed: () async {
-                                await addToCart(widget.product.id);
-                                Navigator.of(dialogContext, rootNavigator: true)
-                                    .pop();
-                              },
-                            ),
-                            CupertinoDialogAction(
-                              child: const Text("Yes"),
-                              onPressed: () async {
-                                await addToCart(widget.product.id);
-                                Navigator.of(dialogContext, rootNavigator: true)
-                                    .pop();
-                                Navigator.push(
-                                  context,
-                                  CupertinoPageRoute(
-                                    builder: (_) => CartScreen(),
+                        builder: (BuildContext dialogContext) {
+                          return Consumer<Cart>(
+                            builder: (context, cart, child) {
+                              return CupertinoAlertDialog(
+                                title: Text(
+                                  "View cart details?",
+                                  style: TextStyle(
+                                    fontFamily: "Arial",
+                                    fontSize:
+                                        Responsive.safeBlockHorizontal * 5,
                                   ),
-                                );
-                              },
-                            ),
-                          ],
-                        ),
+                                ),
+                                content: Text(
+                                  "Successfully added to your bag!",
+                                  style: TextStyle(
+                                    fontFamily: "Arial",
+                                    fontSize:
+                                        Responsive.safeBlockHorizontal * 4,
+                                  ),
+                                ),
+                                actions: [
+                                  CupertinoDialogAction(
+                                    child: const Text("No"),
+                                    onPressed: () async {
+                                      await cart.addToCart(
+                                          widget.product.id, 1);
+                                      Navigator.of(dialogContext,
+                                              rootNavigator: true)
+                                          .pop();
+                                    },
+                                  ),
+                                  CupertinoDialogAction(
+                                    child: const Text("Yes"),
+                                    onPressed: () async {
+                                      await cart.addToCart(
+                                          widget.product.id, 1);
+                                      Navigator.of(dialogContext,
+                                              rootNavigator: true)
+                                          .pop();
+                                      Navigator.push(
+                                        context,
+                                        CupertinoPageRoute(
+                                          builder: (_) => CartScreen(),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
                       );
                     },
                   ),
