@@ -17,22 +17,30 @@ class _HeaderState extends State<Header> {
   String name = "";
   String price = "";
 
-  void getInformation(AsyncSnapshot<QuerySnapshot> snapshot) {
-    int index = Random().nextInt(snapshot.data!.docs.length);
+  void getInformation(List<QueryDocumentSnapshot> docs) {
+    int index = Random().nextInt(docs.length);
 
-    name = snapshot.data!.docs[index]['name'];
-    price = "Only " + snapshot.data!.docs[index]['price'].toString() + " RON";
+    name = docs[index]['name'];
+    price = "Only " + docs[index]['price'].toString() + " RON";
   }
 
-  void toggleAnimation(AsyncSnapshot<QuerySnapshot> snapshot) {
+  void toggleAnimation() async {
+    List<QueryDocumentSnapshot> docs =
+        (await productsCollection.orderBy('id').get()).docs;
+
+    setState(() => getInformation(docs));
+
     Timer.periodic(Duration(seconds: 5), (timer) {
       if (mounted) {
-        setState(() {
-          showName = !showName;
-          if (showName) getInformation(snapshot);
-        });
+        setState(() => showName = !showName);
+        if (showName) getInformation(docs);
       }
     });
+  }
+
+  void initState() {
+    toggleAnimation();
+    super.initState();
   }
 
   @override
@@ -88,41 +96,30 @@ class _HeaderState extends State<Header> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  StreamBuilder<QuerySnapshot>(
-                    stream: FirestoreService.getProducts(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return SizedBox();
-                      } else {
-                        getInformation(snapshot);
-                        toggleAnimation(snapshot);
-                        return AnimatedCrossFade(
-                          firstChild: Text(
-                            name,
-                            style: TextStyle(
-                              fontSize: Responsive.safeBlockHorizontal * 5,
-                              fontWeight: FontWeight.w500,
-                              color: kAccentColor,
-                            ),
-                          ),
-                          secondChild: Text(
-                            price,
-                            style: TextStyle(
-                              fontSize: Responsive.safeBlockHorizontal * 5,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.green[600],
-                            ),
-                          ),
-                          crossFadeState: showName
-                              ? CrossFadeState.showFirst
-                              : CrossFadeState.showSecond,
-                          firstCurve: Curves.easeOut,
-                          secondCurve: Curves.easeIn,
-                          sizeCurve: Curves.decelerate,
-                          duration: Duration(seconds: 1),
-                        );
-                      }
-                    },
+                  AnimatedCrossFade(
+                    firstChild: Text(
+                      name,
+                      style: TextStyle(
+                        fontSize: Responsive.safeBlockHorizontal * 5,
+                        fontWeight: FontWeight.w500,
+                        color: kAccentColor,
+                      ),
+                    ),
+                    secondChild: Text(
+                      price,
+                      style: TextStyle(
+                        fontSize: Responsive.safeBlockHorizontal * 5,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.green[600],
+                      ),
+                    ),
+                    crossFadeState: showName
+                        ? CrossFadeState.showFirst
+                        : CrossFadeState.showSecond,
+                    firstCurve: Curves.easeOut,
+                    secondCurve: Curves.easeIn,
+                    sizeCurve: Curves.decelerate,
+                    duration: Duration(seconds: 1),
                   ),
                   Icon(
                     Icons.trending_up_rounded,
