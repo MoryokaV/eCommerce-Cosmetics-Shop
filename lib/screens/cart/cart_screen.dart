@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cosmetics_shop/models/order.dart';
 import 'package:cosmetics_shop/screens/cart/components/emptyCart.dart';
 import 'package:cosmetics_shop/screens/cart/components/orderSummary.dart';
 import 'package:cosmetics_shop/screens/product/product_screen.dart';
@@ -18,9 +17,9 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  List<Order> orders = [];
-
-  void getOrdersNumber() async => orders = await retrieveOrders();
+  int orders = 0;
+  
+  void getOrdersNumber() async => orders = (await retrieveOrders()).length;
 
   Widget buildCartList(Cart cart) {
     return ListView.builder(
@@ -68,7 +67,7 @@ class _CartScreenState extends State<CartScreen> {
                           return OrderSummary(
                             cart: cart,
                             snapshot: snapshot,
-                            numberOfOrders: orders.length,
+                            numberOfOrders: orders,
                           );
                         }
                       },
