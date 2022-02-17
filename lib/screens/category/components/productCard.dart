@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cosmetics_shop/constants.dart';
 import 'package:cosmetics_shop/models/cart.dart';
 import 'package:cosmetics_shop/models/favourites.dart';
@@ -149,52 +151,103 @@ class _ProductCardState extends State<ProductCard> {
                         builder: (BuildContext dialogContext) {
                           return Consumer<Cart>(
                             builder: (context, cart, child) {
-                              return CupertinoAlertDialog(
-                                title: Text(
-                                  "View cart details?",
-                                  style: TextStyle(
-                                    fontFamily: "Arial",
-                                    fontSize:
-                                        Responsive.safeBlockHorizontal * 5,
-                                  ),
-                                ),
-                                content: Text(
-                                  "Successfully added to your bag!",
-                                  style: TextStyle(
-                                    fontFamily: "Arial",
-                                    fontSize:
-                                        Responsive.safeBlockHorizontal * 4,
-                                  ),
-                                ),
-                                actions: [
-                                  CupertinoDialogAction(
-                                    child: const Text("No"),
-                                    onPressed: () async {
-                                      await cart.addToCart(
-                                          widget.product.id, 1);
-                                      Navigator.of(dialogContext,
-                                              rootNavigator: true)
-                                          .pop();
-                                    },
-                                  ),
-                                  CupertinoDialogAction(
-                                    child: const Text("Yes"),
-                                    onPressed: () async {
-                                      await cart.addToCart(
-                                          widget.product.id, 1);
-                                      Navigator.of(dialogContext,
-                                              rootNavigator: true)
-                                          .pop();
-                                      Navigator.push(
-                                        context,
-                                        CupertinoPageRoute(
-                                          builder: (_) => CartScreen(),
+                              return Platform.isAndroid
+                                  ? AlertDialog(
+                                      title: Text(
+                                        "View cart details?",
+                                        style: TextStyle(
+                                          fontFamily: "Arial",
+                                          fontSize:
+                                              Responsive.safeBlockHorizontal *
+                                                  5,
                                         ),
-                                      );
-                                    },
-                                  ),
-                                ],
-                              );
+                                      ),
+                                      content: Text(
+                                        "Successfully added to your bag!",
+                                        style: TextStyle(
+                                          fontFamily: "Arial",
+                                          fontSize:
+                                              Responsive.safeBlockHorizontal *
+                                                  4,
+                                        ),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          child: const Text("No"),
+                                          onPressed: () async {
+                                            await cart.addToCart(
+                                                widget.product.id, 1);
+                                            Navigator.of(dialogContext,
+                                                    rootNavigator: true)
+                                                .pop();
+                                          },
+                                        ),
+                                        TextButton(
+                                          child: const Text("Yes"),
+                                          onPressed: () async {
+                                            await cart.addToCart(
+                                                widget.product.id, 1);
+                                            Navigator.of(dialogContext,
+                                                    rootNavigator: true)
+                                                .pop();
+                                            Navigator.push(
+                                              context,
+                                              CupertinoPageRoute(
+                                                builder: (_) => CartScreen(),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    )
+                                  : CupertinoAlertDialog(
+                                      title: Text(
+                                        "View cart details?",
+                                        style: TextStyle(
+                                          fontFamily: "Arial",
+                                          fontSize:
+                                              Responsive.safeBlockHorizontal *
+                                                  5,
+                                        ),
+                                      ),
+                                      content: Text(
+                                        "Successfully added to your bag!",
+                                        style: TextStyle(
+                                          fontFamily: "Arial",
+                                          fontSize:
+                                              Responsive.safeBlockHorizontal *
+                                                  4,
+                                        ),
+                                      ),
+                                      actions: [
+                                        CupertinoDialogAction(
+                                          child: const Text("No"),
+                                          onPressed: () async {
+                                            await cart.addToCart(
+                                                widget.product.id, 1);
+                                            Navigator.of(dialogContext,
+                                                    rootNavigator: true)
+                                                .pop();
+                                          },
+                                        ),
+                                        CupertinoDialogAction(
+                                          child: const Text("Yes"),
+                                          onPressed: () async {
+                                            await cart.addToCart(
+                                                widget.product.id, 1);
+                                            Navigator.of(dialogContext,
+                                                    rootNavigator: true)
+                                                .pop();
+                                            Navigator.push(
+                                              context,
+                                              CupertinoPageRoute(
+                                                builder: (_) => CartScreen(),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    );
                             },
                           );
                         },
