@@ -21,6 +21,11 @@ class _CartScreenState extends State<CartScreen> {
   
   void getOrdersNumber() async => orders = (await retrieveOrders()).length;
 
+  void initState(){
+    super.initState();
+    getOrdersNumber();
+  }
+
   Widget buildCartList(Cart cart) {
     return ListView.builder(
       physics: ScrollPhysics(),
@@ -63,7 +68,6 @@ class _CartScreenState extends State<CartScreen> {
                         if (!snapshot.hasData) {
                           return LoadingIndicator;
                         } else {
-                          getOrdersNumber();
                           return OrderSummary(
                             cart: cart,
                             snapshot: snapshot,
